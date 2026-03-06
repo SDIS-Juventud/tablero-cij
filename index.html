@@ -292,14 +292,29 @@
     .footer {
       margin-top: 1.5rem;
       padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       font-size: 0.8rem;
       color: var(--gris);
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       flex-wrap: wrap;
       gap: 0.5rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--gris-claro);
     }
+    .footer-notas {
+      background: #f8f9fa;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      font-size: 0.72rem;
+      line-height: 1.6;
+      color: #666;
+    }
+    .footer-notas p { margin-bottom: 0.3rem; }
+    .footer-notas p:last-child { margin-bottom: 0; }
   </style>
 </head>
 <body>
@@ -440,17 +455,19 @@
     </div>
 
     <div class="footer">
-      <div>
-        Fuente: Anexo Mercado laboral de la juventud, Gran Encuesta Integrada de Hogares GEIH – DANE<br>
-        Cifras en miles de personas. Datos para población de 15 a 28 años.<br><br>
-        <small style="opacity:0.85;">
-          <strong>Total nacional:</strong> excluye de la cobertura de los departamentos de la Amazonía y Orinoquía las cabeceras municipales que no son capitales de departamento, así como los centros poblados y rural disperso. También se excluye la población de Providencia y el centro poblado y rural disperso de San Andrés.<br>
-          <strong>13 ciudades y áreas metropolitanas:</strong> Bogotá D.C., Medellín A.M., Cali A.M., Barranquilla A.M., Bucaramanga A.M., Manizales A.M., Pereira A.M., Cúcuta A.M., Pasto, Ibagué, Montería, Cartagena y Villavicencio.
-        </small>
+      <div class="footer-top">
+        <div>
+          Fuente: Anexo Mercado laboral de la juventud, Gran Encuesta Integrada de Hogares GEIH – DANE<br>
+          Cifras en miles de personas. Datos para población de 15 a 28 años.
+        </div>
+        <div style="text-align:right;">
+          Secretaría de Integración Social<br>
+          Subdirección para la Juventud – Centro de Información de Juventud
+        </div>
       </div>
-      <div style="text-align:right;">
-        Secretaría de Integración Social<br>
-        Subdirección para la Juventud – Centro de Información de Juventud
+      <div class="footer-notas">
+        <p><strong>Total nacional:</strong> excluye de la cobertura de los departamentos de la Amazonía y Orinoquía las cabeceras municipales que no son capitales de departamento, así como los centros poblados y rural disperso. También se excluye la población de Providencia y el centro poblado y rural disperso de San Andrés.</p>
+        <p><strong>13 ciudades y áreas metropolitanas:</strong> Bogotá D.C., Medellín A.M., Cali A.M., Barranquilla A.M., Bucaramanga A.M., Manizales A.M., Pereira A.M., Cúcuta A.M., Pasto, Ibagué, Montería, Cartagena y Villavicencio.</p>
       </div>
     </div>
   </div>
