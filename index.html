@@ -5,195 +5,229 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Centro de Información de Juventud – SDIS Bogotá</title>
   <style>
-    :root {
-      --dorado: #c8a415;
-      --dorado-claro: #e8c840;
-      --rojo-sdis: #c0392b;
-      --gris-oscuro: #2c3e50;
-      --gris: #7f8c8d;
-      --gris-claro: #f5f5f5;
-      --blanco: #ffffff;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--gris-claro);
-      color: var(--gris-oscuro);
-      line-height: 1.5;
+      background: #eee;
+      color: #333;
+      line-height: 1.4;
     }
 
-    /* Barra superior institucional */
+    /* ===== Barra institucional ===== */
     .barra-top {
-      background: var(--blanco);
-      border-bottom: 4px solid var(--dorado);
-      padding: 0.8rem 2rem;
+      background: #fff;
+      padding: 10px 30px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      border-bottom: 4px solid #d4a017;
     }
-    .barra-top .logos {
+    .barra-logos {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 12px;
     }
-    .barra-top .logo-text {
-      font-size: 0.85rem;
-      line-height: 1.3;
-      color: var(--gris-oscuro);
+    /* Escudo simplificado */
+    .escudo {
+      width: 52px;
+      height: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    .barra-top .logo-text strong {
-      font-size: 0.75rem;
+    .escudo svg { width: 42px; height: 42px; }
+    .escudo-text {
+      font-size: 5.5px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      line-height: 1.2;
+      margin-top: 2px;
     }
-    .barra-top .bogota {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--gris-oscuro);
-      letter-spacing: 1px;
+    .barra-sep {
+      width: 1.5px;
+      height: 40px;
+      background: #999;
     }
-    .barra-top .separator {
-      width: 2px;
-      height: 35px;
-      background: var(--gris);
-      margin: 0 0.5rem;
+    .barra-sis {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #333;
+      line-height: 1.3;
+      letter-spacing: 0.3px;
     }
+    .barra-sis span { font-size: 0.85rem; font-weight: 800; }
+    .barra-bogota {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .barra-bogota .bogota-text {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #333;
+      letter-spacing: 2px;
+    }
+    .barra-bogota .star { color: #d4a017; font-size: 1.2rem; }
 
-    /* Contenido principal */
-    .main {
-      max-width: 1100px;
+    /* ===== Contenido principal ===== */
+    .page {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem 1.5rem;
+      padding: 2.5rem 2rem;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 1fr;
       gap: 3rem;
       align-items: center;
       min-height: calc(100vh - 80px);
     }
-    @media (max-width: 800px) {
-      .main { grid-template-columns: 1fr; gap: 2rem; }
+    @media (max-width: 850px) {
+      .page { grid-template-columns: 1fr; gap: 2rem; padding: 1.5rem; }
     }
 
-    /* Lado izquierdo - Título */
+    /* ===== Título ===== */
+    .titulo-area { padding-left: 1rem; }
     .titulo-box {
-      border: 2px dashed var(--gris);
-      border-radius: 4px;
-      padding: 2.5rem 2rem;
-      text-align: left;
+      border: 2px dashed #aaa;
+      padding: 2rem 1.8rem;
+      display: inline-block;
     }
     .titulo-box h1 {
-      font-size: 3rem;
+      font-size: 3.2rem;
       font-weight: 700;
-      color: var(--dorado);
-      line-height: 1.15;
+      color: #c8a415;
+      line-height: 1.12;
     }
     @media (max-width: 600px) {
-      .titulo-box h1 { font-size: 2rem; }
+      .titulo-box h1 { font-size: 2.2rem; }
     }
 
-    /* Lado derecho - Dimensiones */
-    .dimensiones {
+    /* ===== Dimensiones ===== */
+    .dimensiones-area { }
+    .dim-intro {
+      font-size: 0.95rem;
+      color: #333;
+      margin-bottom: 1.2rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .dim-intro strong { font-weight: 700; }
+
+    .dim-list {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 5px;
     }
-    .dimensiones p {
-      font-size: 0.95rem;
-      color: var(--gris-oscuro);
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    .dimensiones p strong { font-weight: 700; }
 
     .dim-link {
-      display: block;
+      display: flex;
+      align-items: center;
       text-decoration: none;
-      color: var(--blanco);
-      font-size: 1.05rem;
+      color: #fff;
+      font-size: 1.1rem;
       font-weight: 700;
-      padding: 0.75rem 1.5rem 0.75rem 2rem;
+      padding: 0.7rem 2.5rem 0.7rem 2rem;
       position: relative;
-      margin-bottom: 4px;
-      transition: transform 0.15s, box-shadow 0.15s;
-      /* Forma de flecha con clip-path */
-      clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 5% 50%);
-      padding-left: 2.5rem;
+      transition: transform 0.15s;
+      clip-path: polygon(3% 0, 92% 0, 100% 50%, 92% 100%, 3% 100%, 0 50%);
+      text-align: center;
+      justify-content: center;
     }
-    .dim-link:first-of-type {
-      clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+    .dim-link:first-child {
+      clip-path: polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
       padding-left: 1.5rem;
     }
-    .dim-link:hover {
-      transform: translateX(6px);
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    .dim-link:hover:not(.disabled) {
+      transform: translateX(5px);
     }
 
-    /* Colores de cada dimensión */
-    .dim-1 { background: #c8a415; }
-    .dim-2 { background: #d4a017; }
-    .dim-3 { background: #b8860b; }
-    .dim-4 { background: #c0392b; }
-    .dim-5 { background: #a93226; }
-    .dim-6 { background: #922b21; }
-    .dim-7 { background: #7d6608; }
+    /* Colores que coinciden con el Power BI */
+    .dim-1 { background: #c9a51a; }
+    .dim-2 { background: #c49a18; }
+    .dim-3 { background: #9e7b12; }
+    .dim-4 { background: #c43c3c; }
+    .dim-5 { background: #a32a2a; }
+    .dim-6 { background: #6e1b1b; }
+    .dim-7 { background: #8b7322; }
 
     .dim-link.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      opacity: 0.45;
+      cursor: default;
       pointer-events: none;
     }
 
     .badge-soon {
-      font-size: 0.65rem;
-      background: rgba(255,255,255,0.3);
-      padding: 2px 6px;
+      font-size: 0.6rem;
+      background: rgba(255,255,255,0.25);
+      padding: 2px 8px;
       border-radius: 10px;
-      margin-left: 8px;
+      margin-left: 10px;
       font-weight: 400;
-      vertical-align: middle;
     }
 
     /* Footer */
     .footer {
       text-align: center;
       padding: 1rem;
-      font-size: 0.8rem;
-      color: var(--gris);
+      font-size: 0.78rem;
+      color: #999;
     }
   </style>
 </head>
 <body>
 
+  <!-- Barra institucional -->
   <div class="barra-top">
-    <div class="logos">
-      <div class="logo-text">
-        <strong>Secretar&iacute;a de</strong><br>
-        <strong>Integraci&oacute;n Social</strong>
+    <div class="barra-logos">
+      <div class="escudo">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 C25 5 10 25 10 50 C10 75 30 95 50 95 C70 95 90 75 90 50 C90 25 75 5 50 5Z" fill="#1a1a1a" stroke="#c9a51a" stroke-width="3"/>
+          <path d="M50 15 L55 30 L70 30 L58 40 L62 55 L50 45 L38 55 L42 40 L30 30 L45 30Z" fill="#c9a51a"/>
+          <rect x="38" y="58" width="24" height="4" rx="1" fill="#c9a51a"/>
+          <rect x="42" y="65" width="16" height="3" rx="1" fill="#c9a51a"/>
+        </svg>
+        <div class="escudo-text">Alcald&iacute;a Mayor<br>de Bogot&aacute; D.C.</div>
       </div>
-      <div class="separator"></div>
-      <div class="bogota">BOGOT&Aacute;</div>
+      <div class="barra-sep"></div>
+      <div class="barra-sis">
+        Secretar&iacute;a de<br>
+        <span>Integraci&oacute;n Social</span>
+      </div>
+      <div class="barra-sep"></div>
+      <div class="barra-bogota">
+        <span class="bogota-text">BOGOT&Aacute;</span>
+        <span class="star">&#9733;</span>
+      </div>
     </div>
   </div>
 
-  <div class="main">
-    <div>
+  <!-- Contenido -->
+  <div class="page">
+    <div class="titulo-area">
       <div class="titulo-box">
         <h1>Centro de<br>Informaci&oacute;n<br>de Juventud</h1>
       </div>
     </div>
 
-    <div class="dimensiones">
-      <p>Te invitamos a conocer <strong>informaci&oacute;n en cada dimensi&oacute;n</strong> de la <strong>pol&iacute;tica p&uacute;blica de juventud</strong> de Bogot&aacute; D.C.:</p>
+    <div class="dimensiones-area">
+      <p class="dim-intro">
+        Te invitamos a conocer m&aacute;s <strong>informaci&oacute;n en cada dimensi&oacute;n</strong> de la<br>
+        <strong>Pol&iacute;tica P&uacute;blica Distrital de Juventud</strong> de Bogot&aacute;:
+      </p>
 
-      <a href="#" class="dim-link dim-1 disabled">1. Ser joven <span class="badge-soon">pr&oacute;ximamente</span></a>
-      <a href="#" class="dim-link dim-2 disabled">2. Educaci&oacute;n <span class="badge-soon">pr&oacute;ximamente</span></a>
-      <a href="dimension3.html" class="dim-link dim-3">3. Inclusi&oacute;n Productiva</a>
-      <a href="#" class="dim-link dim-4 disabled">4. Salud Integral y Autocuidado <span class="badge-soon">pr&oacute;ximamente</span></a>
-      <a href="#" class="dim-link dim-5 disabled">5. Cultura, Recreaci&oacute;n y Deporte <span class="badge-soon">pr&oacute;ximamente</span></a>
-      <a href="#" class="dim-link dim-6 disabled">6. Paz, Convivencia y Justicia <span class="badge-soon">pr&oacute;ximamente</span></a>
-      <a href="#" class="dim-link dim-7 disabled">7. H&aacute;bitat <span class="badge-soon">pr&oacute;ximamente</span></a>
+      <div class="dim-list">
+        <a href="#" class="dim-link dim-1 disabled">1. Ser joven <span class="badge-soon">pr&oacute;ximamente</span></a>
+        <a href="#" class="dim-link dim-2 disabled">2. Educaci&oacute;n <span class="badge-soon">pr&oacute;ximamente</span></a>
+        <a href="dimension3.html" class="dim-link dim-3">3. Inclusi&oacute;n Productiva</a>
+        <a href="#" class="dim-link dim-4 disabled">4. Salud Integral y Autocuidado <span class="badge-soon">pr&oacute;ximamente</span></a>
+        <a href="#" class="dim-link dim-5 disabled">5. Cultura, Recreaci&oacute;n y Deporte <span class="badge-soon">pr&oacute;ximamente</span></a>
+        <a href="#" class="dim-link dim-6 disabled">6. Paz, Convivencia y Justicia <span class="badge-soon">pr&oacute;ximamente</span></a>
+        <a href="#" class="dim-link dim-7 disabled">7. H&aacute;bitat <span class="badge-soon">pr&oacute;ximamente</span></a>
+      </div>
     </div>
   </div>
 
