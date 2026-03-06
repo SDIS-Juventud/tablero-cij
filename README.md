@@ -2,7 +2,7 @@
 
 Tablero interactivo de indicadores de juventud para la Subdirección para la Juventud (SDIS Bogotá). Replica y complementa el tablero de Power BI del Centro de Información de Juventud.
 
-**URL del tablero:** https://carolinahernandez2019.github.io/Visualizacion-Centro-de-Informacion-de-Juventud/
+**URL del tablero:** https://sdis-juventud.github.io/tablero-cij/
 
 ---
 

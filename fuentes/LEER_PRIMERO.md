@@ -19,7 +19,7 @@ Aquí se guardan los archivos Excel del DANE para actualizar el tablero.
    ```
 
 5. GitHub Actions procesará el archivo automáticamente y actualizará el tablero.
-   Verificar en: https://carolinahernandez2019.github.io/Visualizacion-Centro-de-Informacion-de-Juventud/
+   Verificar en: https://sdis-juventud.github.io/tablero-cij/
 
 ## Archivos esperados
 
