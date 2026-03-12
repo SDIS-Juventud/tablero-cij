@@ -469,12 +469,12 @@ let infoPanel = null;
 Promise.all([
   fetch('data/resumen_bogota.json').then(r => r.json()),
   fetch('data/localidades.json').then(r => r.json()),
-  fetch('data/localidades_geo.json').then(r => r.json())
+  fetch('data/localidades_geo.json').then(r => r.json()).catch(() => null)
 ]).then(([resumen, localidades, geojson]) => {
   RESUMEN = resumen;
   LOCALIDADES = localidades;
   GEOJSON = geojson;
-  initMapa();
+  if (GEOJSON) initMapa();
   initFiltros();
   actualizarTodo();
 });
