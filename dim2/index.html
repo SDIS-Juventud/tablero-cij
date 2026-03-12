@@ -343,8 +343,8 @@
       </div>
 
       <div class="card">
-        <div class="card-title">Bogotá vs. Colombia — Total de matrículas</div>
-        <div class="chart-container">
+        <div class="card-title">Cantidad de matrículas en educación superior en Bogotá y Colombia</div>
+        <div class="chart-container" style="height:200px;">
           <canvas id="chart-bogota-col"></canvas>
         </div>
       </div>
@@ -458,11 +458,11 @@ function actualizarChartCobertura() {
         {
           label: 'Tasa de aprobación',
           data: datos.map(d => d.aprobacion),
-          borderColor: '#c0392b',
-          backgroundColor: '#c0392b',
+          borderColor: '#27ae60',
+          backgroundColor: '#27ae60',
           borderWidth: 2.5,
           pointRadius: 4,
-          pointBackgroundColor: '#c0392b',
+          pointBackgroundColor: '#27ae60',
           tension: 0.3,
         }
       ]
@@ -656,13 +656,14 @@ function actualizarChartNiveles(anio) {
   const d = DATOS_SUP.find(r => r.anio === anio);
   if (!d) return;
 
+  // Orden de menor a mayor nivel, colores secuenciales (claro → intenso)
   const niveles = [
-    { label: 'Universitaria', key: 'universitaria', color: '#c49518' },
+    { label: 'Técnica profesional', key: 'tecnica_profesional', color: '#f0d080' },
     { label: 'Tecnológica', key: 'tecnologica', color: '#e8b84a' },
+    { label: 'Universitaria', key: 'universitaria', color: '#c49518' },
     { label: 'Especialización', key: 'especializacion', color: '#a07812' },
-    { label: 'Maestría', key: 'maestria', color: '#d4a94c' },
-    { label: 'Técnica profesional', key: 'tecnica_profesional', color: '#8b6914' },
-    { label: 'Doctorado', key: 'doctorado', color: '#f0d080' },
+    { label: 'Maestría', key: 'maestria', color: '#8b6914' },
+    { label: 'Doctorado', key: 'doctorado', color: '#5a4400' },
   ];
 
   if (chartNiveles) chartNiveles.destroy();
@@ -700,13 +701,6 @@ function actualizarChartNiveles(anio) {
 function actualizarChartHistoricoSup() {
   const datos = DATOS_SUP.sort((a, b) => a.anio - b.anio);
 
-  const niveles = [
-    { label: 'Universitaria', key: 'universitaria', color: '#c49518' },
-    { label: 'Tecnológica', key: 'tecnologica', color: '#e8b84a' },
-    { label: 'Técnica profesional', key: 'tecnica_profesional', color: '#8b6914' },
-    { label: 'Posgrado', key: null, color: '#c0392b' },
-  ];
-
   if (chartHistoricoSup) chartHistoricoSup.destroy();
   chartHistoricoSup = new Chart(document.getElementById('chart-historico-sup'), {
     type: 'line',
@@ -714,10 +708,10 @@ function actualizarChartHistoricoSup() {
       labels: datos.map(d => d.anio),
       datasets: [
         {
-          label: 'Universitaria',
-          data: datos.map(d => d.universitaria),
-          borderColor: '#c49518',
-          backgroundColor: '#c49518',
+          label: 'Técnica profesional',
+          data: datos.map(d => d.tecnica_profesional),
+          borderColor: '#f0d080',
+          backgroundColor: '#f0d080',
           borderWidth: 2.5,
           pointRadius: 3,
           tension: 0.3,
@@ -732,10 +726,10 @@ function actualizarChartHistoricoSup() {
           tension: 0.3,
         },
         {
-          label: 'Técnica profesional',
-          data: datos.map(d => d.tecnica_profesional),
-          borderColor: '#8b6914',
-          backgroundColor: '#8b6914',
+          label: 'Universitaria',
+          data: datos.map(d => d.universitaria),
+          borderColor: '#c49518',
+          backgroundColor: '#c49518',
           borderWidth: 2.5,
           pointRadius: 3,
           tension: 0.3,
@@ -743,8 +737,8 @@ function actualizarChartHistoricoSup() {
         {
           label: 'Posgrado (esp. + maestría + doct.)',
           data: datos.map(d => (d.especializacion || 0) + (d.maestria || 0) + (d.doctorado || 0)),
-          borderColor: '#c0392b',
-          backgroundColor: '#c0392b',
+          borderColor: '#5a4400',
+          backgroundColor: '#5a4400',
           borderWidth: 2.5,
           pointRadius: 3,
           tension: 0.3,
@@ -776,67 +770,76 @@ function actualizarChartHistoricoSup() {
 }
 
 function actualizarChartBogotaCol() {
-  const datos = DATOS_SUP.sort((a, b) => a.anio - b.anio);
+  const anio = getAnioSup();
+  const d = DATOS_SUP.find(r => r.anio === anio);
+  if (!d) return;
+
+  // Porcentaje para mostrar arriba
+  const pctBog = d.total_colombia > 0
+    ? (d.total_bogota / d.total_colombia * 100).toFixed(1).replace('.', ',')
+    : '–';
 
   if (chartBogotaCol) chartBogotaCol.destroy();
   chartBogotaCol = new Chart(document.getElementById('chart-bogota-col'), {
-    type: 'line',
+    type: 'bar',
     data: {
-      labels: datos.map(d => d.anio),
-      datasets: [
-        {
-          label: 'Colombia',
-          data: datos.map(d => d.total_colombia),
-          borderColor: '#7f8c8d',
-          backgroundColor: 'rgba(127, 140, 141, 0.1)',
-          borderWidth: 2.5,
-          pointRadius: 3,
-          tension: 0.3,
-          fill: true,
-        },
-        {
-          label: 'Bogotá',
-          data: datos.map(d => d.total_bogota),
-          borderColor: '#c49518',
-          backgroundColor: 'rgba(196, 149, 24, 0.15)',
-          borderWidth: 2.5,
-          pointRadius: 3,
-          tension: 0.3,
-          fill: true,
-        }
-      ]
+      labels: ['Colombia', 'Bogotá, D.C.'],
+      datasets: [{
+        data: [d.total_colombia, d.total_bogota],
+        backgroundColor: ['#c0392b', '#c49518'],
+        borderRadius: 4,
+        barThickness: 40,
+      }]
     },
     options: {
+      indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: {
-          position: 'top',
-          labels: { usePointStyle: true, pointStyle: 'circle', font: { size: 11 } }
-        },
+        legend: { display: false },
         tooltip: {
           callbacks: {
-            label: ctx => ctx.dataset.label + ': ' + fmtNum(ctx.parsed.y),
-            afterBody: function(items) {
-              const idx = items[0].dataIndex;
-              const d = DATOS_SUP[idx];
-              if (d && d.pct_bogota != null) {
-                return 'Participación Bogotá: ' + fmtDec(d.pct_bogota, 1) + ' %';
+            label: ctx => fmtNum(ctx.parsed.x) + ' matrículas',
+            afterLabel: function(ctx) {
+              if (ctx.dataIndex === 1) {
+                return pctBog + ' % del total nacional';
               }
               return '';
             }
           }
-        }
+        },
+        // Plugin para mostrar valores dentro de las barras
+        datalabels: false,
       },
       scales: {
-        y: {
-          ticks: { callback: v => fmtNum(v), font: { size: 10 } },
-          grid: { color: '#ecf0f1' }
+        x: {
+          display: false,
+          grid: { display: false },
         },
-        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+        y: {
+          ticks: { font: { size: 12, weight: 'bold' } },
+          grid: { display: false },
+        }
+      },
+    },
+    plugins: [{
+      id: 'barLabels',
+      afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        chart.data.datasets[0].data.forEach((val, i) => {
+          const meta = chart.getDatasetMeta(0).data[i];
+          const x = meta.x - 10;
+          const y = meta.y;
+          ctx.save();
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 13px Segoe UI, system-ui, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(fmtNum(val), x, y);
+          ctx.restore();
+        });
       }
-    }
+    }]
   });
 }
 </script>
