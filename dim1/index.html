@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Centro de Información de Juventud - Dimensión 1: Ser joven</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
       --dorado: #c9a51a;
@@ -247,6 +249,35 @@
 
     .chart-container { position: relative; height: 300px; }
 
+    /* Mapa */
+    #mapa-localidades { height: 480px; border-radius: 8px; }
+    .mapa-leyenda {
+      background: rgba(255,255,255,0.92);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      line-height: 1.6;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .mapa-leyenda i {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      vertical-align: middle;
+      border-radius: 2px;
+    }
+    .info-panel {
+      background: rgba(255,255,255,0.92);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      min-width: 160px;
+    }
+    .info-panel h4 { margin: 0 0 4px; font-size: 0.85rem; color: var(--gris-oscuro); }
+    .info-panel b { color: var(--dorado-oscuro); }
+
     .footer {
       margin-top: 1.5rem;
       padding: 1rem 1.5rem;
@@ -352,23 +383,38 @@
         <div id="piramide-edad"></div>
       </div>
 
-      <!-- Distribución por localidad -->
-      <div class="card" style="overflow-y:auto; max-height: 420px;">
+      <!-- Top localidades -->
+      <div class="card">
+        <div class="card-title">Top 10 localidades con más jóvenes</div>
+        <div class="chart-container" style="height:340px;">
+          <canvas id="chart-top-loc"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fila 2: Mapa coroplético -->
+    <div class="grid-2col">
+      <div class="card">
+        <div class="card-title">Mapa de jóvenes por localidad</div>
+        <div id="mapa-localidades"></div>
+      </div>
+      <div class="card" style="overflow-y:auto; max-height: 540px;">
         <div class="card-title">Distribución de cantidad de jóvenes por localidad</div>
-        <table class="tabla-loc" id="tabla-localidades">
+        <table class="tabla-loc" id="tabla-localidades2">
           <thead>
             <tr>
               <th>Localidad</th>
               <th class="num">Jóvenes</th>
+              <th class="num">% del total</th>
               <th class="bar-cell"></th>
             </tr>
           </thead>
-          <tbody id="tabla-loc-body"></tbody>
+          <tbody id="tabla-loc-body2"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- Fila 2: Proyección en el tiempo -->
+    <!-- Fila 3: Proyección en el tiempo -->
     <div class="card" style="margin-bottom:1.5rem;">
       <div class="card-title">Proyección de jóvenes en el tiempo (2024 – 2035)</div>
       <div class="chart-container" style="height:280px;">
@@ -411,16 +457,24 @@ function fmtPct(n) {
 
 let RESUMEN = [];
 let LOCALIDADES = [];
+let GEOJSON = null;
 let chartZona = null;
 let chartProy = null;
+let chartTopLoc = null;
+let mapa = null;
+let capaGeo = null;
+let infoPanel = null;
 
 // Cargar datos
 Promise.all([
   fetch('data/resumen_bogota.json').then(r => r.json()),
-  fetch('data/localidades.json').then(r => r.json())
-]).then(([resumen, localidades]) => {
+  fetch('data/localidades.json').then(r => r.json()),
+  fetch('data/localidades_geo.json').then(r => r.json())
+]).then(([resumen, localidades, geojson]) => {
   RESUMEN = resumen;
   LOCALIDADES = localidades;
+  GEOJSON = geojson;
+  initMapa();
   initFiltros();
   actualizarTodo();
 });
@@ -463,7 +517,9 @@ function actualizarTodo() {
   actualizarKPIs(f);
   actualizarZona(f);
   actualizarPiramide(f);
-  actualizarTablaLocalidades(f);
+  actualizarMapa(f);
+  actualizarTablaLocalidades2(f);
+  actualizarTopLocalidades(f);
   actualizarProyeccion(f);
 }
 
@@ -581,8 +637,128 @@ function actualizarPiramide(f) {
   }
 }
 
-function actualizarTablaLocalidades(f) {
-  const tbody = document.getElementById('tabla-loc-body');
+// ========== Mapa coroplético ==========
+
+function getColorMapa(valor, max) {
+  // Escala de dorado claro a dorado oscuro/marrón
+  if (!max || !valor) return '#f5f5dc';
+  const ratio = valor / max;
+  const colores = ['#f5f0d0', '#e8d87a', '#d4b830', '#c9a51a', '#a88a14', '#8b6914', '#6b4f0e'];
+  const idx = Math.min(Math.floor(ratio * (colores.length - 1)), colores.length - 1);
+  return colores[idx];
+}
+
+function initMapa() {
+  mapa = L.map('mapa-localidades', {
+    zoomControl: true,
+    scrollWheelZoom: false,
+    attributionControl: false
+  }).setView([4.65, -74.1], 11);
+
+  // Fondo gris sutil (sin tiles de mapa)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+    maxZoom: 16
+  }).addTo(mapa);
+
+  // Panel de información al pasar el mouse
+  infoPanel = L.control({ position: 'topright' });
+  infoPanel.onAdd = function() {
+    this._div = L.DomUtil.create('div', 'info-panel');
+    this.update();
+    return this._div;
+  };
+  infoPanel.update = function(props) {
+    this._div.innerHTML = props
+      ? '<h4>' + props.localidad + '</h4><b>' + fmtMiles(props.jovenes) + '</b> jóvenes'
+        + (props.pct ? '<br>' + fmtPct(props.pct) + ' del total' : '')
+      : '<h4>Jóvenes por localidad</h4>Pase el cursor sobre una localidad';
+  };
+  infoPanel.addTo(mapa);
+}
+
+function actualizarMapa(f) {
+  if (!GEOJSON || !mapa) return;
+
+  // Obtener datos por localidad para el año y sexo seleccionados
+  const datosLoc = {};
+  let totalJovenes = 0;
+  LOCALIDADES.filter(d => d.anio === f.anio).forEach(d => {
+    const val = f.sexo === 'Hombres' ? d.jovenes_hombres :
+                f.sexo === 'Mujeres' ? d.jovenes_mujeres : d.jovenes_total;
+    datosLoc[d.cod_loc] = { jovenes: val, localidad: d.localidad };
+    totalJovenes += val;
+  });
+
+  const maxVal = Math.max(...Object.values(datosLoc).map(d => d.jovenes));
+
+  // Eliminar capa anterior
+  if (capaGeo) mapa.removeLayer(capaGeo);
+
+  capaGeo = L.geoJSON(GEOJSON, {
+    style: function(feature) {
+      const cod = feature.properties.cod_loc;
+      const dato = datosLoc[cod];
+      const val = dato ? dato.jovenes : 0;
+      return {
+        fillColor: getColorMapa(val, maxVal),
+        weight: 1.5,
+        color: '#888',
+        fillOpacity: 0.8
+      };
+    },
+    onEachFeature: function(feature, layer) {
+      const cod = feature.properties.cod_loc;
+      const dato = datosLoc[cod];
+      const val = dato ? dato.jovenes : 0;
+      const pct = totalJovenes > 0 ? (val / totalJovenes * 100) : 0;
+
+      layer.on({
+        mouseover: function(e) {
+          e.target.setStyle({ weight: 3, color: '#333', fillOpacity: 0.9 });
+          e.target.bringToFront();
+          infoPanel.update({ localidad: dato ? dato.localidad : feature.properties.localidad, jovenes: val, pct: pct });
+        },
+        mouseout: function(e) {
+          capaGeo.resetStyle(e.target);
+          infoPanel.update();
+        }
+      });
+    }
+  }).addTo(mapa);
+
+  // Ajustar la vista al GeoJSON
+  mapa.fitBounds(capaGeo.getBounds(), { padding: [10, 10] });
+
+  // Leyenda
+  actualizarLeyendaMapa(maxVal);
+}
+
+function actualizarLeyendaMapa(maxVal) {
+  // Remover leyenda anterior
+  if (mapa._leyenda) mapa.removeControl(mapa._leyenda);
+
+  const leyenda = L.control({ position: 'bottomright' });
+  leyenda.onAdd = function() {
+    const div = L.DomUtil.create('div', 'mapa-leyenda');
+    const colores = ['#f5f0d0', '#e8d87a', '#d4b830', '#c9a51a', '#a88a14', '#8b6914', '#6b4f0e'];
+    const step = maxVal / colores.length;
+    div.innerHTML = '<strong>Jóvenes</strong><br>';
+    colores.forEach((c, i) => {
+      const desde = Math.round(step * i);
+      const hasta = Math.round(step * (i + 1));
+      div.innerHTML += '<i style="background:' + c + '"></i> '
+        + fmtMiles(desde) + (i < colores.length - 1 ? ' – ' + fmtMiles(hasta) : '+') + '<br>';
+    });
+    return div;
+  };
+  leyenda.addTo(mapa);
+  mapa._leyenda = leyenda;
+}
+
+// ========== Tabla localidades (junto al mapa) ==========
+
+function actualizarTablaLocalidades2(f) {
+  const tbody = document.getElementById('tabla-loc-body2');
   tbody.innerHTML = '';
 
   const datos = LOCALIDADES.filter(d => d.anio === f.anio)
@@ -593,19 +769,70 @@ function actualizarTablaLocalidades(f) {
     }))
     .sort((a, b) => b.jovenes - a.jovenes);
 
+  const totalJov = datos.reduce((s, d) => s + d.jovenes, 0);
   const maxJov = datos.length > 0 ? datos[0].jovenes : 1;
 
   datos.forEach(d => {
-    const pct = (d.jovenes / maxJov * 100);
+    const pctBar = (d.jovenes / maxJov * 100);
+    const pctTotal = totalJov > 0 ? (d.jovenes / totalJov * 100) : 0;
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${d.localidad}</td>
       <td class="num">${fmtMiles(d.jovenes)}</td>
+      <td class="num">${fmtDec(pctTotal, 1)} %</td>
       <td class="bar-cell">
-        <div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:${pctBar}%"></div></div>
       </td>
     `;
     tbody.appendChild(tr);
+  });
+}
+
+// ========== Top 10 localidades (gráfico de barras) ==========
+
+function actualizarTopLocalidades(f) {
+  const datos = LOCALIDADES.filter(d => d.anio === f.anio)
+    .map(d => ({
+      localidad: d.localidad,
+      jovenes: f.sexo === 'Hombres' ? d.jovenes_hombres :
+               f.sexo === 'Mujeres' ? d.jovenes_mujeres : d.jovenes_total,
+    }))
+    .sort((a, b) => b.jovenes - a.jovenes)
+    .slice(0, 10);
+
+  if (chartTopLoc) chartTopLoc.destroy();
+  chartTopLoc = new Chart(document.getElementById('chart-top-loc'), {
+    type: 'bar',
+    data: {
+      labels: datos.map(d => d.localidad),
+      datasets: [{
+        data: datos.map(d => d.jovenes),
+        backgroundColor: '#c9a51a',
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => fmtMiles(ctx.parsed.x) + ' jóvenes' } }
+      },
+      scales: {
+        x: {
+          ticks: {
+            callback: v => v >= 1000 ? fmtMiles(Math.round(v/1000)) + ' mil' : fmtMiles(v),
+            font: { size: 10 }
+          },
+          grid: { color: '#ecf0f1' }
+        },
+        y: {
+          ticks: { font: { size: 10 } },
+          grid: { display: false }
+        }
+      }
+    }
   });
 }
 
