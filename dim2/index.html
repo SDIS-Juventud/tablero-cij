@@ -611,12 +611,13 @@ function fmtNum(n) {
 }
 
 fetch('data/educacion_superior.json')
-  .then(r => r.json())
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
   .then(datos => {
     DATOS_SUP = datos;
     initFiltrosSup();
     actualizarTodoSup();
-  });
+  })
+  .catch(err => console.warn('No se pudo cargar educacion_superior.json:', err));
 
 function initFiltrosSup() {
   const sel = document.getElementById('filtro-anio-sup');
