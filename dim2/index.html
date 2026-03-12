@@ -387,7 +387,7 @@ let chartDesercion = null;
 fetch('data/educacion_media.json')
   .then(r => r.json())
   .then(datos => {
-    DATOS = datos;
+    DATOS = datos.filter(d => d.anio >= 2018);
     initFiltros();
     actualizarTodo();
   });
@@ -615,7 +615,7 @@ function fmtNum(n) {
 fetch('data/educacion_superior.json')
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
   .then(datos => {
-    DATOS_SUP = datos;
+    DATOS_SUP = datos.filter(d => d.anio >= 2018);
     initFiltrosSup();
     actualizarTodoSup();
   })
