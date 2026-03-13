@@ -1,0 +1,89 @@
+{
+  "fuente": "Encuesta de Percepción Ciudadana - Bogotá Cómo Vamos - 2025",
+  "poblacion": "Jóvenes de 18 a 25 años de Bogotá",
+  "n_jovenes": 225,
+  "problemas_barrio": [
+    {
+      "problema": "Se presentan atracos callejeros",
+      "porcentaje": 61.33,
+      "respuestas": 138
+    },
+    {
+      "problema": "Drogadicción",
+      "porcentaje": 33.33,
+      "respuestas": 75
+    },
+    {
+      "problema": "Las pandillas",
+      "porcentaje": 19.56,
+      "respuestas": 44
+    },
+    {
+      "problema": "Tráfico de drogas",
+      "porcentaje": 17.78,
+      "respuestas": 40
+    },
+    {
+      "problema": "Se roban muchos carros o partes",
+      "porcentaje": 16.44,
+      "respuestas": 37
+    },
+    {
+      "problema": "Asaltos a casas o apartamentos",
+      "porcentaje": 16.0,
+      "respuestas": 36
+    },
+    {
+      "problema": "Atracos a tiendas o negocios del barrio",
+      "porcentaje": 16.0,
+      "respuestas": 36
+    },
+    {
+      "problema": "No se presenta ningún problema grave de seguridad en mi barrio",
+      "porcentaje": 13.33,
+      "respuestas": 30
+    },
+    {
+      "problema": "Vandalismo contra edificaciones, parques y otros",
+      "porcentaje": 11.56,
+      "respuestas": 26
+    },
+    {
+      "problema": "Extorsión",
+      "porcentaje": 4.0,
+      "respuestas": 9
+    },
+    {
+      "problema": "Se presentan casos de homicidio",
+      "porcentaje": 3.56,
+      "respuestas": 8
+    },
+    {
+      "problema": "Se presentan casos de violaciones",
+      "porcentaje": 1.78,
+      "respuestas": 4
+    },
+    {
+      "problema": "Otra",
+      "porcentaje": 0.89,
+      "respuestas": 2
+    }
+  ],
+  "victima_delito": {
+    "si": 16.89,
+    "no": 83.11,
+    "n": 225
+  },
+  "percepcion_barrio": {
+    "seguro": 40.0,
+    "ni_seguro_ni_inseguro": 24.0,
+    "inseguro": 36.0,
+    "n": 225
+  },
+  "percepcion_ciudad": {
+    "seguro": 21.78,
+    "ni_seguro_ni_inseguro": 22.22,
+    "inseguro": 56.0,
+    "n": 225
+  }
+}

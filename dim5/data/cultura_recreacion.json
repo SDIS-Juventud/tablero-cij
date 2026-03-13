@@ -1,0 +1,39 @@
+{
+  "fuente": "Encuesta de Percepción Ciudadana - Bogotá Cómo Vamos - 2025",
+  "poblacion": "Jóvenes de 18 a 25 años de Bogotá",
+  "cultural": {
+    "participacion": [
+      {"actividad": "Cine", "porcentaje": 46.28},
+      {"actividad": "Ferias", "porcentaje": 25.33},
+      {"actividad": "Conciertos", "porcentaje": 21.65},
+      {"actividad": "Visitar museos / galerías / bibliotecas", "porcentaje": 21.13},
+      {"actividad": "Festivales", "porcentaje": 13.83},
+      {"actividad": "Teatro", "porcentaje": 13.78},
+      {"actividad": "Visitar monumentos / sitios históricos", "porcentaje": 12.50},
+      {"actividad": "Conferencias", "porcentaje": 9.08},
+      {"actividad": "Tertulias literarias", "porcentaje": 4.18},
+      {"actividad": "Carnaval", "porcentaje": 2.57}
+    ],
+    "satisfaccion": {
+      "satisfecho": 52.71,
+      "ni_satisfecho_ni_insatisfecho": 35.16,
+      "insatisfecho": 12.12
+    }
+  },
+  "recreativa": {
+    "participacion": [
+      {"actividad": "Ir a parques", "porcentaje": 62.28},
+      {"actividad": "Ir a restaurantes", "porcentaje": 54.51},
+      {"actividad": "Visitar centros comerciales", "porcentaje": 51.93},
+      {"actividad": "Participar en la ciclovía", "porcentaje": 30.56},
+      {"actividad": "Practicar algún deporte / actividad", "porcentaje": 29.81},
+      {"actividad": "Baila / sale a bailar", "porcentaje": 29.38},
+      {"actividad": "Actividades deportivas como espectador", "porcentaje": 10.79}
+    ],
+    "satisfaccion": {
+      "satisfecho": 63.30,
+      "ni_satisfecho_ni_insatisfecho": 27.88,
+      "insatisfecho": 8.82
+    }
+  }
+}

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Información de Juventud - Dimensión 6: Paz, Convivencia y Justicia</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --principal: #5e1818;
+      --principal-claro: #8b3a3a;
+      --principal-bg: #fdf0f0;
+      --verde: #27ae60;
+      --amarillo: #f1c40f;
+      --rojo: #c0392b;
+      --naranja: #e67e22;
+      --azul: #2980b9;
+      --gris-oscuro: #2c3e50;
+      --gris: #7f8c8d;
+      --gris-claro: #ecf0f1;
+      --blanco: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
+      line-height: 1.5;
+    }
+    .header {
+      background: var(--principal);
+      color: var(--blanco);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .header svg { width: 32px; height: 32px; fill: var(--blanco); }
+    .header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+    .header .btn-home {
+      color: var(--blanco);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      border-radius: 6px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
+    .container { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
+    .page-subtitle { font-size: 1.1rem; color: var(--gris); margin-bottom: 1rem; }
+    .page-subtitle span { font-weight: 600; color: var(--gris-oscuro); }
+    .kpis-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;
+    }
+    @media (max-width: 800px) { .kpis-row { grid-template-columns: 1fr 1fr; } }
+    .kpi-card {
+      background: var(--blanco); border-radius: 10px;
+      padding: 1.2rem; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .kpi-valor { font-size: 1.8rem; font-weight: 700; color: var(--principal); }
+    .kpi-label { font-size: 0.78rem; color: var(--gris); margin-top: 4px; }
+    .grid-2col {
+      display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
+    }
+    @media (max-width: 960px) { .grid-2col { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--blanco); border-radius: 10px;
+      padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      font-size: 0.85rem; font-weight: 700; color: var(--gris);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
+    }
+    .chart-container { position: relative; height: 320px; }
+    .footer {
+      margin-top: 1.5rem; padding: 1rem 1.5rem; font-size: 0.8rem; color: var(--gris);
+    }
+    .footer-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+    <h1>Dimensión 6 – Paz, convivencia y justicia</h1>
+    <a href="../index.html" class="btn-home">&#8592; Inicio</a>
+  </div>
+
+  <div class="container">
+
+    <p class="page-subtitle">
+      <span>Percepción de seguridad en jóvenes — Bogotá</span><br>
+      Fuente: Encuesta de Percepción Ciudadana – Bogotá Cómo Vamos 2025 · Jóvenes de 18 a 25 años (n = <span id="n-jovenes">–</span>)
+    </p>
+
+    <!-- KPIs -->
+    <div class="kpis-row">
+      <div class="kpi-card">
+        <div class="kpi-valor" id="kpi-victima">–</div>
+        <div class="kpi-label">Fueron víctima de un delito</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-valor" id="kpi-inseguro-ciudad">–</div>
+        <div class="kpi-label">Se sienten inseguros en la ciudad</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-valor" id="kpi-inseguro-barrio">–</div>
+        <div class="kpi-label">Se sienten inseguros en su barrio</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-valor" id="kpi-problema-top">–</div>
+        <div class="kpi-label">Problema principal: atracos callejeros</div>
+      </div>
+    </div>
+
+    <!-- Problemas del barrio (barras horizontales) -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Principales problemas de seguridad en el barrio</div>
+      <p style="font-size:0.8rem; color:var(--gris); margin:-0.5rem 0 1rem;">Respuesta múltiple — porcentaje sobre total de jóvenes encuestados</p>
+      <div class="chart-container" style="height:420px;">
+        <canvas id="chart-problemas"></canvas>
+      </div>
+    </div>
+
+    <!-- Víctima + Percepción -->
+    <div class="grid-2col">
+      <!-- Víctima de delito (donut) -->
+      <div class="card">
+        <div class="card-title">¿Ha sido víctima de un delito?</div>
+        <div class="chart-container" style="height:280px;">
+          <canvas id="chart-victima"></canvas>
+        </div>
+      </div>
+
+      <!-- Percepción seguridad barrio (donut) -->
+      <div class="card">
+        <div class="card-title">Percepción de seguridad en el barrio</div>
+        <div class="chart-container" style="height:280px;">
+          <canvas id="chart-barrio"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Percepción seguridad ciudad -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Percepción de seguridad en la ciudad</div>
+      <div class="chart-container" style="height:280px;">
+        <canvas id="chart-ciudad"></canvas>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-top">
+        <div>
+          Fuente: Encuesta de Percepción Ciudadana – Bogotá Cómo Vamos 2025<br>
+          Procesamiento: Subdirección para la Juventud – SDIS
+        </div>
+        <div style="text-align:right;">
+          Política Pública Distrital de Juventud 2019–2030<br>
+          Dimensión 6: Paz, convivencia y justicia
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+// ============================================================
+// Carga de datos
+// ============================================================
+let SEG = {};
+
+fetch('data/seguridad.json')
+  .then(r => r.json())
+  .then(data => {
+    SEG = data;
+    renderAll();
+  })
+  .catch(err => console.error('Error cargando seguridad.json:', err));
+
+// Formato colombiano
+function fmtPct(v) {
+  return v.toLocaleString('es-CO', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+}
+function fmtNum(v) {
+  return v.toLocaleString('es-CO');
+}
+
+// ============================================================
+// Render
+// ============================================================
+let chartProblemas, chartVictima, chartBarrio, chartCiudad;
+
+function renderAll() {
+  // N jóvenes
+  document.getElementById('n-jovenes').textContent = fmtNum(SEG.n_jovenes);
+
+  // KPIs
+  document.getElementById('kpi-victima').textContent = fmtPct(SEG.victima_delito.si);
+  document.getElementById('kpi-inseguro-ciudad').textContent = fmtPct(SEG.percepcion_ciudad.inseguro);
+  document.getElementById('kpi-inseguro-barrio').textContent = fmtPct(SEG.percepcion_barrio.inseguro);
+  if (SEG.problemas_barrio.length > 0) {
+    document.getElementById('kpi-problema-top').textContent = fmtPct(SEG.problemas_barrio[0].porcentaje);
+  }
+
+  renderProblemas();
+  renderVictima();
+  renderBarrio();
+  renderCiudad();
+}
+
+// --- Barras horizontales: problemas del barrio ---
+function renderProblemas() {
+  const probs = SEG.problemas_barrio;
+  if (!probs || probs.length === 0) return;
+
+  // Plugin para mostrar valor dentro de la barra
+  const inBarPlugin = {
+    id: 'inBarLabels',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      chart.data.datasets.forEach((ds, di) => {
+        const meta = chart.getDatasetMeta(di);
+        meta.data.forEach((bar, i) => {
+          const val = ds.data[i];
+          if (val == null) return;
+          const { x, y, width, height } = bar.getProps(['x', 'y', 'width', 'height']);
+          ctx.save();
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 11px Segoe UI, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+          const xPos = bar.x - 6;
+          const yPos = bar.y;
+          // Solo mostrar si la barra es lo suficientemente ancha
+          if (bar.x - bar.base > 40) {
+            ctx.fillText(fmtPct(val), xPos, yPos);
+          }
+          ctx.restore();
+        });
+      });
+    }
+  };
+
+  if (chartProblemas) chartProblemas.destroy();
+  chartProblemas = new Chart(document.getElementById('chart-problemas'), {
+    type: 'bar',
+    data: {
+      labels: probs.map(p => p.problema),
+      datasets: [{
+        data: probs.map(p => p.porcentaje),
+        backgroundColor: probs.map((_, i) => i === 0 ? '#c0392b' : '#8b3a3a'),
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => fmtPct(ctx.raw) + ' (' + fmtNum(probs[ctx.dataIndex].respuestas) + ' respuestas)'
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 70,
+          ticks: { callback: v => v + '%' },
+          grid: { color: '#ecf0f1' }
+        },
+        y: {
+          ticks: {
+            font: { size: 11 },
+            callback: function(value) {
+              const label = this.getLabelForValue(value);
+              return label.length > 40 ? label.substring(0, 37) + '...' : label;
+            }
+          },
+          grid: { display: false }
+        }
+      }
+    },
+    plugins: [inBarPlugin]
+  });
+}
+
+// --- Donut: víctima de delito ---
+function renderVictima() {
+  const v = SEG.victima_delito;
+  if (!v) return;
+
+  if (chartVictima) chartVictima.destroy();
+  chartVictima = new Chart(document.getElementById('chart-victima'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Sí', 'No'],
+      datasets: [{
+        data: [v.si, v.no],
+        backgroundColor: ['#c0392b', '#27ae60'],
+        borderWidth: 2,
+        borderColor: '#fff',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '55%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 13 }, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.label + ': ' + fmtPct(ctx.raw) + ' (n=' + fmtNum(v.n) + ')'
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'centerText',
+      afterDraw(chart) {
+        const { ctx, width, height } = chart;
+        ctx.save();
+        ctx.fillStyle = '#c0392b';
+        ctx.font = 'bold 28px Segoe UI, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(fmtPct(v.si), width / 2, height / 2 - 8);
+        ctx.font = '12px Segoe UI, sans-serif';
+        ctx.fillStyle = '#7f8c8d';
+        ctx.fillText('víctimas', width / 2, height / 2 + 16);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+// --- Donut: percepción barrio ---
+function renderBarrio() {
+  const p = SEG.percepcion_barrio;
+  if (!p) return;
+
+  if (chartBarrio) chartBarrio.destroy();
+  chartBarrio = new Chart(document.getElementById('chart-barrio'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Seguro', 'Ni seguro ni inseguro', 'Inseguro'],
+      datasets: [{
+        data: [p.seguro, p.ni_seguro_ni_inseguro, p.inseguro],
+        backgroundColor: ['#27ae60', '#f1c40f', '#c0392b'],
+        borderWidth: 2,
+        borderColor: '#fff',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '55%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 12 }, padding: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.label + ': ' + fmtPct(ctx.raw)
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'centerTextBarrio',
+      afterDraw(chart) {
+        const { ctx, width, height } = chart;
+        ctx.save();
+        ctx.fillStyle = '#27ae60';
+        ctx.font = 'bold 26px Segoe UI, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(fmtPct(p.seguro), width / 2, height / 2 - 8);
+        ctx.font = '11px Segoe UI, sans-serif';
+        ctx.fillStyle = '#7f8c8d';
+        ctx.fillText('se sienten seguros', width / 2, height / 2 + 16);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+// --- Barras horizontales apiladas: percepción ciudad ---
+function renderCiudad() {
+  const p = SEG.percepcion_ciudad;
+  if (!p) return;
+
+  if (chartCiudad) chartCiudad.destroy();
+  chartCiudad = new Chart(document.getElementById('chart-ciudad'), {
+    type: 'bar',
+    data: {
+      labels: ['Percepción de seguridad en Bogotá'],
+      datasets: [
+        {
+          label: 'Seguro',
+          data: [p.seguro],
+          backgroundColor: '#27ae60',
+          borderRadius: 3,
+        },
+        {
+          label: 'Ni seguro ni inseguro',
+          data: [p.ni_seguro_ni_inseguro],
+          backgroundColor: '#f1c40f',
+        },
+        {
+          label: 'Inseguro',
+          data: [p.inseguro],
+          backgroundColor: '#c0392b',
+          borderRadius: 3,
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 12 }, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + fmtPct(ctx.raw)
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          max: 100,
+          ticks: { callback: v => v + '%' },
+          grid: { color: '#ecf0f1' }
+        },
+        y: {
+          stacked: true,
+          display: false
+        }
+      }
+    },
+    plugins: [{
+      id: 'stackedLabels',
+      afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+        chart.data.datasets.forEach((ds, di) => {
+          const meta = chart.getDatasetMeta(di);
+          meta.data.forEach((bar) => {
+            const val = ds.data[0];
+            if (val < 8) return; // no mostrar si es muy angosto
+            const x = (bar.x + bar.base) / 2;
+            const y = bar.y;
+            ctx.save();
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 13px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(fmtPct(val), x, y);
+            ctx.restore();
+          });
+        });
+      }
+    }]
+  });
+}
+</script>
+
+</body>
+</html>

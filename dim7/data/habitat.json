@@ -1,0 +1,24 @@
+{
+  "fuente": "Encuesta de Percepción Ciudadana - Bogotá Cómo Vamos - 2025",
+  "poblacion": "Jóvenes de 18 a 25 años de Bogotá",
+  "n_jovenes": 225,
+  "satisfaccion_agua": {
+    "satisfecho": 25.6,
+    "ni_satisfecho_ni_insatisfecho": 13.04,
+    "insatisfecho": 61.35,
+    "n": 207
+  },
+  "satisfaccion_ruido": {
+    "satisfecho": 19.18,
+    "ni_satisfecho_ni_insatisfecho": 19.63,
+    "insatisfecho": 61.19,
+    "n": 219
+  },
+  "satisfaccion_vivienda": {
+    "satisfecho": 59.11,
+    "ni_satisfecho_ni_insatisfecho": 17.33,
+    "insatisfecho": 23.56,
+    "n": 225
+  },
+  "notas": "La variable de acciones ambientales y satisfacción con vivienda específica no están disponibles en los microdatos. Se usa GOB_3 (satisfacción con Bogotá como lugar para vivir) como proxy."
+}

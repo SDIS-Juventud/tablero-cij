@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Información de Juventud - Dimensión 7: Hábitat</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --principal: #7a6a1e;
+      --principal-claro: #a08c28;
+      --verde: #27ae60;
+      --amarillo: #f1c40f;
+      --rojo: #c0392b;
+      --gris-oscuro: #2c3e50;
+      --gris: #7f8c8d;
+      --gris-claro: #ecf0f1;
+      --blanco: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
+      line-height: 1.5;
+    }
+    .header {
+      background: var(--principal);
+      color: var(--blanco);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .header svg { width: 32px; height: 32px; fill: var(--blanco); }
+    .header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+    .header .btn-home {
+      color: var(--blanco);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      border-radius: 6px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
+    .container { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
+    .page-subtitle { font-size: 1.1rem; color: var(--gris); margin-bottom: 1rem; }
+    .page-subtitle span { font-weight: 600; color: var(--gris-oscuro); }
+    .kpis-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;
+    }
+    @media (max-width: 800px) { .kpis-row { grid-template-columns: 1fr; } }
+    .kpi-card {
+      background: var(--blanco); border-radius: 10px;
+      padding: 1.2rem; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .kpi-valor { font-size: 1.8rem; font-weight: 700; }
+    .kpi-valor.rojo { color: var(--rojo); }
+    .kpi-valor.verde { color: var(--verde); }
+    .kpi-label { font-size: 0.78rem; color: var(--gris); margin-top: 4px; }
+    .grid-2col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
+    }
+    @media (max-width: 960px) { .grid-2col { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--blanco); border-radius: 10px;
+      padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      font-size: 0.85rem; font-weight: 700; color: var(--gris);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
+    }
+    .chart-container { position: relative; height: 320px; }
+    .pendiente-msg {
+      background: var(--blanco); border-radius: 10px; padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      text-align: center; color: var(--gris); margin-bottom: 1.5rem;
+    }
+    .pendiente-msg strong { color: var(--gris-oscuro); }
+    .footer {
+      margin-top: 1.5rem; padding: 1rem 1.5rem; font-size: 0.8rem; color: var(--gris);
+    }
+    .footer-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <h1>Dimensión 7 – Hábitat</h1>
+    <a href="../index.html" class="btn-home">&#8592; Inicio</a>
+  </div>
+
+  <div class="container">
+
+    <p class="page-subtitle">
+      <span>7.1 Percepción de los jóvenes sobre hábitat y medio ambiente — Bogotá</span><br>
+      Fuente: Encuesta de Percepción Ciudadana – Bogotá Cómo Vamos 2025 · Jóvenes de 18 a 25 años (n = <span id="n-jovenes">–</span>)
+    </p>
+
+    <!-- KPIs resumen -->
+    <div class="kpis-row">
+      <div class="kpi-card">
+        <div class="kpi-valor rojo" id="kpi-agua-ins">–</div>
+        <div class="kpi-label">Insatisfechos con calidad del agua</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-valor rojo" id="kpi-ruido-ins">–</div>
+        <div class="kpi-label">Insatisfechos con el ruido</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-valor verde" id="kpi-vivir-sat">–</div>
+        <div class="kpi-label">Satisfechos con Bogotá como lugar para vivir</div>
+      </div>
+    </div>
+
+    <!-- Acciones ambientales (pendiente) -->
+    <div class="pendiente-msg">
+      <strong>Acciones para cuidar el medio ambiente</strong><br>
+      Sección pendiente — la variable de acciones ambientales no está disponible en los microdatos actuales.
+    </div>
+
+    <!-- Barras apiladas de satisfacción -->
+    <div class="grid-2col">
+      <div class="card">
+        <div class="card-title">Satisfacción con la calidad del agua, ríos, quebradas, humedales, etc.</div>
+        <div class="chart-container" style="height:120px;">
+          <canvas id="chart-agua"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Satisfacción con el ruido de la ciudad</div>
+        <div class="chart-container" style="height:120px;">
+          <canvas id="chart-ruido"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Satisfacción con Bogotá como lugar para vivir</div>
+      <div class="chart-container" style="height:120px;">
+        <canvas id="chart-vivienda"></canvas>
+      </div>
+    </div>
+
+    <!-- Comparativo general -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Comparativo de satisfacción — jóvenes 18 a 25 años</div>
+      <div class="chart-container" style="height:260px;">
+        <canvas id="chart-comparativo"></canvas>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-top">
+        <div>
+          Fuente: Encuesta de Percepción Ciudadana – Bogotá Cómo Vamos 2025<br>
+          Procesamiento: Subdirección para la Juventud – SDIS
+        </div>
+        <div style="text-align:right;">
+          Política Pública Distrital de Juventud 2019–2030<br>
+          Dimensión 7: Hábitat
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+// ============================================================
+// Carga de datos
+// ============================================================
+let HAB = {};
+
+fetch('data/habitat.json')
+  .then(r => r.json())
+  .then(data => {
+    HAB = data;
+    renderAll();
+  })
+  .catch(err => console.error('Error cargando habitat.json:', err));
+
+// Formato colombiano
+function fmtPct(v) {
+  return v.toLocaleString('es-CO', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+}
+function fmtNum(v) {
+  return v.toLocaleString('es-CO');
+}
+
+// ============================================================
+// Render
+// ============================================================
+let chartAgua, chartRuido, chartVivienda, chartComparativo;
+
+function renderAll() {
+  document.getElementById('n-jovenes').textContent = fmtNum(HAB.n_jovenes);
+
+  // KPIs
+  document.getElementById('kpi-agua-ins').textContent = fmtPct(HAB.satisfaccion_agua.insatisfecho);
+  document.getElementById('kpi-ruido-ins').textContent = fmtPct(HAB.satisfaccion_ruido.insatisfecho);
+  document.getElementById('kpi-vivir-sat').textContent = fmtPct(HAB.satisfaccion_vivienda.satisfecho);
+
+  renderStackedBar('chart-agua', HAB.satisfaccion_agua);
+  renderStackedBar('chart-ruido', HAB.satisfaccion_ruido);
+  renderStackedBar('chart-vivienda', HAB.satisfaccion_vivienda);
+  renderComparativo();
+}
+
+// Plugin para mostrar porcentaje dentro de cada segmento
+const stackedLabelPlugin = {
+  id: 'stackedLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di);
+      meta.data.forEach((bar) => {
+        const val = ds.data[0];
+        if (val < 8) return;
+        const x = (bar.x + bar.base) / 2;
+        const y = bar.y;
+        ctx.save();
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 13px Segoe UI, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(fmtPct(val), x, y);
+        ctx.restore();
+      });
+    });
+  }
+};
+
+function renderStackedBar(canvasId, data) {
+  const canvas = document.getElementById(canvasId);
+  const chart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: [''],
+      datasets: [
+        {
+          label: 'Satisfecho',
+          data: [data.satisfecho],
+          backgroundColor: '#27ae60',
+          borderRadius: 3,
+        },
+        {
+          label: 'Ni satisfecho ni insatisfecho',
+          data: [data.ni_satisfecho_ni_insatisfecho],
+          backgroundColor: '#f1c40f',
+        },
+        {
+          label: 'Insatisfecho',
+          data: [data.insatisfecho],
+          backgroundColor: '#c0392b',
+          borderRadius: 3,
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, padding: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + fmtPct(ctx.raw) + ' (n=' + fmtNum(data.n) + ')'
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          max: 100,
+          ticks: { callback: v => v + '%' },
+          grid: { color: '#ecf0f1' }
+        },
+        y: {
+          stacked: true,
+          display: false
+        }
+      }
+    },
+    plugins: [stackedLabelPlugin]
+  });
+}
+
+function renderComparativo() {
+  const categorias = ['Calidad del agua', 'Ruido de la ciudad', 'Bogotá como lugar para vivir'];
+  const datos = [HAB.satisfaccion_agua, HAB.satisfaccion_ruido, HAB.satisfaccion_vivienda];
+
+  if (chartComparativo) chartComparativo.destroy();
+  chartComparativo = new Chart(document.getElementById('chart-comparativo'), {
+    type: 'bar',
+    data: {
+      labels: categorias,
+      datasets: [
+        {
+          label: 'Satisfecho',
+          data: datos.map(d => d.satisfecho),
+          backgroundColor: '#27ae60',
+          borderRadius: 3,
+        },
+        {
+          label: 'Ni satisfecho ni insatisfecho',
+          data: datos.map(d => d.ni_satisfecho_ni_insatisfecho),
+          backgroundColor: '#f1c40f',
+        },
+        {
+          label: 'Insatisfecho',
+          data: datos.map(d => d.insatisfecho),
+          backgroundColor: '#c0392b',
+          borderRadius: 3,
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 12 }, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + fmtPct(ctx.raw)
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          max: 100,
+          ticks: { callback: v => v + '%' },
+          grid: { color: '#ecf0f1' }
+        },
+        y: {
+          stacked: true,
+          ticks: { font: { size: 12 } },
+          grid: { display: false }
+        }
+      }
+    },
+    plugins: [{
+      id: 'stackedLabelsComp',
+      afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+        chart.data.datasets.forEach((ds, di) => {
+          const meta = chart.getDatasetMeta(di);
+          meta.data.forEach((bar, i) => {
+            const val = ds.data[i];
+            if (val < 10) return;
+            const x = (bar.x + bar.base) / 2;
+            const y = bar.y;
+            ctx.save();
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 12px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(fmtPct(val), x, y);
+            ctx.restore();
+          });
+        });
+      }
+    }]
+  });
+}
+</script>
+
+</body>
+</html>
