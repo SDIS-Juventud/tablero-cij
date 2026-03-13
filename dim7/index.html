@@ -132,7 +132,7 @@
     <!-- Comparativo general (incluye las 3 preguntas) -->
     <div class="card" style="margin-bottom:1.5rem;">
       <div class="card-title">Comparativo de satisfacción — jóvenes 18 a 25 años</div>
-      <div class="chart-container" style="height:260px;">
+      <div class="chart-container" style="height:300px;">
         <canvas id="chart-comparativo"></canvas>
       </div>
     </div>
@@ -216,7 +216,11 @@ const stackedLabelPlugin = {
 
 
 function renderComparativo() {
-  const categorias = ['Calidad del agua', 'Ruido de la ciudad', 'Bogotá como lugar para vivir'];
+  const categorias = [
+    'Satisfacción con la calidad del agua,\nríos, quebradas, humedales, etc.',
+    'Satisfacción con el ruido\nde la ciudad',
+    'Satisfacción con Bogotá\ncomo lugar para vivir'
+  ];
   const datos = [HAB.satisfaccion_agua, HAB.satisfaccion_ruido, HAB.satisfaccion_vivienda];
 
   if (chartComparativo) chartComparativo.destroy();
