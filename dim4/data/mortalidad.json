@@ -5,6 +5,7 @@
       "total": 1668,
       "hombres": 1261,
       "mujeres": 407,
+      "tasa_100k": 84.2,
       "top_causas": [
         {
           "causa": "Agresiones (homicidios)",
@@ -49,80 +50,99 @@
       ],
       "por_localidad": [
         {
+          "localidad": "Los Mártires",
+          "casos": 29,
+          "tasa_100k": 139.7
+        },
+        {
           "localidad": "Ciudad Bolívar",
-          "casos": 231
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 224
-        },
-        {
-          "localidad": "Suba",
-          "casos": 165
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 148
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 115
+          "casos": 231,
+          "tasa_100k": 131.7
         },
         {
           "localidad": "Usme",
-          "casos": 115
+          "casos": 115,
+          "tasa_100k": 110.5
         },
         {
           "localidad": "Rafael Uribe Uribe",
-          "casos": 109
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 96
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 70
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 48
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 43
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 37
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 33
+          "casos": 109,
+          "tasa_100k": 110.4
         },
         {
           "localidad": "Santa Fe",
-          "casos": 30
-        },
-        {
-          "localidad": "Los Mártires",
-          "casos": 29
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 28
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 12
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 10
+          "casos": 30,
+          "tasa_100k": 103.5
         },
         {
           "localidad": "La Candelaria",
-          "casos": 5
+          "casos": 5,
+          "tasa_100k": 94.3
+        },
+        {
+          "localidad": "Tunjuelito",
+          "casos": 43,
+          "tasa_100k": 92.5
+        },
+        {
+          "localidad": "San Cristóbal",
+          "casos": 96,
+          "tasa_100k": 90.6
+        },
+        {
+          "localidad": "Chapinero",
+          "casos": 33,
+          "tasa_100k": 84.1
+        },
+        {
+          "localidad": "Teusaquillo",
+          "casos": 28,
+          "tasa_100k": 82.1
+        },
+        {
+          "localidad": "Kennedy",
+          "casos": 224,
+          "tasa_100k": 81.9
+        },
+        {
+          "localidad": "Puente Aranda",
+          "casos": 48,
+          "tasa_100k": 76.6
+        },
+        {
+          "localidad": "Bosa",
+          "casos": 148,
+          "tasa_100k": 74.1
+        },
+        {
+          "localidad": "Engativá",
+          "casos": 115,
+          "tasa_100k": 55.4
+        },
+        {
+          "localidad": "Usaquén",
+          "casos": 70,
+          "tasa_100k": 54.9
+        },
+        {
+          "localidad": "Suba",
+          "casos": 165,
+          "tasa_100k": 54.6
+        },
+        {
+          "localidad": "Antonio Nariño",
+          "casos": 10,
+          "tasa_100k": 50.2
+        },
+        {
+          "localidad": "Fontibón",
+          "casos": 37,
+          "tasa_100k": 39.4
+        },
+        {
+          "localidad": "Barrios Unidos",
+          "casos": 12,
+          "tasa_100k": 35.7
         }
       ]
     },
@@ -131,6 +151,7 @@
       "total": 1738,
       "hombres": 1280,
       "mujeres": 458,
+      "tasa_100k": 86.7,
       "top_causas": [
         {
           "causa": "Agresiones (homicidios)",
@@ -175,84 +196,104 @@
       ],
       "por_localidad": [
         {
-          "localidad": "Kennedy",
-          "casos": 211
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 205
-        },
-        {
-          "localidad": "Suba",
-          "casos": 204
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 172
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 136
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 104
-        },
-        {
-          "localidad": "Usme",
-          "casos": 104
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 83
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 72
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 64
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 50
+          "localidad": "Sumapaz",
+          "casos": 2,
+          "tasa_100k": 252.8
         },
         {
           "localidad": "Santa Fe",
-          "casos": 45
+          "casos": 45,
+          "tasa_100k": 150.6
         },
         {
-          "localidad": "Chapinero",
-          "casos": 40
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 38
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 38
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 32
+          "localidad": "Ciudad Bolívar",
+          "casos": 205,
+          "tasa_100k": 115.5
         },
         {
           "localidad": "Los Mártires",
-          "casos": 27
+          "casos": 27,
+          "tasa_100k": 112.3
         },
         {
-          "localidad": "Antonio Nariño",
-          "casos": 11
+          "localidad": "Teusaquillo",
+          "casos": 38,
+          "tasa_100k": 106.3
+        },
+        {
+          "localidad": "Rafael Uribe Uribe",
+          "casos": 104,
+          "tasa_100k": 104.1
+        },
+        {
+          "localidad": "Chapinero",
+          "casos": 40,
+          "tasa_100k": 100.7
+        },
+        {
+          "localidad": "Usme",
+          "casos": 104,
+          "tasa_100k": 97.8
+        },
+        {
+          "localidad": "Barrios Unidos",
+          "casos": 32,
+          "tasa_100k": 92.8
+        },
+        {
+          "localidad": "Bosa",
+          "casos": 172,
+          "tasa_100k": 85.6
+        },
+        {
+          "localidad": "Tunjuelito",
+          "casos": 38,
+          "tasa_100k": 80.4
+        },
+        {
+          "localidad": "Puente Aranda",
+          "casos": 50,
+          "tasa_100k": 79.5
+        },
+        {
+          "localidad": "San Cristóbal",
+          "casos": 83,
+          "tasa_100k": 77.8
+        },
+        {
+          "localidad": "Kennedy",
+          "casos": 211,
+          "tasa_100k": 77.5
         },
         {
           "localidad": "La Candelaria",
-          "casos": 4
+          "casos": 4,
+          "tasa_100k": 74.6
         },
         {
-          "localidad": "Sumapaz",
-          "casos": 2
+          "localidad": "Fontibón",
+          "casos": 64,
+          "tasa_100k": 66.5
+        },
+        {
+          "localidad": "Suba",
+          "casos": 204,
+          "tasa_100k": 66.2
+        },
+        {
+          "localidad": "Engativá",
+          "casos": 136,
+          "tasa_100k": 65.4
+        },
+        {
+          "localidad": "Usaquén",
+          "casos": 72,
+          "tasa_100k": 56.0
+        },
+        {
+          "localidad": "Antonio Nariño",
+          "casos": 11,
+          "tasa_100k": 54.1
         }
       ]
     },
@@ -261,6 +302,7 @@
       "total": 1630,
       "hombres": 1212,
       "mujeres": 418,
+      "tasa_100k": 81.0,
       "top_causas": [
         {
           "causa": "Agresiones (homicidios)",
@@ -305,80 +347,99 @@
       ],
       "por_localidad": [
         {
-          "localidad": "Kennedy",
-          "casos": 230
-        },
-        {
           "localidad": "Ciudad Bolívar",
-          "casos": 212
-        },
-        {
-          "localidad": "Suba",
-          "casos": 188
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 158
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 125
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 98
-        },
-        {
-          "localidad": "Usme",
-          "casos": 94
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 87
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 83
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 49
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 38
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 38
+          "casos": 212,
+          "tasa_100k": 119.1
         },
         {
           "localidad": "Santa Fe",
-          "casos": 36
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 25
+          "casos": 36,
+          "tasa_100k": 118.9
         },
         {
           "localidad": "Los Mártires",
-          "casos": 25
+          "casos": 25,
+          "tasa_100k": 103.2
         },
         {
           "localidad": "Antonio Nariño",
-          "casos": 19
+          "casos": 19,
+          "tasa_100k": 92.1
         },
         {
-          "localidad": "Teusaquillo",
-          "casos": 18
+          "localidad": "San Cristóbal",
+          "casos": 98,
+          "tasa_100k": 92.0
+        },
+        {
+          "localidad": "Usme",
+          "casos": 94,
+          "tasa_100k": 87.5
+        },
+        {
+          "localidad": "Rafael Uribe Uribe",
+          "casos": 87,
+          "tasa_100k": 86.8
+        },
+        {
+          "localidad": "Kennedy",
+          "casos": 230,
+          "tasa_100k": 85.0
+        },
+        {
+          "localidad": "Tunjuelito",
+          "casos": 38,
+          "tasa_100k": 80.3
+        },
+        {
+          "localidad": "Bosa",
+          "casos": 158,
+          "tasa_100k": 78.7
+        },
+        {
+          "localidad": "Usaquén",
+          "casos": 83,
+          "tasa_100k": 64.4
+        },
+        {
+          "localidad": "Chapinero",
+          "casos": 25,
+          "tasa_100k": 62.3
+        },
+        {
+          "localidad": "Puente Aranda",
+          "casos": 38,
+          "tasa_100k": 60.7
+        },
+        {
+          "localidad": "Engativá",
+          "casos": 125,
+          "tasa_100k": 60.4
+        },
+        {
+          "localidad": "Suba",
+          "casos": 188,
+          "tasa_100k": 60.4
+        },
+        {
+          "localidad": "Fontibón",
+          "casos": 49,
+          "tasa_100k": 50.2
         },
         {
           "localidad": "Barrios Unidos",
-          "casos": 17
+          "casos": 17,
+          "tasa_100k": 48.7
+        },
+        {
+          "localidad": "Teusaquillo",
+          "casos": 18,
+          "tasa_100k": 48.6
         },
         {
           "localidad": "La Candelaria",
-          "casos": 2
+          "casos": 2,
+          "tasa_100k": 36.9
         }
       ]
     },
@@ -387,6 +448,7 @@
       "total": 1838,
       "hombres": 1389,
       "mujeres": 449,
+      "tasa_100k": 92.2,
       "top_causas": [
         {
           "causa": "Agresiones (homicidios)",
@@ -431,84 +493,104 @@
       ],
       "por_localidad": [
         {
-          "localidad": "Kennedy",
-          "casos": 267
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 233
-        },
-        {
-          "localidad": "Suba",
-          "casos": 218
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 197
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 140
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 124
-        },
-        {
-          "localidad": "Usme",
-          "casos": 112
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 80
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 72
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 70
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 46
+          "localidad": "La Candelaria",
+          "casos": 9,
+          "tasa_100k": 164.4
         },
         {
           "localidad": "Santa Fe",
-          "casos": 45
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 38
+          "casos": 45,
+          "tasa_100k": 149.6
         },
         {
           "localidad": "Los Mártires",
-          "casos": 34
+          "casos": 34,
+          "tasa_100k": 142.7
         },
         {
-          "localidad": "Chapinero",
-          "casos": 25
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 23
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 21
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 17
-        },
-        {
-          "localidad": "La Candelaria",
-          "casos": 9
+          "localidad": "Ciudad Bolívar",
+          "casos": 233,
+          "tasa_100k": 131.4
         },
         {
           "localidad": "Sumapaz",
-          "casos": 1
+          "casos": 1,
+          "tasa_100k": 118.1
+        },
+        {
+          "localidad": "San Cristóbal",
+          "casos": 124,
+          "tasa_100k": 117.2
+        },
+        {
+          "localidad": "Usme",
+          "casos": 112,
+          "tasa_100k": 103.4
+        },
+        {
+          "localidad": "Antonio Nariño",
+          "casos": 21,
+          "tasa_100k": 101.5
+        },
+        {
+          "localidad": "Bosa",
+          "casos": 197,
+          "tasa_100k": 101.1
+        },
+        {
+          "localidad": "Kennedy",
+          "casos": 267,
+          "tasa_100k": 100.2
+        },
+        {
+          "localidad": "Tunjuelito",
+          "casos": 38,
+          "tasa_100k": 81.0
+        },
+        {
+          "localidad": "Rafael Uribe Uribe",
+          "casos": 80,
+          "tasa_100k": 80.7
+        },
+        {
+          "localidad": "Puente Aranda",
+          "casos": 46,
+          "tasa_100k": 74.3
+        },
+        {
+          "localidad": "Fontibón",
+          "casos": 72,
+          "tasa_100k": 73.6
+        },
+        {
+          "localidad": "Suba",
+          "casos": 218,
+          "tasa_100k": 70.1
+        },
+        {
+          "localidad": "Engativá",
+          "casos": 140,
+          "tasa_100k": 68.7
+        },
+        {
+          "localidad": "Barrios Unidos",
+          "casos": 23,
+          "tasa_100k": 65.8
+        },
+        {
+          "localidad": "Chapinero",
+          "casos": 25,
+          "tasa_100k": 63.5
+        },
+        {
+          "localidad": "Usaquén",
+          "casos": 70,
+          "tasa_100k": 55.1
+        },
+        {
+          "localidad": "Teusaquillo",
+          "casos": 17,
+          "tasa_100k": 45.2
         }
       ]
     },
@@ -517,6 +599,7 @@
       "total": 1697,
       "hombres": 1277,
       "mujeres": 420,
+      "tasa_100k": 86.5,
       "top_causas": [
         {
           "causa": "Agresiones (homicidios)",
@@ -561,80 +644,99 @@
       ],
       "por_localidad": [
         {
-          "localidad": "Kennedy",
-          "casos": 237
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 207
-        },
-        {
-          "localidad": "Suba",
-          "casos": 196
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 146
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 141
-        },
-        {
-          "localidad": "Usme",
-          "casos": 116
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 114
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 93
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 83
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 66
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 41
+          "localidad": "La Candelaria",
+          "casos": 11,
+          "tasa_100k": 198.8
         },
         {
           "localidad": "Los Mártires",
-          "casos": 36
+          "casos": 36,
+          "tasa_100k": 158.2
+        },
+        {
+          "localidad": "Ciudad Bolívar",
+          "casos": 207,
+          "tasa_100k": 118.3
+        },
+        {
+          "localidad": "Rafael Uribe Uribe",
+          "casos": 114,
+          "tasa_100k": 117.4
         },
         {
           "localidad": "Santa Fe",
-          "casos": 34
+          "casos": 34,
+          "tasa_100k": 117.2
         },
         {
-          "localidad": "Tunjuelito",
-          "casos": 34
+          "localidad": "Usme",
+          "casos": 116,
+          "tasa_100k": 107.9
+        },
+        {
+          "localidad": "Kennedy",
+          "casos": 237,
+          "tasa_100k": 90.7
+        },
+        {
+          "localidad": "San Cristóbal",
+          "casos": 93,
+          "tasa_100k": 89.4
         },
         {
           "localidad": "Chapinero",
-          "casos": 29
+          "casos": 29,
+          "tasa_100k": 76.6
         },
         {
-          "localidad": "Teusaquillo",
-          "casos": 26
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 19
+          "localidad": "Bosa",
+          "casos": 146,
+          "tasa_100k": 74.6
         },
         {
           "localidad": "Antonio Nariño",
-          "casos": 15
+          "casos": 15,
+          "tasa_100k": 74.4
         },
         {
-          "localidad": "La Candelaria",
-          "casos": 11
+          "localidad": "Tunjuelito",
+          "casos": 34,
+          "tasa_100k": 74.3
+        },
+        {
+          "localidad": "Teusaquillo",
+          "casos": 26,
+          "tasa_100k": 72.5
+        },
+        {
+          "localidad": "Engativá",
+          "casos": 141,
+          "tasa_100k": 70.9
+        },
+        {
+          "localidad": "Fontibón",
+          "casos": 66,
+          "tasa_100k": 68.2
+        },
+        {
+          "localidad": "Puente Aranda",
+          "casos": 41,
+          "tasa_100k": 67.9
+        },
+        {
+          "localidad": "Usaquén",
+          "casos": 83,
+          "tasa_100k": 66.7
+        },
+        {
+          "localidad": "Suba",
+          "casos": 196,
+          "tasa_100k": 63.6
+        },
+        {
+          "localidad": "Barrios Unidos",
+          "casos": 19,
+          "tasa_100k": 55.3
         }
       ]
     },
@@ -643,6 +745,7 @@
       "total": 1666,
       "hombres": 1258,
       "mujeres": 408,
+      "tasa_100k": 86.5,
       "top_causas": [
         {
           "causa": "Agresiones (homicidios)",
@@ -687,80 +790,99 @@
       ],
       "por_localidad": [
         {
-          "localidad": "Kennedy",
-          "casos": 212
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 198
-        },
-        {
-          "localidad": "Suba",
-          "casos": 187
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 175
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 139
-        },
-        {
-          "localidad": "Usme",
-          "casos": 113
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 99
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 91
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 69
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 56
-        },
-        {
           "localidad": "Santa Fe",
-          "casos": 48
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 43
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 37
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 36
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 30
+          "casos": 48,
+          "tasa_100k": 171.1
         },
         {
           "localidad": "Los Mártires",
-          "casos": 28
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 21
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 15
+          "casos": 28,
+          "tasa_100k": 128.3
         },
         {
           "localidad": "La Candelaria",
-          "casos": 7
+          "casos": 7,
+          "tasa_100k": 125.2
+        },
+        {
+          "localidad": "Ciudad Bolívar",
+          "casos": 198,
+          "tasa_100k": 114.8
+        },
+        {
+          "localidad": "Barrios Unidos",
+          "casos": 37,
+          "tasa_100k": 109.8
+        },
+        {
+          "localidad": "Usme",
+          "casos": 113,
+          "tasa_100k": 105.8
+        },
+        {
+          "localidad": "San Cristóbal",
+          "casos": 99,
+          "tasa_100k": 96.9
+        },
+        {
+          "localidad": "Rafael Uribe Uribe",
+          "casos": 91,
+          "tasa_100k": 95.8
+        },
+        {
+          "localidad": "Bosa",
+          "casos": 175,
+          "tasa_100k": 90.9
+        },
+        {
+          "localidad": "Kennedy",
+          "casos": 212,
+          "tasa_100k": 82.7
+        },
+        {
+          "localidad": "Chapinero",
+          "casos": 30,
+          "tasa_100k": 82.0
+        },
+        {
+          "localidad": "Tunjuelito",
+          "casos": 36,
+          "tasa_100k": 80.6
+        },
+        {
+          "localidad": "Antonio Nariño",
+          "casos": 15,
+          "tasa_100k": 76.0
+        },
+        {
+          "localidad": "Puente Aranda",
+          "casos": 43,
+          "tasa_100k": 72.9
+        },
+        {
+          "localidad": "Engativá",
+          "casos": 139,
+          "tasa_100k": 71.7
+        },
+        {
+          "localidad": "Teusaquillo",
+          "casos": 21,
+          "tasa_100k": 61.7
+        },
+        {
+          "localidad": "Suba",
+          "casos": 187,
+          "tasa_100k": 61.3
+        },
+        {
+          "localidad": "Fontibón",
+          "casos": 56,
+          "tasa_100k": 58.7
+        },
+        {
+          "localidad": "Usaquén",
+          "casos": 69,
+          "tasa_100k": 56.4
         }
       ]
     },
@@ -769,6 +891,7 @@
       "total": 1678,
       "hombres": 1267,
       "mujeres": 411,
+      "tasa_100k": 89.1,
       "top_causas": [
         {
           "causa": "Agresiones (homicidios)",
@@ -813,83 +936,102 @@
       ],
       "por_localidad": [
         {
-          "localidad": "Ciudad Bolívar",
-          "casos": 232
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 218
-        },
-        {
-          "localidad": "Suba",
-          "casos": 181
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 175
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 127
-        },
-        {
-          "localidad": "Usme",
-          "casos": 102
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 86
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 78
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 70
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 64
-        },
-        {
           "localidad": "Santa Fe",
-          "casos": 51
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 39
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 36
+          "casos": 51,
+          "tasa_100k": 189.4
         },
         {
           "localidad": "Los Mártires",
-          "casos": 35
+          "casos": 35,
+          "tasa_100k": 168.1
+        },
+        {
+          "localidad": "Ciudad Bolívar",
+          "casos": 232,
+          "tasa_100k": 137.1
         },
         {
           "localidad": "Chapinero",
-          "casos": 34
+          "casos": 34,
+          "tasa_100k": 96.8
+        },
+        {
+          "localidad": "Usme",
+          "casos": 102,
+          "tasa_100k": 96.7
+        },
+        {
+          "localidad": "Bosa",
+          "casos": 175,
+          "tasa_100k": 92.7
+        },
+        {
+          "localidad": "Kennedy",
+          "casos": 218,
+          "tasa_100k": 86.8
+        },
+        {
+          "localidad": "San Cristóbal",
+          "casos": 86,
+          "tasa_100k": 86.2
+        },
+        {
+          "localidad": "Rafael Uribe Uribe",
+          "casos": 78,
+          "tasa_100k": 84.2
+        },
+        {
+          "localidad": "Tunjuelito",
+          "casos": 36,
+          "tasa_100k": 82.9
         },
         {
           "localidad": "Barrios Unidos",
-          "casos": 27
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 20
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 13
+          "casos": 27,
+          "tasa_100k": 82.4
         },
         {
           "localidad": "La Candelaria",
-          "casos": 4
+          "casos": 4,
+          "tasa_100k": 70.8
+        },
+        {
+          "localidad": "Fontibón",
+          "casos": 64,
+          "tasa_100k": 68.6
+        },
+        {
+          "localidad": "Puente Aranda",
+          "casos": 39,
+          "tasa_100k": 68.2
+        },
+        {
+          "localidad": "Antonio Nariño",
+          "casos": 13,
+          "tasa_100k": 67.6
+        },
+        {
+          "localidad": "Engativá",
+          "casos": 127,
+          "tasa_100k": 67.3
+        },
+        {
+          "localidad": "Teusaquillo",
+          "casos": 20,
+          "tasa_100k": 62.1
+        },
+        {
+          "localidad": "Suba",
+          "casos": 181,
+          "tasa_100k": 60.2
+        },
+        {
+          "localidad": "Usaquén",
+          "casos": 70,
+          "tasa_100k": 58.5
         }
       ]
     }
   ],
-  "nota": "Defunciones de jóvenes 15-29 años residentes en Bogotá. Fuente: DANE-RUAF-ND / OSB SaludData."
+  "nota": "Defunciones de jóvenes 15-29 años residentes en Bogotá. Tasa por cada 100.000 jóvenes. Fuente: DANE-RUAF-ND / OSB SaludData."
 }

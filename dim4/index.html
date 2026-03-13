@@ -281,6 +281,10 @@
             <div class="kpi-valor" id="kpi-mort-mujeres">–</div>
             <div class="kpi-label">Mujeres</div>
           </div>
+          <div class="kpi-card mortalidad">
+            <div class="kpi-valor" id="kpi-mort-tasa">–</div>
+            <div class="kpi-label">Tasa × 100.000</div>
+          </div>
         </div>
       </div>
       <div class="kpi-group">
@@ -299,8 +303,8 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Defunciones por localidad</div>
-        <div class="chart-container" style="height:400px;">
+        <div class="card-title">Tasa de mortalidad por cada 100.000 jóvenes por localidad</div>
+        <div class="chart-container" style="height:420px;">
           <canvas id="chart-mort-localidad"></canvas>
         </div>
       </div>
@@ -654,6 +658,7 @@ function actualizarMort() {
   document.getElementById('kpi-mort-total').textContent = fmtNum(d.total);
   document.getElementById('kpi-mort-hombres').textContent = fmtNum(d.hombres);
   document.getElementById('kpi-mort-mujeres').textContent = fmtNum(d.mujeres);
+  document.getElementById('kpi-mort-tasa').textContent = d.tasa_100k != null ? fmtDec(d.tasa_100k, 1) : '–';
 
   // Donut sexo
   const pctH = d.total > 0 ? (d.hombres / d.total * 100).toFixed(1) : 0;
@@ -695,23 +700,37 @@ function actualizarMort() {
     }
   });
 
-  // Localidades
-  const locs = d.por_localidad;
+  // Localidades — tasa por cada 100.000
+  const locs = d.por_localidad.filter(l => l.tasa_100k != null);
   if (chartMortLoc) chartMortLoc.destroy();
   chartMortLoc = new Chart(document.getElementById('chart-mort-localidad'), {
     type: 'bar',
     data: {
       labels: locs.map(l => l.localidad),
-      datasets: [{ data: locs.map(l => l.casos), backgroundColor: '#e07830', borderRadius: 3 }]
+      datasets: [{ data: locs.map(l => l.tasa_100k), backgroundColor: '#e0a030', borderRadius: 3 }]
     },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => fmtNum(ctx.parsed.x) + ' defunciones' } } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: {
+        label: ctx => fmtDec(ctx.parsed.x, 1) + ' × 100.000 · ' + fmtNum(locs[ctx.dataIndex].casos) + ' defunciones'
+      } } },
       scales: {
-        x: { ticks: { callback: v => fmtNum(v), font: { size: 10 } }, grid: { color: '#ecf0f1' } },
+        x: { ticks: { callback: v => fmtDec(v, 0), font: { size: 10 } }, grid: { color: '#ecf0f1' } },
         y: { ticks: { font: { size: 10 } }, grid: { display: false } }
       }
-    }
+    },
+    plugins: [{
+      id: 'blmort', afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        chart.getDatasetMeta(0).data.forEach((bar, i) => {
+          if (bar.x - bar.base > 35) {
+            ctx.save(); ctx.fillStyle='#fff'; ctx.font='bold 10px Segoe UI,system-ui,sans-serif';
+            ctx.textAlign='right'; ctx.textBaseline='middle';
+            ctx.fillText(fmtDec(chart.data.datasets[0].data[i], 1), bar.x-6, bar.y); ctx.restore();
+          }
+        });
+      }
+    }]
   });
 }
 </script>
