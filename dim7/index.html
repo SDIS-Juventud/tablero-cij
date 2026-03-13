@@ -129,30 +129,7 @@
       Sección pendiente — la variable de acciones ambientales no está disponible en los microdatos actuales.
     </div>
 
-    <!-- Barras apiladas de satisfacción -->
-    <div class="grid-2col">
-      <div class="card">
-        <div class="card-title">Satisfacción con la calidad del agua, ríos, quebradas, humedales, etc.</div>
-        <div class="chart-container" style="height:120px;">
-          <canvas id="chart-agua"></canvas>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Satisfacción con el ruido de la ciudad</div>
-        <div class="chart-container" style="height:120px;">
-          <canvas id="chart-ruido"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Satisfacción con Bogotá como lugar para vivir</div>
-      <div class="chart-container" style="height:120px;">
-        <canvas id="chart-vivienda"></canvas>
-      </div>
-    </div>
-
-    <!-- Comparativo general -->
+    <!-- Comparativo general (incluye las 3 preguntas) -->
     <div class="card" style="margin-bottom:1.5rem;">
       <div class="card-title">Comparativo de satisfacción — jóvenes 18 a 25 años</div>
       <div class="chart-container" style="height:260px;">
@@ -200,7 +177,7 @@ function fmtNum(v) {
 // ============================================================
 // Render
 // ============================================================
-let chartAgua, chartRuido, chartVivienda, chartComparativo;
+let chartComparativo;
 
 function renderAll() {
   document.getElementById('n-jovenes').textContent = fmtNum(HAB.n_jovenes);
@@ -210,9 +187,6 @@ function renderAll() {
   document.getElementById('kpi-ruido-ins').textContent = fmtPct(HAB.satisfaccion_ruido.insatisfecho);
   document.getElementById('kpi-vivir-sat').textContent = fmtPct(HAB.satisfaccion_vivienda.satisfecho);
 
-  renderStackedBar('chart-agua', HAB.satisfaccion_agua);
-  renderStackedBar('chart-ruido', HAB.satisfaccion_ruido);
-  renderStackedBar('chart-vivienda', HAB.satisfaccion_vivienda);
   renderComparativo();
 }
 
@@ -240,63 +214,6 @@ const stackedLabelPlugin = {
   }
 };
 
-function renderStackedBar(canvasId, data) {
-  const canvas = document.getElementById(canvasId);
-  const chart = new Chart(canvas, {
-    type: 'bar',
-    data: {
-      labels: [''],
-      datasets: [
-        {
-          label: 'Satisfecho',
-          data: [data.satisfecho],
-          backgroundColor: '#27ae60',
-          borderRadius: 3,
-        },
-        {
-          label: 'Ni satisfecho ni insatisfecho',
-          data: [data.ni_satisfecho_ni_insatisfecho],
-          backgroundColor: '#f1c40f',
-        },
-        {
-          label: 'Insatisfecho',
-          data: [data.insatisfecho],
-          backgroundColor: '#c0392b',
-          borderRadius: 3,
-        }
-      ]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { font: { size: 11 }, padding: 12 }
-        },
-        tooltip: {
-          callbacks: {
-            label: ctx => ctx.dataset.label + ': ' + fmtPct(ctx.raw) + ' (n=' + fmtNum(data.n) + ')'
-          }
-        }
-      },
-      scales: {
-        x: {
-          stacked: true,
-          max: 100,
-          ticks: { callback: v => v + '%' },
-          grid: { color: '#ecf0f1' }
-        },
-        y: {
-          stacked: true,
-          display: false
-        }
-      }
-    },
-    plugins: [stackedLabelPlugin]
-  });
-}
 
 function renderComparativo() {
   const categorias = ['Calidad del agua', 'Ruido de la ciudad', 'Bogotá como lugar para vivir'];
