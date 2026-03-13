@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Información de Juventud - Dimensión 4: Salud integral y autocuidado</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --rojo: #b5302a;
+      --rojo-oscuro: #8c2420;
+      --rojo-claro: #d94f48;
+      --naranja: #e07830;
+      --gris-oscuro: #2c3e50;
+      --gris: #7f8c8d;
+      --gris-claro: #ecf0f1;
+      --blanco: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
+      line-height: 1.5;
+    }
+
+    .header {
+      background: var(--rojo);
+      color: var(--blanco);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .header svg { width: 32px; height: 32px; fill: var(--blanco); }
+    .header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+    .header .btn-home {
+      color: var(--blanco);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      border-radius: 6px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: var(--gris);
+      margin-bottom: 1rem;
+    }
+    .page-subtitle span { font-weight: 600; color: var(--gris-oscuro); }
+
+    /* Filtro */
+    .filtros {
+      background: var(--blanco);
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .filtros label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gris);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .filtro-grupo { display: flex; align-items: center; gap: 0.5rem; }
+    .filtro-select {
+      padding: 6px 12px;
+      border: 2px solid var(--gris-claro);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: var(--gris-oscuro);
+      background: var(--blanco);
+      cursor: pointer;
+      min-width: 100px;
+    }
+    .filtro-select:focus { outline: none; border-color: var(--rojo); }
+
+    /* KPIs */
+    .kpis-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 800px) { .kpis-row { grid-template-columns: 1fr; } }
+
+    .kpi-group {
+      background: var(--blanco);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .kpi-group-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gris);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
+    }
+    .kpi-cards {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .kpi-card {
+      flex: 1;
+      min-width: 100px;
+      text-align: center;
+      padding: 0.8rem;
+      border-radius: 8px;
+      background: #fdf0f0;
+    }
+    .kpi-valor {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--rojo);
+    }
+    .kpi-label {
+      font-size: 0.78rem;
+      color: var(--gris);
+      margin-top: 2px;
+    }
+
+    /* Grid */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 960px) { .grid-2col { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--blanco);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gris);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
+    }
+
+    .chart-container { position: relative; height: 320px; }
+
+    .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .pendiente-msg {
+      background: var(--blanco);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      text-align: center;
+      color: var(--gris);
+      margin-bottom: 1.5rem;
+    }
+    .pendiente-msg strong { color: var(--gris-oscuro); }
+
+    .footer {
+      margin-top: 1.5rem;
+      padding: 1rem 1.5rem;
+      font-size: 0.8rem;
+      color: var(--gris);
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-2v-4H8v-2h4V8h2v4h4v2z"/></svg>
+    <h1>Dimensión 4 – Salud integral y autocuidado</h1>
+    <a href="../index.html" class="btn-home">&#8592; Inicio</a>
+  </div>
+
+  <div class="container">
+
+    <!-- ============================================================ -->
+    <!-- SECCIÓN 4.1: SGSSS (pendiente) -->
+    <!-- ============================================================ -->
+    <div class="pendiente-msg">
+      <strong>4.1 Jóvenes afiliados al SGSSS</strong><br>
+      Sección pendiente — datos de régimen de seguridad social aún no disponibles.
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECCIÓN 4.2: Discapacidad -->
+    <!-- ============================================================ -->
+    <p class="page-subtitle">
+      <span>4.2 Jóvenes en condición de discapacidad — Bogotá</span><br>
+      Fuente: Observatorio de Salud de Bogotá – SaludData (Discapacidad certificada)
+    </p>
+
+    <!-- KPIs discapacidad -->
+    <div class="kpis-row">
+      <div class="kpi-group">
+        <div class="kpi-group-title">Jóvenes con discapacidad certificada</div>
+        <div class="kpi-cards">
+          <div class="kpi-card">
+            <div class="kpi-valor" id="kpi-total-disc">–</div>
+            <div class="kpi-label">Total jóvenes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-group">
+        <div class="kpi-group-title">Cantidad por tipo de discapacidad</div>
+        <div class="chart-container" style="height:220px;">
+          <canvas id="chart-disc-tipo"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico por localidad -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Jóvenes con discapacidad por localidad</div>
+      <div class="chart-container" style="height:400px;">
+        <canvas id="chart-disc-localidad"></canvas>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECCIÓN 4.3: Natalidad -->
+    <!-- ============================================================ -->
+    <hr style="border:none; border-top:3px solid var(--rojo-claro); margin:2.5rem 0 1.5rem;">
+
+    <p class="page-subtitle">
+      <span>4.3 Tasa de natalidad por cada mil en jóvenes</span><br>
+      Fuente: Observatorio de Salud de Bogotá – SaludData · Población: DANE, proyecciones CNPV 2018
+    </p>
+
+    <!-- Filtro natalidad -->
+    <div class="filtros">
+      <div class="filtro-grupo">
+        <label>Año</label>
+        <select class="filtro-select" id="filtro-anio-nat"></select>
+      </div>
+      <div class="filtro-grupo">
+        <label>Grupo de edad</label>
+        <select class="filtro-select" id="filtro-grupo-nat">
+          <option value="total" selected>Todas (15-28)</option>
+          <option value="15_19">15 a 19 años</option>
+          <option value="20_24">20 a 24 años</option>
+          <option value="25_28">25 a 28 años</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- KPIs natalidad -->
+    <div class="kpis-row">
+      <div class="kpi-group">
+        <div class="kpi-group-title">Indicadores de natalidad en jóvenes</div>
+        <div class="kpi-cards">
+          <div class="kpi-card">
+            <div class="kpi-valor" id="kpi-tasa-nat">–</div>
+            <div class="kpi-label">Tasa por cada mil</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-valor" id="kpi-nacidos">–</div>
+            <div class="kpi-label">Nacidos vivos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-group">
+        <div class="kpi-group-title">Nacidos vivos por grupo de edad de la madre</div>
+        <div class="chart-container" style="height:140px;">
+          <canvas id="chart-nat-grupos"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos natalidad -->
+    <div class="grid-2col">
+      <div class="card">
+        <div class="card-title">Histórico de tasa de natalidad por cada mil — jóvenes</div>
+        <div class="chart-container">
+          <canvas id="chart-nat-historico"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tasa de natalidad por localidad</div>
+        <div class="chart-container" style="height:400px;">
+          <canvas id="chart-nat-localidad"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-top">
+        <div>
+          Fuente: Observatorio de Salud de Bogotá – SaludData · DANE, Proyecciones CNPV 2018<br>
+          4.2: Discapacidad certificada · 4.3: Natalidad en jóvenes (madres 15-28 años)<br>
+          Nota: una persona puede tener más de un tipo de discapacidad.
+        </div>
+        <div style="text-align:right;">
+          Secretaría de Integración Social<br>
+          Subdirección para la Juventud – Centro de Información de Juventud
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ============================================================
+// Utilidades
+// ============================================================
+function fmtNum(n) {
+  if (n == null) return '–';
+  return Math.round(n).toLocaleString('es-CO');
+}
+function fmtDec(n, d=2) {
+  if (n == null) return '–';
+  return n.toLocaleString('es-CO', { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+
+// Escala secuencial rojo (claro → oscuro)
+const COLORES_DISC = [
+  '#d94f48', '#c0392b', '#b5302a', '#993322',
+  '#e07830', '#cc8844', '#884422'
+];
+
+// ============================================================
+// SECCIÓN 4.2: Discapacidad
+// ============================================================
+let DISC = null;
+let chartDiscTipo = null;
+let chartDiscLoc = null;
+
+fetch('data/discapacidad.json')
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(datos => {
+    DISC = datos;
+    renderDiscapacidad();
+  })
+  .catch(err => console.warn('No se pudo cargar discapacidad.json:', err));
+
+function renderDiscapacidad() {
+  // KPI
+  document.getElementById('kpi-total-disc').textContent = fmtNum(DISC.total_jovenes_discapacidad);
+
+  // Gráfico por tipo (barras horizontales)
+  const tipos = DISC.por_tipo;
+  if (chartDiscTipo) chartDiscTipo.destroy();
+  chartDiscTipo = new Chart(document.getElementById('chart-disc-tipo'), {
+    type: 'bar',
+    data: {
+      labels: tipos.map(t => t.nombre),
+      datasets: [{
+        data: tipos.map(t => t.cantidad),
+        backgroundColor: COLORES_DISC.slice(0, tipos.length),
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => fmtNum(ctx.parsed.x) + ' jóvenes' }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { callback: v => fmtNum(v), font: { size: 10 } },
+          grid: { color: '#ecf0f1' }
+        },
+        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    },
+    plugins: [{
+      id: 'barLabelsDisc',
+      afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        chart.data.datasets[0].data.forEach((val, i) => {
+          const meta = chart.getDatasetMeta(0).data[i];
+          const x = meta.x - 8;
+          const y = meta.y;
+          ctx.save();
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 11px Segoe UI, system-ui, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+          // Solo mostrar label si la barra es suficientemente ancha
+          const barWidth = meta.x - meta.base;
+          if (barWidth > 50) {
+            ctx.fillText(fmtNum(val), x, y);
+          }
+          ctx.restore();
+        });
+      }
+    }]
+  });
+
+  // Gráfico por localidad (barras horizontales)
+  const locs = DISC.por_localidad;
+  if (chartDiscLoc) chartDiscLoc.destroy();
+  chartDiscLoc = new Chart(document.getElementById('chart-disc-localidad'), {
+    type: 'bar',
+    data: {
+      labels: locs.map(l => l.localidad),
+      datasets: [{
+        data: locs.map(l => l.cantidad),
+        backgroundColor: '#b5302a',
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => fmtNum(ctx.parsed.x) + ' jóvenes' }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { callback: v => fmtNum(v), font: { size: 10 } },
+          grid: { color: '#ecf0f1' }
+        },
+        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+// ============================================================
+// SECCIÓN 4.3: Natalidad
+// ============================================================
+let NAT = null;
+let chartNatGrupos = null;
+let chartNatHist = null;
+let chartNatLoc = null;
+
+fetch('data/natalidad.json')
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(datos => {
+    NAT = datos;
+    initFiltrosNat();
+    actualizarNat();
+  })
+  .catch(err => console.warn('No se pudo cargar natalidad.json:', err));
+
+function initFiltrosNat() {
+  const sel = document.getElementById('filtro-anio-nat');
+  const anios = NAT.por_anio.map(d => d.anio).sort();
+  anios.forEach(a => {
+    const opt = document.createElement('option');
+    opt.value = a; opt.textContent = a;
+    if (a === Math.max(...anios)) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  sel.onchange = actualizarNat;
+  document.getElementById('filtro-grupo-nat').onchange = actualizarNat;
+}
+
+function getAnioNat() {
+  return parseInt(document.getElementById('filtro-anio-nat').value);
+}
+function getGrupoNat() {
+  return document.getElementById('filtro-grupo-nat').value;
+}
+
+function actualizarNat() {
+  const anio = getAnioNat();
+  const grupo = getGrupoNat();
+  actualizarKPIsNat(anio, grupo);
+  actualizarChartGrupos(anio);
+  actualizarChartHistNat(grupo);
+  actualizarChartLocNat();
+}
+
+function actualizarKPIsNat(anio, grupo) {
+  const d = NAT.por_anio.find(r => r.anio === anio);
+  if (!d) return;
+
+  let tasa, nacidos;
+  if (grupo === 'total') {
+    tasa = d.tasa_total;
+    nacidos = d.nacidos_total;
+  } else if (grupo === '15_19') {
+    tasa = d.tasa_15_19;
+    nacidos = d.nacidos_15_19;
+  } else if (grupo === '20_24') {
+    tasa = d.tasa_20_24;
+    nacidos = d.nacidos_20_24;
+  } else {
+    tasa = d.tasa_25_28;
+    nacidos = d.nacidos_25_28;
+  }
+
+  document.getElementById('kpi-tasa-nat').textContent = tasa != null ? fmtDec(tasa, 1) + ' ‰' : '–';
+  document.getElementById('kpi-nacidos').textContent = fmtNum(nacidos);
+}
+
+function actualizarChartGrupos(anio) {
+  const d = NAT.por_anio.find(r => r.anio === anio);
+  if (!d) return;
+
+  const grupos = [
+    { label: '15 a 19', val: d.nacidos_15_19, color: '#d94f48' },
+    { label: '20 a 24', val: d.nacidos_20_24, color: '#b5302a' },
+    { label: '25 a 28', val: d.nacidos_25_28, color: '#8c2420' },
+  ];
+
+  if (chartNatGrupos) chartNatGrupos.destroy();
+  chartNatGrupos = new Chart(document.getElementById('chart-nat-grupos'), {
+    type: 'bar',
+    data: {
+      labels: grupos.map(g => g.label),
+      datasets: [{
+        data: grupos.map(g => g.val),
+        backgroundColor: grupos.map(g => g.color),
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => fmtNum(ctx.parsed.x) + ' nacidos' }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { callback: v => fmtNum(v), font: { size: 10 } },
+          grid: { color: '#ecf0f1' }
+        },
+        y: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    },
+    plugins: [{
+      id: 'barLabelsGrupos',
+      afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        chart.data.datasets[0].data.forEach((val, i) => {
+          const meta = chart.getDatasetMeta(0).data[i];
+          const barWidth = meta.x - meta.base;
+          if (barWidth > 50) {
+            ctx.save();
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 11px Segoe UI, system-ui, sans-serif';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(fmtNum(val), meta.x - 8, meta.y);
+            ctx.restore();
+          }
+        });
+      }
+    }]
+  });
+}
+
+function actualizarChartHistNat(grupo) {
+  const datos = NAT.por_anio;
+
+  // Seleccionar campo según grupo
+  let campos;
+  if (grupo === 'total') {
+    campos = [
+      { label: '15 a 19 años', key: 'tasa_15_19', color: '#d94f48' },
+      { label: '20 a 24 años', key: 'tasa_20_24', color: '#b5302a' },
+      { label: '25 a 28 años', key: 'tasa_25_28', color: '#8c2420' },
+    ];
+  } else {
+    const map = {
+      '15_19': { label: '15 a 19 años', key: 'tasa_15_19', color: '#d94f48' },
+      '20_24': { label: '20 a 24 años', key: 'tasa_20_24', color: '#b5302a' },
+      '25_28': { label: '25 a 28 años', key: 'tasa_25_28', color: '#8c2420' },
+    };
+    campos = [map[grupo]];
+  }
+
+  if (chartNatHist) chartNatHist.destroy();
+  chartNatHist = new Chart(document.getElementById('chart-nat-historico'), {
+    type: 'line',
+    data: {
+      labels: datos.map(d => d.anio),
+      datasets: campos.map(c => ({
+        label: c.label,
+        data: datos.map(d => d[c.key]),
+        borderColor: c.color,
+        backgroundColor: c.color,
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: c.color,
+        tension: 0.3,
+      }))
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { usePointStyle: true, pointStyle: 'circle', font: { size: 11 } }
+        },
+        tooltip: {
+          callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtDec(ctx.parsed.y, 1) + ' ‰' }
+        }
+      },
+      scales: {
+        y: {
+          ticks: {
+            callback: v => fmtDec(v, 0) + ' ‰',
+            font: { size: 11 }
+          },
+          grid: { color: '#ecf0f1' }
+        },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+function actualizarChartLocNat() {
+  const locs = NAT.por_localidad;
+  if (!locs || locs.length === 0) return;
+
+  if (chartNatLoc) chartNatLoc.destroy();
+  chartNatLoc = new Chart(document.getElementById('chart-nat-localidad'), {
+    type: 'bar',
+    data: {
+      labels: locs.map(l => l.localidad),
+      datasets: [{
+        data: locs.map(l => l.tasa_por_mil),
+        backgroundColor: '#b5302a',
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const loc = locs[ctx.dataIndex];
+              return fmtDec(ctx.parsed.x, 1) + ' ‰ (' + fmtNum(loc.nacidos) + ' nacidos)';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            callback: v => fmtDec(v, 0) + ' ‰',
+            font: { size: 10 }
+          },
+          grid: { color: '#ecf0f1' }
+        },
+        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+</script>
+
+</body>
+</html>

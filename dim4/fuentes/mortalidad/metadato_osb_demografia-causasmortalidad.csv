@@ -1,0 +1,15 @@
+METADATO;DESCRIPCION
+Serie de tiempo desde;2005
+Definición del indicador;La información de las causas de defunciones corresponde a la consolidación por frecuencia de ocurrencia, según codificación de causas de muerte listas 105 y 667 por área de residencia, grupo de edad y sexo.
+Utilidad;"Los datos de causas de mortalidad permiten determinar las características y estructura de mortalidad en un área específica,
+mediante la construcción de perfiles epidemiológicos y tasas específicas, para su monitoreo e intervención.
+"
+Unidad de medición;"Numero absoluto; tasa de mortalidad"
+Periodicidad;Anual
+Fuente de Información ;Bases de datos DANE - RUAF - ND Sistema de estadísticas Vitales SDS. Publicación definitiva 2005-2023  Proyecciones de Población por Localidad Convenio interadministrativo 095 de 2020 DANE- FONDANE Y SDP con base en CNPV DANE 2018. Actualización Post Covid-19. 
+Año;Periodo de ocurrencia de la muerte
+Localidad;Localidad de residencia del fallecido
+Sexo;Sexo al que pertenecía el fallecido
+Grupo de edad;Años distribuidos en quinquenios en el cual se encontraba la persona al momento de la muerte
+Descripción lista 105;Agrupación según lista de tabulación de mortalidad 105
+Descripción lista 6/67;Agrupación según lista de tabulación de mortalidad 6/67

@@ -1,0 +1,123 @@
+{
+  "total_jovenes_discapacidad": 17806,
+  "nota": "Incluye grupos Juventud y Adolescencia como proxy de 14-28 años. Una persona puede tener más de un tipo de discapacidad.",
+  "por_tipo": [
+    {
+      "tipo": "intelectual",
+      "nombre": "Discapacidad intelectual",
+      "cantidad": 12582
+    },
+    {
+      "tipo": "multiple",
+      "nombre": "Discapacidad múltiple",
+      "cantidad": 9047
+    },
+    {
+      "tipo": "fisica",
+      "nombre": "Discapacidad física",
+      "cantidad": 7453
+    },
+    {
+      "tipo": "psicosocial",
+      "nombre": "Discapacidad psicosocial",
+      "cantidad": 6134
+    },
+    {
+      "tipo": "auditiva",
+      "nombre": "Discapacidad auditiva",
+      "cantidad": 1814
+    },
+    {
+      "tipo": "visual",
+      "nombre": "Discapacidad visual",
+      "cantidad": 1413
+    },
+    {
+      "tipo": "sordoceguera",
+      "nombre": "Sordoceguera",
+      "cantidad": 15
+    }
+  ],
+  "por_localidad": [
+    {
+      "localidad": "Suba",
+      "cantidad": 2432
+    },
+    {
+      "localidad": "Kennedy",
+      "cantidad": 2361
+    },
+    {
+      "localidad": "Bosa",
+      "cantidad": 2182
+    },
+    {
+      "localidad": "Ciudad Bolivar",
+      "cantidad": 1741
+    },
+    {
+      "localidad": "Engativa",
+      "cantidad": 1687
+    },
+    {
+      "localidad": "San Cristobal",
+      "cantidad": 1299
+    },
+    {
+      "localidad": "Usme",
+      "cantidad": 1189
+    },
+    {
+      "localidad": "Rafael Uribe Uribe",
+      "cantidad": 912
+    },
+    {
+      "localidad": "Fontibon",
+      "cantidad": 734
+    },
+    {
+      "localidad": "Usaquen",
+      "cantidad": 668
+    },
+    {
+      "localidad": "Tunjuelito",
+      "cantidad": 468
+    },
+    {
+      "localidad": "Puente Aranda",
+      "cantidad": 427
+    },
+    {
+      "localidad": "Teusaquillo",
+      "cantidad": 272
+    },
+    {
+      "localidad": "Barrios Unidos",
+      "cantidad": 266
+    },
+    {
+      "localidad": "Santa Fe",
+      "cantidad": 208
+    },
+    {
+      "localidad": "Antonio Nari¤o",
+      "cantidad": 173
+    },
+    {
+      "localidad": "Chapinero",
+      "cantidad": 163
+    },
+    {
+      "localidad": "Los Martires",
+      "cantidad": 159
+    },
+    {
+      "localidad": "La Candelaria",
+      "cantidad": 30
+    },
+    {
+      "localidad": "Sumapaz",
+      "cantidad": 14
+    }
+  ]
+}
