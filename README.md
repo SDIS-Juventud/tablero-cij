@@ -42,7 +42,8 @@ Cada dimensión es una carpeta autocontenida (`dim1/` a `dim7/`). Las instruccio
 |-----------|--------|---------|---------------|
 | 1. Ser joven | Próximamente | `dim1/` | — |
 | 2. Educación | Próximamente | `dim2/` | — |
-| **3. Inclusión Productiva** | **Activa** | `dim3/` | [`dim3/INSTRUCCIONES.md`](dim3/INSTRUCCIONES.md) |
+| 4. Salud Integral y Autocuidado | Próximamente | `dim4/` | — |
+| **3. Inclusión Productiva** | **Activa** | `dim3/` |  |
 | 4. Salud Integral y Autocuidado | Próximamente | `dim4/` | — |
 | 5. Cultura, Recreación y Deporte | Próximamente | `dim5/` | — |
 | 6. Paz, Convivencia y Justicia | Próximamente | — | — |
@@ -63,14 +64,3 @@ Cada dimensión tiene sus propias fuentes y su propio script. Las instrucciones 
 
 ---
 
-## Notas técnicas
-
-- Para ver el tablero local: `python -m http.server 8080` → abrir http://localhost:8080
-- Python 3.8+ con `openpyxl` (`pip install openpyxl`)
-- El workflow de GitHub Actions detecta cambios en cualquier `dim*/fuentes/` y ejecuta los scripts correspondientes.
-
----
-
-## Contacto
-
-Subdirección para la Juventud – SDIS Bogotá
