@@ -151,9 +151,9 @@
     <!-- 4.2 Discapacidad -->
     <!-- ============================================================ -->
     <p class="page-subtitle">
-      <span>4.2 Adolescentes y jóvenes en condición de discapacidad — Bogotá</span>
-      <span id="lbl-disc-anio" style="font-size:0.85em; font-weight:400; color:#666;"></span><br>
-      Fuente: SaludData – Observatorio de Salud de Bogotá
+      <span>4.2 Adolescentes y jóvenes en condición de discapacidad — Bogotá</span><br>
+      Fuente: SaludData – Observatorio de Salud de Bogotá<br>
+      <span id="lbl-disc-anio" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
 
     <div class="kpis-row">
@@ -161,8 +161,12 @@
         <div class="kpi-group-title">Adolescentes y jóvenes con discapacidad certificada</div>
         <div class="kpi-cards">
           <div class="kpi-card">
+            <div class="kpi-valor" id="kpi-total-bogota-disc">–</div>
+            <div class="kpi-label">Total Bogotá</div>
+          </div>
+          <div class="kpi-card">
             <div class="kpi-valor" id="kpi-total-disc">–</div>
-            <div class="kpi-label">Total adolescentes y jóvenes</div>
+            <div class="kpi-label">Adolescentes y jóvenes</div>
           </div>
         </div>
       </div>
@@ -353,10 +357,11 @@ fetch('data/discapacidad.json')
 
 function renderDisc() {
   if (DISC.corte) {
-    let lbl = ' · Período: ' + DISC.corte;
+    let lbl = 'Período: ' + DISC.corte;
     if (DISC.fecha_actualizacion) lbl += ' · Actualización fuente: ' + DISC.fecha_actualizacion;
     document.getElementById('lbl-disc-anio').textContent = lbl;
   }
+  if (DISC.total_bogota) document.getElementById('kpi-total-bogota-disc').textContent = fmtNum(DISC.total_bogota);
   document.getElementById('kpi-total-disc').textContent = fmtNum(DISC.total_jovenes_discapacidad);
 
   const tipos = DISC.por_tipo;
