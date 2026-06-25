@@ -19,6 +19,9 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 FUENTES_DIR = os.path.join(SCRIPT_DIR, 'fuentes', 'discapacidad')
 DATA_DIR = os.path.join(SCRIPT_DIR, 'data')
 
+# Año de certificación a incluir en el JSON (actualizar manualmente al cambiar el CSV)
+ANIO = 2025
+
 # Grupos de edad que corresponden a jóvenes (14-28 aprox.)
 GRUPOS_JUVENTUD = {'Juventud', 'Adolescencia'}
 
@@ -90,8 +93,9 @@ def procesar(ruta_csv):
     por_localidad.sort(key=lambda x: x['cantidad'], reverse=True)
 
     return {
+        'anio': ANIO,
         'total_jovenes_discapacidad': total,
-        'nota': 'Incluye grupos Juventud y Adolescencia como proxy de 14-28 años. Una persona puede tener más de un tipo de discapacidad.',
+        'nota': f'Incluye los grupos Adolescencia y Juventud según clasificación de SaludData. Una persona puede tener más de un tipo de discapacidad. Fuente: SaludData – Observatorio de Salud de Bogotá. Año de certificación: {ANIO}.',
         'por_tipo': por_tipo,
         'por_localidad': por_localidad,
     }

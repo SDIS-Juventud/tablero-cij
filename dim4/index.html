@@ -151,17 +151,18 @@
     <!-- 4.2 Discapacidad -->
     <!-- ============================================================ -->
     <p class="page-subtitle">
-      <span>4.2 Jóvenes en condición de discapacidad — Bogotá</span><br>
-      Fuente: Observatorio de Salud de Bogotá – SaludData (Discapacidad certificada)
+      <span>4.2 Adolescentes y jóvenes en condición de discapacidad — Bogotá</span>
+      <span id="lbl-disc-anio" style="font-size:0.85em; font-weight:400; color:#666;"></span><br>
+      Fuente: SaludData – Observatorio de Salud de Bogotá
     </p>
 
     <div class="kpis-row">
       <div class="kpi-group">
-        <div class="kpi-group-title">Jóvenes con discapacidad certificada</div>
+        <div class="kpi-group-title">Adolescentes y jóvenes con discapacidad certificada</div>
         <div class="kpi-cards">
           <div class="kpi-card">
             <div class="kpi-valor" id="kpi-total-disc">–</div>
-            <div class="kpi-label">Total jóvenes</div>
+            <div class="kpi-label">Total adolescentes y jóvenes</div>
           </div>
         </div>
       </div>
@@ -174,7 +175,7 @@
     </div>
 
     <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Jóvenes con discapacidad por localidad</div>
+      <div class="card-title">Adolescentes y jóvenes con discapacidad por localidad</div>
       <div class="chart-container" style="height:400px;">
         <canvas id="chart-disc-localidad"></canvas>
       </div>
@@ -351,6 +352,7 @@ fetch('data/discapacidad.json')
   .catch(err => console.warn('discapacidad.json:', err));
 
 function renderDisc() {
+  if (DISC.anio) document.getElementById('lbl-disc-anio').textContent = ' · Año ' + DISC.anio;
   document.getElementById('kpi-total-disc').textContent = fmtNum(DISC.total_jovenes_discapacidad);
 
   const tipos = DISC.por_tipo;
