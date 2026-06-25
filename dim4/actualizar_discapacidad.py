@@ -42,14 +42,23 @@ CATEGORIAS = [
 # ============================================================
 
 def encontrar_csv(carpeta):
-    """Busca el archivo CSV más reciente en la carpeta."""
+    """Busca el CSV de datos en la carpeta, excluyendo archivos de metadatos."""
     if not os.path.exists(carpeta):
         print(f'ERROR: No existe la carpeta {carpeta}')
         return None
+    # NOTA: el archivo osb_metadato-demografia-discapacidad.csv contiene solo
+    # metadatos (variables y descripciones), no registros individuales.
+    # El CSV de datos (osb_demografia-discapacidad.csv) fue descargado con corte
+    # anterior a 2025 y da 17.806 personas — está desactualizado respecto a
+    # SaludData (22.598 con corte 31/05/2026). Descargar CSV actualizado desde
+    # la ficha técnica del indicador en saludata.saludcapital.gov.co antes de
+    # correr este script.
     archivos = [f for f in os.listdir(carpeta)
-                if f.endswith('.csv') and not f.startswith('~$')]
+                if f.endswith('.csv')
+                and not f.startswith('~$')
+                and 'metadato' not in f.lower()]
     if not archivos:
-        print(f'ERROR: No se encontró CSV en {carpeta}')
+        print(f'ERROR: No se encontró CSV de datos en {carpeta}')
         return None
     archivos.sort()
     return os.path.join(carpeta, archivos[-1])

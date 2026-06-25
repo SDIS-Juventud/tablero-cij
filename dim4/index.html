@@ -352,7 +352,11 @@ fetch('data/discapacidad.json')
   .catch(err => console.warn('discapacidad.json:', err));
 
 function renderDisc() {
-  if (DISC.anio) document.getElementById('lbl-disc-anio').textContent = ' · Año ' + DISC.anio;
+  if (DISC.corte) {
+    let lbl = ' · Período: ' + DISC.corte;
+    if (DISC.fecha_actualizacion) lbl += ' · Actualización fuente: ' + DISC.fecha_actualizacion;
+    document.getElementById('lbl-disc-anio').textContent = lbl;
+  }
   document.getElementById('kpi-total-disc').textContent = fmtNum(DISC.total_jovenes_discapacidad);
 
   const tipos = DISC.por_tipo;

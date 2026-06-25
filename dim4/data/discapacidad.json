@@ -1,65 +1,40 @@
 {
-  "anio": 2025,
-  "total_jovenes_discapacidad": 4353,
-  "nota": "Incluye los grupos Adolescencia y Juventud según clasificación de SaludData. Una persona puede tener más de un tipo de discapacidad. Fuente: SaludData – Observatorio de Salud de Bogotá. Fecha de corte: 31/05/2026.",
+  "corte": "01/07/2020 – 31/05/2026",
+  "fecha_actualizacion": "11/06/2026",
+  "total_jovenes_discapacidad": 22598,
+  "total_bogota": 91455,
+  "nota": "Incluye grupos Adolescencia (5.876) y Juventud (16.722) según clasificación de SaludData. Una persona puede tener más de un tipo de discapacidad. Fuente: Secretaría Distrital de Salud – Observatorio de Salud de Bogotá, SaludData. Período de descarga: 01/07/2020 – 31/05/2026. Fecha de corte: 31/05/2026. Fecha de actualización de la fuente: 11/06/2026. Los datos son preliminares y la fuente realiza actualizaciones permanentes.",
   "por_tipo": [
-    {
-      "tipo": "multiple",
-      "nombre": "Discapacidad múltiple",
-      "cantidad": 2105
-    },
-    {
-      "tipo": "intelectual",
-      "nombre": "Discapacidad intelectual",
-      "cantidad": 944
-    },
-    {
-      "tipo": "fisica",
-      "nombre": "Discapacidad física",
-      "cantidad": 601
-    },
-    {
-      "tipo": "psicosocial",
-      "nombre": "Discapacidad psicosocial",
-      "cantidad": 374
-    },
-    {
-      "tipo": "auditiva",
-      "nombre": "Discapacidad auditiva",
-      "cantidad": 211
-    },
-    {
-      "tipo": "visual",
-      "nombre": "Discapacidad visual",
-      "cantidad": 118
-    },
-    {
-      "tipo": "sordoceguera",
-      "nombre": "Sordoceguera",
-      "cantidad": 0
-    }
+    { "tipo": "multiple",    "nombre": "Discapacidad múltiple",    "cantidad": 11092 },
+    { "tipo": "intelectual", "nombre": "Discapacidad intelectual", "cantidad": 5212  },
+    { "tipo": "fisica",      "nombre": "Discapacidad física",      "cantidad": 2883  },
+    { "tipo": "psicosocial", "nombre": "Discapacidad psicosocial", "cantidad": 1504  },
+    { "tipo": "auditiva",    "nombre": "Discapacidad auditiva",    "cantidad": 1282  },
+    { "tipo": "visual",      "nombre": "Discapacidad visual",      "cantidad": 617   },
+    { "tipo": "sordoceguera","nombre": "Sordoceguera",             "cantidad": 1     }
   ],
   "por_localidad": [
-    { "localidad": "Kennedy", "cantidad": 371 },
-    { "localidad": "Bosa", "cantidad": 321 },
-    { "localidad": "Ciudad Bolívar", "cantidad": 230 },
-    { "localidad": "Traslados", "cantidad": 212 },
-    { "localidad": "Suba", "cantidad": 196 },
-    { "localidad": "Usme", "cantidad": 156 },
-    { "localidad": "Engativá", "cantidad": 130 },
-    { "localidad": "Fontibón", "cantidad": 119 },
-    { "localidad": "Rafael Uribe Uribe", "cantidad": 109 },
-    { "localidad": "San Cristóbal", "cantidad": 94 },
-    { "localidad": "Usaquén", "cantidad": 69 },
-    { "localidad": "Puente Aranda", "cantidad": 62 },
-    { "localidad": "Tunjuelito", "cantidad": 39 },
-    { "localidad": "Santa Fe", "cantidad": 35 },
-    { "localidad": "Barrios Unidos", "cantidad": 21 },
-    { "localidad": "Antonio Nariño", "cantidad": 19 },
-    { "localidad": "Localidad Desconocida", "cantidad": 18 },
-    { "localidad": "Teusaquillo", "cantidad": 17 },
-    { "localidad": "Los Mártires", "cantidad": 16 },
-    { "localidad": "Sumapaz", "cantidad": 3 },
-    { "localidad": "La Candelaria", "cantidad": 2 }
+    { "localidad": "Kennedy",               "cantidad": 1615 },
+    { "localidad": "Bosa",                  "cantidad": 1596 },
+    { "localidad": "Suba",                  "cantidad": 1347 },
+    { "localidad": "Ciudad Bolívar",        "cantidad": 1153 },
+    { "localidad": "Engativá",              "cantidad": 1016 },
+    { "localidad": "Usme",                  "cantidad": 760  },
+    { "localidad": "San Cristóbal",         "cantidad": 674  },
+    { "localidad": "Rafael Uribe Uribe",    "cantidad": 595  },
+    { "localidad": "Fontibón",              "cantidad": 517  },
+    { "localidad": "Traslados",             "cantidad": 512  },
+    { "localidad": "Usaquén",               "cantidad": 365  },
+    { "localidad": "Tunjuelito",            "cantidad": 298  },
+    { "localidad": "Puente Aranda",         "cantidad": 295  },
+    { "localidad": "Santa Fe",              "cantidad": 147  },
+    { "localidad": "Barrios Unidos",        "cantidad": 128  },
+    { "localidad": "Teusaquillo",           "cantidad": 124  },
+    { "localidad": "Antonio Nariño",        "cantidad": 114  },
+    { "localidad": "Los Mártires",          "cantidad": 89   },
+    { "localidad": "Chapinero",             "cantidad": 75   },
+    { "localidad": "Localidad Desconocida", "cantidad": 54   },
+    { "localidad": "La Candelaria",         "cantidad": 19   },
+    { "localidad": "Sumapaz",               "cantidad": 13   }
   ]
 }
