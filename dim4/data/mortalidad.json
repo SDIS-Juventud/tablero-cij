@@ -1,775 +1,94 @@
 {
   "por_anio": [
     {
-      "anio": 2018,
+      "anio": "2018",
       "total": 1668,
       "hombres": 1261,
       "mujeres": 407,
       "tasa_100k": 84.2,
-      "top_causas": [
-        {
-          "causa": "Agresiones (homicidios)",
-          "casos": 532
-        },
-        {
-          "causa": "Accidentes de transporte terrestre",
-          "casos": 241
-        },
-        {
-          "causa": "Lesiones autoinflingidas intencionalmente (suicidios)",
-          "casos": 160
-        },
-        {
-          "causa": "Signos, síntomas y afecciones mal definidas",
-          "casos": 63
-        },
-        {
-          "causa": "Enfermedades del sistema nervioso, excepto meningitis",
-          "casos": 60
-        },
-        {
-          "causa": "Tumores malignos de otras localizaciones y de las no especificadas",
-          "casos": 58
-        },
-        {
-          "causa": "Eventos de intención no determinada",
-          "casos": 52
-        },
-        {
-          "causa": "Enfermedad por VIH (SIDA)",
-          "casos": 51
-        },
-        {
-          "causa": "Leucemia",
-          "casos": 50
-        },
-        {
-          "causa": "Resto de enfermedades",
-          "casos": 49
-        }
-      ],
-      "por_localidad": [
-        {
-          "localidad": "Los Mártires",
-          "casos": 29,
-          "tasa_100k": 139.7
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 231,
-          "tasa_100k": 131.7
-        },
-        {
-          "localidad": "Usme",
-          "casos": 115,
-          "tasa_100k": 110.5
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 109,
-          "tasa_100k": 110.4
-        },
-        {
-          "localidad": "Santa Fe",
-          "casos": 30,
-          "tasa_100k": 103.5
-        },
-        {
-          "localidad": "La Candelaria",
-          "casos": 5,
-          "tasa_100k": 94.3
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 43,
-          "tasa_100k": 92.5
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 96,
-          "tasa_100k": 90.6
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 33,
-          "tasa_100k": 84.1
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 28,
-          "tasa_100k": 82.1
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 224,
-          "tasa_100k": 81.9
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 48,
-          "tasa_100k": 76.6
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 148,
-          "tasa_100k": 74.1
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 115,
-          "tasa_100k": 55.4
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 70,
-          "tasa_100k": 54.9
-        },
-        {
-          "localidad": "Suba",
-          "casos": 165,
-          "tasa_100k": 54.6
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 10,
-          "tasa_100k": 50.2
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 37,
-          "tasa_100k": 39.4
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 12,
-          "tasa_100k": 35.7
-        }
-      ]
+      "top_causas": [],
+      "por_localidad": []
     },
     {
-      "anio": 2019,
+      "anio": "2019",
       "total": 1738,
       "hombres": 1280,
       "mujeres": 458,
       "tasa_100k": 86.7,
-      "top_causas": [
-        {
-          "causa": "Agresiones (homicidios)",
-          "casos": 500
-        },
-        {
-          "causa": "Accidentes de transporte terrestre",
-          "casos": 242
-        },
-        {
-          "causa": "Lesiones autoinflingidas intencionalmente (suicidios)",
-          "casos": 182
-        },
-        {
-          "causa": "Enfermedad por VIH (SIDA)",
-          "casos": 71
-        },
-        {
-          "causa": "Enfermedades del sistema nervioso, excepto meningitis",
-          "casos": 63
-        },
-        {
-          "causa": "Eventos de intención determinada",
-          "casos": 63
-        },
-        {
-          "causa": "Resto de enfermedades",
-          "casos": 60
-        },
-        {
-          "causa": "Sigs, síntomas y afecciones mal definidas",
-          "casos": 59
-        },
-        {
-          "causa": "Tumores maligs de otras localizaciones y de las especificadas",
-          "casos": 55
-        },
-        {
-          "causa": "Leucemia",
-          "casos": 40
-        }
-      ],
-      "por_localidad": [
-        {
-          "localidad": "Sumapaz",
-          "casos": 2,
-          "tasa_100k": 252.8
-        },
-        {
-          "localidad": "Santa Fe",
-          "casos": 45,
-          "tasa_100k": 150.6
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 205,
-          "tasa_100k": 115.5
-        },
-        {
-          "localidad": "Los Mártires",
-          "casos": 27,
-          "tasa_100k": 112.3
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 38,
-          "tasa_100k": 106.3
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 104,
-          "tasa_100k": 104.1
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 40,
-          "tasa_100k": 100.7
-        },
-        {
-          "localidad": "Usme",
-          "casos": 104,
-          "tasa_100k": 97.8
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 32,
-          "tasa_100k": 92.8
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 172,
-          "tasa_100k": 85.6
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 38,
-          "tasa_100k": 80.4
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 50,
-          "tasa_100k": 79.5
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 83,
-          "tasa_100k": 77.8
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 211,
-          "tasa_100k": 77.5
-        },
-        {
-          "localidad": "La Candelaria",
-          "casos": 4,
-          "tasa_100k": 74.6
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 64,
-          "tasa_100k": 66.5
-        },
-        {
-          "localidad": "Suba",
-          "casos": 204,
-          "tasa_100k": 66.2
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 136,
-          "tasa_100k": 65.4
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 72,
-          "tasa_100k": 56.0
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 11,
-          "tasa_100k": 54.1
-        }
-      ]
+      "top_causas": [],
+      "por_localidad": []
     },
     {
-      "anio": 2020,
+      "anio": "2020",
       "total": 1630,
       "hombres": 1212,
       "mujeres": 418,
       "tasa_100k": 81.0,
-      "top_causas": [
-        {
-          "causa": "Agresiones (homicidios)",
-          "casos": 516
-        },
-        {
-          "causa": "Accidentes de transporte terrestre",
-          "casos": 183
-        },
-        {
-          "causa": "Lesiones autoinflingidas intencionalmente (suicidios)",
-          "casos": 138
-        },
-        {
-          "causa": "Resto de ciertas enfermedades infecciosas y parasitarias",
-          "casos": 108
-        },
-        {
-          "causa": "Enfermedades del sistema nervioso, excepto meningitis",
-          "casos": 64
-        },
-        {
-          "causa": "Tumores malignos de otras localizaciones y de las no especificadas",
-          "casos": 63
-        },
-        {
-          "causa": "Enfermedad por VIH (SIDA)",
-          "casos": 60
-        },
-        {
-          "causa": "Eventos de intención no determinada",
-          "casos": 54
-        },
-        {
-          "causa": "Resto de enfermedades",
-          "casos": 42
-        },
-        {
-          "causa": "Signos, síntomas y afecciones mal definida",
-          "casos": 38
-        }
-      ],
-      "por_localidad": [
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 212,
-          "tasa_100k": 119.1
-        },
-        {
-          "localidad": "Santa Fe",
-          "casos": 36,
-          "tasa_100k": 118.9
-        },
-        {
-          "localidad": "Los Mártires",
-          "casos": 25,
-          "tasa_100k": 103.2
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 19,
-          "tasa_100k": 92.1
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 98,
-          "tasa_100k": 92.0
-        },
-        {
-          "localidad": "Usme",
-          "casos": 94,
-          "tasa_100k": 87.5
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 87,
-          "tasa_100k": 86.8
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 230,
-          "tasa_100k": 85.0
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 38,
-          "tasa_100k": 80.3
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 158,
-          "tasa_100k": 78.7
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 83,
-          "tasa_100k": 64.4
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 25,
-          "tasa_100k": 62.3
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 38,
-          "tasa_100k": 60.7
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 125,
-          "tasa_100k": 60.4
-        },
-        {
-          "localidad": "Suba",
-          "casos": 188,
-          "tasa_100k": 60.4
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 49,
-          "tasa_100k": 50.2
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 17,
-          "tasa_100k": 48.7
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 18,
-          "tasa_100k": 48.6
-        },
-        {
-          "localidad": "La Candelaria",
-          "casos": 2,
-          "tasa_100k": 36.9
-        }
-      ]
+      "top_causas": [],
+      "por_localidad": []
     },
     {
-      "anio": 2021,
+      "anio": "2021",
       "total": 1838,
       "hombres": 1389,
       "mujeres": 449,
       "tasa_100k": 92.2,
-      "top_causas": [
-        {
-          "causa": "Agresiones (homicidios)",
-          "casos": 584
-        },
-        {
-          "causa": "Accidentes de transporte terrestre",
-          "casos": 221
-        },
-        {
-          "causa": "Resto de ciertas enfermedades infecciosas y parasitarias",
-          "casos": 169
-        },
-        {
-          "causa": "Lesiones autoinflingidas intencionalmente (suicidios)",
-          "casos": 157
-        },
-        {
-          "causa": "Enfermedades del sistema nervioso, excepto meningitis",
-          "casos": 63
-        },
-        {
-          "causa": "Enfermedad por VIH (SIDA)",
-          "casos": 53
-        },
-        {
-          "causa": "Signos, síntomas y afecciones mal definidas",
-          "casos": 50
-        },
-        {
-          "causa": "Eventos de intención no determinada",
-          "casos": 48
-        },
-        {
-          "causa": "Resto de enfermedades",
-          "casos": 44
-        },
-        {
-          "causa": "Tumores malignos de otras localizaciones y de las no especificadas",
-          "casos": 39
-        }
-      ],
-      "por_localidad": [
-        {
-          "localidad": "La Candelaria",
-          "casos": 9,
-          "tasa_100k": 164.4
-        },
-        {
-          "localidad": "Santa Fe",
-          "casos": 45,
-          "tasa_100k": 149.6
-        },
-        {
-          "localidad": "Los Mártires",
-          "casos": 34,
-          "tasa_100k": 142.7
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 233,
-          "tasa_100k": 131.4
-        },
-        {
-          "localidad": "Sumapaz",
-          "casos": 1,
-          "tasa_100k": 118.1
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 124,
-          "tasa_100k": 117.2
-        },
-        {
-          "localidad": "Usme",
-          "casos": 112,
-          "tasa_100k": 103.4
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 21,
-          "tasa_100k": 101.5
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 197,
-          "tasa_100k": 101.1
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 267,
-          "tasa_100k": 100.2
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 38,
-          "tasa_100k": 81.0
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 80,
-          "tasa_100k": 80.7
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 46,
-          "tasa_100k": 74.3
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 72,
-          "tasa_100k": 73.6
-        },
-        {
-          "localidad": "Suba",
-          "casos": 218,
-          "tasa_100k": 70.1
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 140,
-          "tasa_100k": 68.7
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 23,
-          "tasa_100k": 65.8
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 25,
-          "tasa_100k": 63.5
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 70,
-          "tasa_100k": 55.1
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 17,
-          "tasa_100k": 45.2
-        }
-      ]
+      "top_causas": [],
+      "por_localidad": []
     },
     {
-      "anio": 2022,
+      "anio": "2022",
       "total": 1697,
       "hombres": 1277,
       "mujeres": 420,
       "tasa_100k": 86.5,
-      "top_causas": [
-        {
-          "causa": "Agresiones (homicidios)",
-          "casos": 495
-        },
-        {
-          "causa": "Accidentes de transporte terrestre",
-          "casos": 242
-        },
-        {
-          "causa": "Lesiones autoinflingidas intencionalmente (suicidios)",
-          "casos": 201
-        },
-        {
-          "causa": "Enfermedades del sistema nervioso, excepto meningitis",
-          "casos": 81
-        },
-        {
-          "causa": "Signos, síntomas y afecciones mal definidas",
-          "casos": 70
-        },
-        {
-          "causa": "Eventos de intención no determinada",
-          "casos": 56
-        },
-        {
-          "causa": "Tumores malignos de otras localizaciones y de las no especificadas",
-          "casos": 47
-        },
-        {
-          "causa": "Resto de enfermedades",
-          "casos": 44
-        },
-        {
-          "causa": "Leucemia",
-          "casos": 43
-        },
-        {
-          "causa": "Enfermedad por VIH (SIDA)",
-          "casos": 42
-        }
-      ],
-      "por_localidad": [
-        {
-          "localidad": "La Candelaria",
-          "casos": 11,
-          "tasa_100k": 198.8
-        },
-        {
-          "localidad": "Los Mártires",
-          "casos": 36,
-          "tasa_100k": 158.2
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 207,
-          "tasa_100k": 118.3
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 114,
-          "tasa_100k": 117.4
-        },
-        {
-          "localidad": "Santa Fe",
-          "casos": 34,
-          "tasa_100k": 117.2
-        },
-        {
-          "localidad": "Usme",
-          "casos": 116,
-          "tasa_100k": 107.9
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 237,
-          "tasa_100k": 90.7
-        },
-        {
-          "localidad": "San Cristóbal",
-          "casos": 93,
-          "tasa_100k": 89.4
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 29,
-          "tasa_100k": 76.6
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 146,
-          "tasa_100k": 74.6
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 15,
-          "tasa_100k": 74.4
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 34,
-          "tasa_100k": 74.3
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 26,
-          "tasa_100k": 72.5
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 141,
-          "tasa_100k": 70.9
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 66,
-          "tasa_100k": 68.2
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 41,
-          "tasa_100k": 67.9
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 83,
-          "tasa_100k": 66.7
-        },
-        {
-          "localidad": "Suba",
-          "casos": 196,
-          "tasa_100k": 63.6
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 19,
-          "tasa_100k": 55.3
-        }
-      ]
+      "top_causas": [],
+      "por_localidad": []
     },
     {
-      "anio": 2023,
+      "anio": "2023",
       "total": 1666,
       "hombres": 1258,
       "mujeres": 408,
       "tasa_100k": 86.5,
+      "top_causas": [],
+      "por_localidad": []
+    },
+    {
+      "anio": "2024",
+      "total": 1678,
+      "hombres": 1267,
+      "mujeres": 411,
+      "tasa_100k": 89.1,
+      "top_causas": [],
+      "por_localidad": []
+    },
+    {
+      "anio": "2025p",
+      "total": 1516,
+      "hombres": 1095,
+      "mujeres": 421,
+      "tasa_100k": 82.3,
       "top_causas": [
         {
           "causa": "Agresiones (homicidios)",
-          "casos": 491
+          "casos": 452
         },
         {
           "causa": "Accidentes de transporte terrestre",
-          "casos": 291
+          "casos": 237
         },
         {
-          "causa": "Lesiones autoinflingidas intencionalmente (suicidios)",
-          "casos": 170
+          "causa": "Lesiones autoinfligidas intencionalmente (suicidios)",
+          "casos": 149
         },
         {
           "causa": "Signos, síntomas y afecciones mal definidas",
-          "casos": 75
+          "casos": 73
         },
         {
           "causa": "Enfermedades del sistema nervioso, excepto meningitis",
-          "casos": 67
-        },
-        {
-          "causa": "Eventos de intención no determinada",
-          "casos": 63
+          "casos": 68
         },
         {
           "causa": "Tumores malignos de otras localizaciones y de las no especificadas",
@@ -780,258 +99,122 @@
           "casos": 43
         },
         {
-          "causa": "Resto de enfermedades",
-          "casos": 39
+          "causa": "Resto de las enfermedades",
+          "casos": 43
         },
         {
-          "causa": "Enfermedad por VIH (SIDA)",
-          "casos": 36
+          "causa": "Infecciones respiratorias agudas",
+          "casos": 37
+        },
+        {
+          "causa": "Eventos de intención no determinada",
+          "casos": 37
         }
       ],
       "por_localidad": [
         {
           "localidad": "Santa Fe",
-          "casos": 48,
-          "tasa_100k": 171.1
+          "casos": 37,
+          "tasa_100k": 144.1
         },
         {
           "localidad": "Los Mártires",
-          "casos": 28,
-          "tasa_100k": 128.3
-        },
-        {
-          "localidad": "La Candelaria",
-          "casos": 7,
-          "tasa_100k": 125.2
+          "casos": 25,
+          "tasa_100k": 126.5
         },
         {
           "localidad": "Ciudad Bolívar",
           "casos": 198,
-          "tasa_100k": 114.8
+          "tasa_100k": 119.3
         },
         {
-          "localidad": "Barrios Unidos",
-          "casos": 37,
-          "tasa_100k": 109.8
+          "localidad": "Teusaquillo",
+          "casos": 36,
+          "tasa_100k": 118.2
         },
         {
-          "localidad": "Usme",
-          "casos": 113,
-          "tasa_100k": 105.8
+          "localidad": "Sumapaz",
+          "casos": 1,
+          "tasa_100k": 108.0
         },
         {
           "localidad": "San Cristóbal",
-          "casos": 99,
-          "tasa_100k": 96.9
+          "casos": 103,
+          "tasa_100k": 105.8
+        },
+        {
+          "localidad": "La Candelaria",
+          "casos": 6,
+          "tasa_100k": 105.1
+        },
+        {
+          "localidad": "Barrios Unidos",
+          "casos": 33,
+          "tasa_100k": 103.4
         },
         {
           "localidad": "Rafael Uribe Uribe",
           "casos": 91,
-          "tasa_100k": 95.8
+          "tasa_100k": 100.6
+        },
+        {
+          "localidad": "Antonio Nariño",
+          "casos": 17,
+          "tasa_100k": 90.8
         },
         {
           "localidad": "Bosa",
-          "casos": 175,
+          "casos": 168,
           "tasa_100k": 90.9
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 212,
-          "tasa_100k": 82.7
         },
         {
           "localidad": "Chapinero",
           "casos": 30,
-          "tasa_100k": 82.0
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 36,
-          "tasa_100k": 80.6
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 15,
-          "tasa_100k": 76.0
+          "tasa_100k": 88.8
         },
         {
           "localidad": "Puente Aranda",
-          "casos": 43,
-          "tasa_100k": 72.9
-        },
-        {
-          "localidad": "Engativá",
-          "casos": 139,
-          "tasa_100k": 71.7
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 21,
-          "tasa_100k": 61.7
-        },
-        {
-          "localidad": "Suba",
-          "casos": 187,
-          "tasa_100k": 61.3
-        },
-        {
-          "localidad": "Fontibón",
-          "casos": 56,
-          "tasa_100k": 58.7
-        },
-        {
-          "localidad": "Usaquén",
-          "casos": 69,
-          "tasa_100k": 56.4
-        }
-      ]
-    },
-    {
-      "anio": 2024,
-      "total": 1678,
-      "hombres": 1267,
-      "mujeres": 411,
-      "tasa_100k": 89.1,
-      "top_causas": [
-        {
-          "causa": "Agresiones (homicidios)",
-          "casos": 509
-        },
-        {
-          "causa": "Accidentes de transporte terrestre",
-          "casos": 313
-        },
-        {
-          "causa": "Lesiones autoinfligidas intencionalmente (suicidios)",
-          "casos": 155
-        },
-        {
-          "causa": "Enfermedades del sistema nervioso, excepto meningitis",
-          "casos": 80
-        },
-        {
-          "causa": "Tumores malignos de otras localizaciones y de las no especificadas",
-          "casos": 67
-        },
-        {
-          "causa": "Signos, síntomas y afecciones mal definidas",
-          "casos": 59
-        },
-        {
-          "causa": "Enfermedad por el VIH (SIDA)",
-          "casos": 45
-        },
-        {
-          "causa": "Infecciones respiratorias agudas",
-          "casos": 38
-        },
-        {
-          "causa": "Eventos de intención no determinada",
-          "casos": 35
-        },
-        {
-          "causa": "Leucemia",
-          "casos": 34
-        }
-      ],
-      "por_localidad": [
-        {
-          "localidad": "Santa Fe",
-          "casos": 51,
-          "tasa_100k": 189.4
-        },
-        {
-          "localidad": "Los Mártires",
-          "casos": 35,
-          "tasa_100k": 168.1
-        },
-        {
-          "localidad": "Ciudad Bolívar",
-          "casos": 232,
-          "tasa_100k": 137.1
-        },
-        {
-          "localidad": "Chapinero",
-          "casos": 34,
-          "tasa_100k": 96.8
+          "casos": 47,
+          "tasa_100k": 84.8
         },
         {
           "localidad": "Usme",
-          "casos": 102,
-          "tasa_100k": 96.7
-        },
-        {
-          "localidad": "Bosa",
-          "casos": 175,
-          "tasa_100k": 92.7
-        },
-        {
-          "localidad": "Kennedy",
-          "casos": 218,
-          "tasa_100k": 86.8
-        },
-        {
-          "localidad": "San Cristóbal",
           "casos": 86,
-          "tasa_100k": 86.2
-        },
-        {
-          "localidad": "Rafael Uribe Uribe",
-          "casos": 78,
-          "tasa_100k": 84.2
-        },
-        {
-          "localidad": "Tunjuelito",
-          "casos": 36,
-          "tasa_100k": 82.9
-        },
-        {
-          "localidad": "Barrios Unidos",
-          "casos": 27,
           "tasa_100k": 82.4
         },
         {
-          "localidad": "La Candelaria",
-          "casos": 4,
-          "tasa_100k": 70.8
+          "localidad": "Tunjuelito",
+          "casos": 34,
+          "tasa_100k": 80.6
+        },
+        {
+          "localidad": "Kennedy",
+          "casos": 184,
+          "tasa_100k": 74.7
         },
         {
           "localidad": "Fontibón",
-          "casos": 64,
-          "tasa_100k": 68.6
-        },
-        {
-          "localidad": "Puente Aranda",
-          "casos": 39,
-          "tasa_100k": 68.2
-        },
-        {
-          "localidad": "Antonio Nariño",
-          "casos": 13,
-          "tasa_100k": 67.6
+          "casos": 58,
+          "tasa_100k": 63.7
         },
         {
           "localidad": "Engativá",
-          "casos": 127,
-          "tasa_100k": 67.3
-        },
-        {
-          "localidad": "Teusaquillo",
-          "casos": 20,
-          "tasa_100k": 62.1
-        },
-        {
-          "localidad": "Suba",
-          "casos": 181,
-          "tasa_100k": 60.2
+          "casos": 115,
+          "tasa_100k": 62.6
         },
         {
           "localidad": "Usaquén",
-          "casos": 70,
-          "tasa_100k": 58.5
+          "casos": 71,
+          "tasa_100k": 60.6
+        },
+        {
+          "localidad": "Suba",
+          "casos": 176,
+          "tasa_100k": 59.4
         }
       ]
     }
   ],
-  "nota": "Defunciones de jóvenes 15-29 años residentes en Bogotá. Tasa por cada 100.000 jóvenes. Fuente: DANE-RUAF-ND / OSB SaludData."
+  "ultimo_anio": "2025p",
+  "nota": "Defunciones de jóvenes 15-29 años residentes en Bogotá. Tasa por cada 100.000 jóvenes del rango 15-29. Causas agrupadas según lista 6/67. Fuente: DANE–RUAF–ND / Observatorio de Salud de Bogotá – SaludData. p: preliminar."
 }

@@ -1,20 +1,21 @@
 # actualizar_fecundidad.py — Dimensión 4: Salud integral y autocuidado
-# Genera fecundidad_adolescente.json desde el CSV del OSB SaludData.
+# Lee datos-dim4.xlsx (hojas Fec_Bogota y Fec_Localidad) y genera fecundidad_adolescente.json.
 #
-# Fuente principal: tasa-de-fecundidad-por-areas.csv (SaludData, OSB)
-#   Columnas: ANIO, Localidad, POBLACION_15_49, GRUPO_EDAD, Nacidos vivos, Tasa
-#   Codificación: UTF-8-BOM; delimitador: coma
-# Uso: python dim4/actualizar_fecundidad.py
+# Flujo de actualización anual:
+#   1. Abrir tablero-cij-compartido/dim4/datos-dim4.xlsx
+#   2. Agregar fila nueva en Fec_Bogota (Bogotá histórico)
+#   3. Reemplazar datos en Fec_Localidad y actualizar celda B1 (año)
+#   4. Correr: python dim4/actualizar_fecundidad.py
+#
+# Requiere: pip install openpyxl
 
 import os
-import csv
 import json
-from collections import defaultdict
+import openpyxl
 
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
-FUENTES_DIR = os.path.join(os.path.dirname(SCRIPT_DIR),
-                           'tablero-cij-compartido', 'dim4', 'fuentes', 'natalidad')
-CSV_PATH    = os.path.join(FUENTES_DIR, 'tasa-de-fecundidad-por-areas.csv')
+EXCEL_PATH  = os.path.join(os.path.dirname(SCRIPT_DIR),
+                            'tablero-cij-compartido', 'dim4', 'datos-dim4.xlsx')
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, 'data', 'fecundidad_adolescente.json')
 
 FUENTE = ('SaludData – Observatorio de Salud de Bogotá. '
@@ -24,111 +25,87 @@ NOTA   = ('Tasa específica de fecundidad = nacidos vivos de madres del grupo de
           'Numerador: DANE–RUAF–ND (SDS), series finales 2014–2023, 2024 preliminar. '
           'Denominador: proyecciones DANE-FONDANE-SDP, CNPV 2018.')
 
-GRUPOS_OBJETIVO = {'10-14', '15-19', '20-24', '25-29'}
-EXCLUIR         = {'sin información', 'sin informacion', 'sin info'}
 
-
-def a_float(s):
-    if not s or not s.strip():
+def a_float(v):
+    if v is None:
         return None
-    return round(float(s.strip().replace(',', '.')), 2)
+    return round(float(v), 2)
 
 
-def a_int(s):
-    if not s or not s.strip():
+def a_int(v):
+    if v is None:
         return 0
-    try:
-        return int(float(s.strip()))
-    except ValueError:
-        return 0
+    return int(v)
 
 
-def llave_grupo(grupo):
-    """Convierte '10-14' → 'tasa_10_14' y 'nv_10_14'."""
-    return grupo.replace('-', '_')
+def leer_fec_bogota(wb):
+    ws = wb['Fec_Bogota']
+    por_anio = []
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not row[0]:
+            break
+        por_anio.append({
+            'anio':       str(row[0]),
+            'nv_10_14':   a_int(row[1]),
+            'tasa_10_14': a_float(row[2]),
+            'nv_15_19':   a_int(row[3]),
+            'tasa_15_19': a_float(row[4]),
+            'nv_20_24':   a_int(row[5]),
+            'tasa_20_24': a_float(row[6]),
+            'nv_25_29':   a_int(row[7]),
+            'tasa_25_29': a_float(row[8]),
+        })
+    return por_anio
+
+
+def leer_fec_localidad(wb):
+    ws = wb['Fec_Localidad']
+    ultimo_anio = str(ws['B1'].value or '').strip()
+    por_localidad = []
+    for row in ws.iter_rows(min_row=3, values_only=True):
+        if not row[0]:
+            break
+        por_localidad.append({
+            'localidad':  str(row[0]),
+            'nv_10_14':   a_int(row[1]),
+            'tasa_10_14': a_float(row[2]) or 0.0,
+            'nv_15_19':   a_int(row[3]),
+            'tasa_15_19': a_float(row[4]) or 0.0,
+            'nv_20_24':   a_int(row[5]),
+            'tasa_20_24': a_float(row[6]) or 0.0,
+            'nv_25_29':   a_int(row[7]),
+            'tasa_25_29': a_float(row[8]) or 0.0,
+        })
+    return por_localidad, ultimo_anio
 
 
 def main():
     print('=' * 60)
-    print('Fecundidad — actualización (4 grupos: 10-14 a 25-29)')
+    print('Fecundidad — actualización desde Excel')
     print('=' * 60)
+    print(f'Excel: {EXCEL_PATH}')
 
-    # datos[anio][localidad][grupo] = {'nv': int, 'tasa': float}
-    datos = defaultdict(lambda: defaultdict(dict))
-
-    with open(CSV_PATH, encoding='utf-8-sig') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            try:
-                anio = int(row['ANIO'])
-            except (ValueError, KeyError):
-                continue
-            if anio >= 2026:
-                continue
-
-            localidad = row.get('Localidad', '').strip()
-            if not localidad or localidad.lower() in EXCLUIR:
-                continue
-
-            grupo = row.get('GRUPO_EDAD', '').strip()
-            if grupo not in GRUPOS_OBJETIVO:
-                continue
-
-            nv   = a_int(row.get('Nacidos vivos', ''))
-            tasa = a_float(row.get('Tasa', ''))
-
-            datos[anio][localidad][grupo] = {'nv': nv, 'tasa': tasa}
-
-    if not datos:
-        print('ERROR: No se encontraron datos en el CSV')
+    if not os.path.exists(EXCEL_PATH):
+        print('ERROR: No se encontró datos-dim4.xlsx')
+        print('  → Correr primero: python dim4/crear_excel_datos.py')
         return
 
-    # Detectar nombre de Bogotá (total ciudad)
-    anios_ordenados = sorted(datos.keys())
-    primer_anio = anios_ordenados[0]
-    bogota_nombre = next(
-        (loc for loc in datos[primer_anio] if loc.lower().startswith('bogot')), None
-    )
-    if not bogota_nombre:
-        print('ERROR: No se encontró fila de Bogotá total en el CSV')
+    wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
+
+    por_anio = leer_fec_bogota(wb)
+    por_localidad, ultimo_anio = leer_fec_localidad(wb)
+    wb.close()
+
+    if not por_anio:
+        print('ERROR: Hoja Fec_Bogota vacía o sin datos.')
         return
-    print(f'Bogotá detectada como: "{bogota_nombre}"')
-
-    # Construir por_anio (Bogotá, todos los años)
-    por_anio = []
-    for anio in anios_ordenados:
-        loc_data = datos[anio].get(bogota_nombre, {})
-        anio_str = f'{anio}p' if anio >= 2024 else str(anio)
-        fila = {'anio': anio_str}
-        for grupo in ['10-14', '15-19', '20-24', '25-29']:
-            g = loc_data.get(grupo, {})
-            clave = llave_grupo(grupo)
-            fila[f'nv_{clave}']   = g.get('nv', 0)
-            fila[f'tasa_{clave}'] = g.get('tasa')
-        por_anio.append(fila)
-
-    # Construir por_localidad (último año, todas las localidades excepto Bogotá total)
-    ultimo_anio = anios_ordenados[-1]
-    ultimo_anio_str = f'{ultimo_anio}p' if ultimo_anio >= 2024 else str(ultimo_anio)
-
-    por_localidad = []
-    for localidad, grupos in datos[ultimo_anio].items():
-        if localidad.lower().startswith('bogot'):
-            continue
-        fila = {'localidad': localidad}
-        for grupo in ['10-14', '15-19', '20-24', '25-29']:
-            g = grupos.get(grupo, {})
-            clave = llave_grupo(grupo)
-            fila[f'nv_{clave}']   = g.get('nv', 0)
-            fila[f'tasa_{clave}'] = g.get('tasa') or 0.0
-        por_localidad.append(fila)
-
-    por_localidad.sort(key=lambda x: x.get('tasa_15_19') or 0, reverse=True)
+    if not ultimo_anio:
+        ultimo_anio = por_anio[-1]['anio']
 
     resultado = {
         'por_anio':      por_anio,
         'por_localidad': por_localidad,
-        'ultimo_anio':   ultimo_anio_str,
+        'ultimo_anio':   ultimo_anio,
         'fuente':        FUENTE,
         'nota':          NOTA,
     }
@@ -137,16 +114,14 @@ def main():
     with open(OUTPUT_PATH, 'w', encoding='utf-8') as f:
         json.dump(resultado, f, ensure_ascii=False, indent=2)
 
-    print(f'Años incluidos: {[r["anio"] for r in por_anio]}')
-    print(f'Localidades: {len(por_localidad)}')
     ult = por_anio[-1]
-    print(
-        f'Último año: {ult["anio"]} — '
-        f'10-14: {ult["nv_10_14"]} NV ({ult["tasa_10_14"]} ‰) | '
-        f'15-19: {ult["nv_15_19"]} NV ({ult["tasa_15_19"]} ‰) | '
-        f'20-24: {ult["nv_20_24"]} NV ({ult["tasa_20_24"]} ‰) | '
-        f'25-29: {ult["nv_25_29"]} NV ({ult["tasa_25_29"]} ‰)'
-    )
+    print(f'\nAños: {[r["anio"] for r in por_anio]}')
+    print(f'Localidades: {len(por_localidad)}')
+    print(f'Último año: {ult["anio"]}')
+    print(f'  10-14: {ult["nv_10_14"]} NV | {ult["tasa_10_14"]} ‰')
+    print(f'  15-19: {ult["nv_15_19"]} NV | {ult["tasa_15_19"]} ‰')
+    print(f'  20-24: {ult["nv_20_24"]} NV | {ult["tasa_20_24"]} ‰')
+    print(f'  25-29: {ult["nv_25_29"]} NV | {ult["tasa_25_29"]} ‰')
     print(f'\nArchivo: {OUTPUT_PATH}')
 
 
