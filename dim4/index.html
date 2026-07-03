@@ -188,58 +188,50 @@
     <hr style="border:none; border-top:3px solid var(--azul); margin:2.5rem 0 1.5rem;">
 
     <p class="page-subtitle">
-      <span>4.3 Fecundidad adolescente (10 a 14 y 15 a 19 años) — Bogotá D.C.</span><br>
+      <span>4.3 Tasa específica de fecundidad en jóvenes (10-29 años) — Bogotá D.C.</span><br>
       Fuente: SaludData – Observatorio de Salud de Bogotá · Población: DANE, proyecciones CNPV 2018<br>
       <span id="lbl-fec-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
 
     <div class="kpis-row">
       <div class="kpi-group">
-        <div class="kpi-group-title">Mujeres de 10 a 14 años — <span id="lbl-fec-anio1"></span></div>
+        <div class="kpi-group-title">Adolescentes — <span id="lbl-fec-anio1"></span></div>
         <div class="kpi-cards">
           <div class="kpi-card" style="background:#fdf0f0;">
             <div class="kpi-valor" id="kpi-fec-tasa1014" style="color:var(--rojo);">–</div>
-            <div class="kpi-label">Tasa por cada 1.000</div>
+            <div class="kpi-label">10 a 14 años · tasa ‰</div>
           </div>
-          <div class="kpi-card" style="background:#fdf0f0;">
-            <div class="kpi-valor" id="kpi-fec-nv1014" style="color:var(--rojo);">–</div>
-            <div class="kpi-label">Nacidos vivos</div>
+          <div class="kpi-card natalidad">
+            <div class="kpi-valor" id="kpi-fec-tasa1519">–</div>
+            <div class="kpi-label">15 a 19 años · tasa ‰</div>
           </div>
         </div>
       </div>
       <div class="kpi-group">
-        <div class="kpi-group-title">Mujeres de 15 a 19 años — <span id="lbl-fec-anio2"></span></div>
+        <div class="kpi-group-title">Jóvenes (rango 14-28) — <span id="lbl-fec-anio2"></span></div>
         <div class="kpi-cards">
-          <div class="kpi-card natalidad">
-            <div class="kpi-valor" id="kpi-fec-tasa1519">–</div>
-            <div class="kpi-label">Tasa por cada 1.000</div>
+          <div class="kpi-card" style="background:#e8f0f8;">
+            <div class="kpi-valor" id="kpi-fec-tasa2024" style="color:var(--azul-oscuro);">–</div>
+            <div class="kpi-label">20 a 24 años · tasa ‰</div>
           </div>
-          <div class="kpi-card natalidad">
-            <div class="kpi-valor" id="kpi-fec-nv1519">–</div>
-            <div class="kpi-label">Nacidos vivos</div>
+          <div class="kpi-card" style="background:#fef3e8;">
+            <div class="kpi-valor" id="kpi-fec-tasa2529" style="color:var(--naranja);">–</div>
+            <div class="kpi-label">25 a 29 años · tasa ‰</div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid-2col" style="margin-bottom:1.5rem;">
-      <div class="card">
-        <div class="card-title">Tasa de fecundidad — 10 a 14 años (por cada 1.000)</div>
-        <div class="chart-container">
-          <canvas id="chart-fec-hist1014"></canvas>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Tasa de fecundidad — 15 a 19 años (por cada 1.000)</div>
-        <div class="chart-container">
-          <canvas id="chart-fec-hist1519"></canvas>
         </div>
       </div>
     </div>
 
     <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Tasa específica de fecundidad por grupo de edad — Bogotá D.C. (por cada 1.000 mujeres)</div>
+      <div class="chart-container" style="height:340px;">
+        <canvas id="chart-fec-historico"></canvas>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
       <div class="card-title">Tasa de fecundidad por localidad — <span id="lbl-fec-loc-anio"></span></div>
-      <div class="chart-container" style="height:520px;">
+      <div class="chart-container" style="height:600px;">
         <canvas id="chart-fec-localidad"></canvas>
       </div>
     </div>
@@ -402,9 +394,16 @@ function renderDisc() {
 }
 
 // ============================================================
-// 4.3 Fecundidad adolescente
+// 4.3 Fecundidad adolescente y jóvenes
 // ============================================================
-let FEC = null, chartFec1014 = null, chartFec1519 = null, chartFecLoc = null;
+let FEC = null, chartFecHist = null, chartFecLoc = null;
+
+const FEC_SERIES = [
+  { key: 'tasa_10_14', label: '10 a 14 años', color: '#b5302a' },
+  { key: 'tasa_15_19', label: '15 a 19 años', color: '#3a7fc1' },
+  { key: 'tasa_20_24', label: '20 a 24 años', color: '#1a4a7a' },
+  { key: 'tasa_25_29', label: '25 a 29 años', color: '#e07830' },
+];
 
 fetch('data/fecundidad_adolescente.json')
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -413,69 +412,40 @@ fetch('data/fecundidad_adolescente.json')
 
 function renderFec() {
   const ultimo = FEC.ultimo_anio;
-  document.getElementById('lbl-fec-anio1').textContent = ultimo;
-  document.getElementById('lbl-fec-anio2').textContent = ultimo;
-  document.getElementById('lbl-fec-loc-anio').textContent = ultimo;
+  ['lbl-fec-anio1', 'lbl-fec-anio2', 'lbl-fec-loc-anio'].forEach(id => {
+    document.getElementById(id).textContent = ultimo;
+  });
   if (FEC.fuente) document.getElementById('lbl-fec-corte').textContent = FEC.fuente;
 
   const ult = FEC.por_anio[FEC.por_anio.length - 1];
   document.getElementById('kpi-fec-tasa1014').textContent = ult.tasa_10_14 != null ? fmtDec(ult.tasa_10_14, 2) + ' ‰' : '–';
-  document.getElementById('kpi-fec-nv1014').textContent   = fmtNum(ult.nv_10_14);
   document.getElementById('kpi-fec-tasa1519').textContent = ult.tasa_15_19 != null ? fmtDec(ult.tasa_15_19, 2) + ' ‰' : '–';
-  document.getElementById('kpi-fec-nv1519').textContent   = fmtNum(ult.nv_15_19);
+  document.getElementById('kpi-fec-tasa2024').textContent = ult.tasa_20_24 != null ? fmtDec(ult.tasa_20_24, 2) + ' ‰' : '–';
+  document.getElementById('kpi-fec-tasa2529').textContent = ult.tasa_25_29 != null ? fmtDec(ult.tasa_25_29, 2) + ' ‰' : '–';
 
-  const labels = FEC.por_anio.map(d => d.anio);
-
-  if (chartFec1014) chartFec1014.destroy();
-  chartFec1014 = buildComboFec(
-    'chart-fec-hist1014', labels,
-    FEC.por_anio.map(d => d.nv_10_14),
-    FEC.por_anio.map(d => d.tasa_10_14),
-    '#f5c6c4', '#b5302a', 'Nacidos vivos 10-14', 'Tasa 10-14 ‰'
-  );
-
-  if (chartFec1519) chartFec1519.destroy();
-  chartFec1519 = buildComboFec(
-    'chart-fec-hist1519', labels,
-    FEC.por_anio.map(d => d.nv_15_19),
-    FEC.por_anio.map(d => d.tasa_15_19),
-    '#b8d4ee', '#3a7fc1', 'Nacidos vivos 15-19', 'Tasa 15-19 ‰'
-  );
-
+  renderFecHistorico();
   renderFecLocalidad();
 }
 
-function buildComboFec(id, labels, nvData, tasaData, barColor, lineColor, labelNV, labelTasa) {
-  return new Chart(document.getElementById(id), {
-    type: 'bar',
+function renderFecHistorico() {
+  const labels = FEC.por_anio.map(d => d.anio);
+  if (chartFecHist) chartFecHist.destroy();
+  chartFecHist = new Chart(document.getElementById('chart-fec-historico'), {
+    type: 'line',
     data: {
       labels,
-      datasets: [
-        {
-          type: 'bar',
-          label: labelNV,
-          data: nvData,
-          backgroundColor: barColor,
-          yAxisID: 'yNV',
-          borderRadius: 3,
-          order: 2
-        },
-        {
-          type: 'line',
-          label: labelTasa,
-          data: tasaData,
-          borderColor: lineColor,
-          backgroundColor: lineColor,
-          borderWidth: 2.5,
-          pointRadius: 5,
-          pointBackgroundColor: '#fff',
-          pointBorderColor: lineColor,
-          pointBorderWidth: 2,
-          tension: 0.25,
-          yAxisID: 'yTasa',
-          order: 1
-        }
-      ]
+      datasets: FEC_SERIES.map(s => ({
+        label: s.label,
+        data: FEC.por_anio.map(d => d[s.key]),
+        borderColor: s.color,
+        backgroundColor: s.color,
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: s.color,
+        pointBorderWidth: 2,
+        tension: 0.25,
+      }))
     },
     options: {
       responsive: true, maintainAspectRatio: false,
@@ -483,41 +453,38 @@ function buildComboFec(id, labels, nvData, tasaData, barColor, lineColor, labelN
       plugins: {
         legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } },
         tooltip: { callbacks: {
-          label: ctx => ctx.datasetIndex === 0
-            ? labelNV + ': ' + fmtNum(ctx.parsed.y)
-            : labelTasa + ': ' + fmtDec(ctx.parsed.y, 2)
+          label: ctx => {
+            const nvKey = FEC_SERIES[ctx.datasetIndex].key.replace('tasa_', 'nv_');
+            return ctx.dataset.label + ': ' + fmtDec(ctx.parsed.y, 2) + ' ‰'
+              + ' (' + fmtNum(FEC.por_anio[ctx.dataIndex][nvKey]) + ' NV)';
+          }
         } }
       },
       scales: {
-        yNV: {
-          type: 'linear', position: 'left',
-          ticks: { callback: v => fmtNum(v), font: { size: 10 } },
+        y: {
+          ticks: { callback: v => fmtDec(v, 0) + ' ‰', font: { size: 10 } },
           grid: { color: '#ecf0f1' },
-          title: { display: true, text: 'Nacidos vivos', font: { size: 10 }, color: '#7f8c8d' }
-        },
-        yTasa: {
-          type: 'linear', position: 'right',
-          ticks: { callback: v => fmtDec(v, 1) + ' ‰', font: { size: 10 } },
-          grid: { drawOnChartArea: false },
-          title: { display: true, text: 'Tasa ‰', font: { size: 10 }, color: lineColor }
+          title: { display: true, text: 'Nacidos vivos por cada 1.000 mujeres del grupo de edad', font: { size: 10 }, color: '#7f8c8d' }
         },
         x: { ticks: { font: { size: 11 } }, grid: { display: false } }
       }
     },
     plugins: [{
-      id: 'lblTasa_' + id,
+      id: 'lblFecHist',
       afterDatasetsDraw(chart) {
         const ctx = chart.ctx;
-        const meta = chart.getDatasetMeta(1);
-        meta.data.forEach((point, i) => {
-          const val = tasaData[i];
+        FEC_SERIES.forEach((s, si) => {
+          const meta = chart.getDatasetMeta(si);
+          const lastPt = meta.data[meta.data.length - 1];
+          if (!lastPt) return;
+          const val = FEC.por_anio[FEC.por_anio.length - 1][s.key];
           if (val == null) return;
           ctx.save();
-          ctx.fillStyle = lineColor;
+          ctx.fillStyle = s.color;
           ctx.font = 'bold 10px Segoe UI,system-ui,sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'bottom';
-          ctx.fillText(fmtDec(val, 2), point.x, point.y - 6);
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(fmtDec(val, 1) + ' ‰', lastPt.x + 5, lastPt.y);
           ctx.restore();
         });
       }
@@ -527,25 +494,18 @@ function buildComboFec(id, labels, nvData, tasaData, barColor, lineColor, labelN
 
 function renderFecLocalidad() {
   const locs = FEC.por_localidad;
+  const nvKeys = ['nv_10_14', 'nv_15_19', 'nv_20_24', 'nv_25_29'];
   if (chartFecLoc) chartFecLoc.destroy();
   chartFecLoc = new Chart(document.getElementById('chart-fec-localidad'), {
     type: 'bar',
     data: {
       labels: locs.map(l => l.localidad),
-      datasets: [
-        {
-          label: '15 a 19 años',
-          data: locs.map(l => l.tasa_15_19),
-          backgroundColor: '#3a7fc1',
-          borderRadius: 3
-        },
-        {
-          label: '10 a 14 años',
-          data: locs.map(l => l.tasa_10_14),
-          backgroundColor: '#b5302a',
-          borderRadius: 3
-        }
-      ]
+      datasets: FEC_SERIES.map((s, si) => ({
+        label: s.label,
+        data: locs.map(l => l[s.key]),
+        backgroundColor: s.color,
+        borderRadius: 2,
+      }))
     },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false,
@@ -554,7 +514,7 @@ function renderFecLocalidad() {
         tooltip: { callbacks: {
           label: ctx => {
             const l = locs[ctx.dataIndex];
-            const nv = ctx.datasetIndex === 0 ? l.nv_15_19 : l.nv_10_14;
+            const nv = l[nvKeys[ctx.datasetIndex]];
             return ctx.dataset.label + ': ' + fmtDec(ctx.parsed.x, 2) + ' ‰ (' + fmtNum(nv) + ' NV)';
           }
         } }
@@ -563,22 +523,7 @@ function renderFecLocalidad() {
         x: { ticks: { callback: v => fmtDec(v, 0) + ' ‰', font: { size: 10 } }, grid: { color: '#ecf0f1' } },
         y: { ticks: { font: { size: 10 } }, grid: { display: false } }
       }
-    },
-    plugins: [{
-      id: 'blFecLoc', afterDatasetsDraw(chart) {
-        const ctx = chart.ctx;
-        chart.getDatasetMeta(0).data.forEach((bar, i) => {
-          const val = locs[i].tasa_15_19;
-          if (bar.x - bar.base > 45) {
-            ctx.save(); ctx.fillStyle = '#fff';
-            ctx.font = 'bold 10px Segoe UI,system-ui,sans-serif';
-            ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-            ctx.fillText(fmtDec(val, 1), bar.x - 6, bar.y);
-            ctx.restore();
-          }
-        });
-      }
-    }]
+    }
   });
 }
 
