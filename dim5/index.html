@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Información de Juventud – Dimensión 5: Cultura, Recreación y Deporte</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --dorado:        #8c6d10;
+      --dorado-claro:  #c9a51a;
+      --dorado-fondo:  #fdf8e8;
+      --verde-sat:     #2e7d32;
+      --verde-claro:   #81c784;
+      --rojo-sat:      #c62828;
+      --naranja-sat:   #e65100;
+      --gris-oscuro:   #2c3e50;
+      --gris:          #7f8c8d;
+      --gris-claro:    #ecf0f1;
+      --blanco:        #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
+      line-height: 1.5;
+    }
+    .header {
+      background: var(--dorado);
+      color: var(--blanco);
+      padding: 1.2rem 2rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .header svg { width: 32px; height: 32px; fill: var(--blanco); flex-shrink: 0; }
+    .header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+    .header .btn-home {
+      color: var(--blanco); text-decoration: none; font-size: 0.85rem;
+      font-weight: 500; padding: 6px 14px;
+      border: 1.5px solid rgba(255,255,255,0.5); border-radius: 6px;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
+    .container { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
+    .page-subtitle { font-size: 1.05rem; color: var(--gris); margin-bottom: 1rem; }
+    .page-subtitle span { font-weight: 600; color: var(--gris-oscuro); }
+    .page-subtitle .meta { font-size: 0.8em; font-weight: 400; color: #888; }
+
+    .kpis-top {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .kpi-card {
+      background: var(--blanco); border-radius: 10px;
+      padding: 1.2rem 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+    .kpi-card.cultura { background: var(--dorado-fondo); border-top: 3px solid var(--dorado-claro); }
+    .kpi-valor { font-size: 2rem; font-weight: 700; color: var(--dorado); }
+    .kpi-label { font-size: 0.8rem; color: var(--gris); margin-top: 4px; line-height: 1.3; }
+    .kpi-sublabel { font-size: 0.72rem; color: #aaa; margin-top: 2px; }
+
+    .kpi-grande {
+      background: var(--dorado); color: var(--blanco);
+      border-radius: 10px; padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .kpi-grande .numero { font-size: 3.5rem; font-weight: 800; line-height: 1; }
+    .kpi-grande .texto { flex: 1; min-width: 180px; }
+    .kpi-grande .texto strong { font-size: 1.1rem; display: block; margin-bottom: 4px; }
+    .kpi-grande .texto span { font-size: 0.85rem; opacity: 0.85; }
+
+    .grid-2col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
+    }
+    @media (max-width: 900px) { .grid-2col { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--blanco); border-radius: 10px;
+      padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      font-size: 0.82rem; font-weight: 700; color: var(--gris);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
+    }
+    .chart-container { position: relative; }
+
+    hr.sep {
+      border: none; border-top: 3px solid var(--dorado-claro);
+      margin: 2.5rem 0 1.5rem;
+    }
+    .nota-metodologica {
+      background: #fffdf0; border-left: 3px solid var(--dorado-claro);
+      padding: 0.8rem 1rem; border-radius: 0 6px 6px 0;
+      font-size: 0.78rem; color: var(--gris); margin-bottom: 1.5rem;
+    }
+    .footer {
+      margin-top: 1.5rem; padding: 1rem 1.5rem;
+      font-size: 0.78rem; color: var(--gris);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+    <h1>Dimensión 5 – Cultura, Recreación y Deporte</h1>
+    <a href="../index.html" class="btn-home">&#8592; Inicio</a>
+  </div>
+
+  <div class="container">
+
+    <!-- ============================================================ -->
+    <!-- 5.1 Satisfacción con la oferta cultural y recreativa (BCV) -->
+    <!-- ============================================================ -->
+    <p class="page-subtitle">
+      <span>5.1 Satisfacción con la oferta cultural y recreativa — Bogotá</span><br>
+      Fuente: Encuesta de Percepción Ciudadana – Bogotá Cómo Vamos 2025 · Jóvenes 18-25 años (n = 225)<br>
+      <span class="meta">Período: 2025 · Actualización fuente: 2025</span>
+    </p>
+
+    <div class="kpis-top">
+      <div class="kpi-card cultura">
+        <div class="kpi-valor" id="kpi-sat-cultural">–</div>
+        <div class="kpi-label">Satisfechos con oferta cultural</div>
+        <div class="kpi-sublabel">CUL_2 · escala 1-5</div>
+      </div>
+      <div class="kpi-card cultura">
+        <div class="kpi-valor" id="kpi-sat-recreativa">–</div>
+        <div class="kpi-label">Satisfechos con oferta recreativa y deportiva</div>
+        <div class="kpi-sublabel">CUL_1 · escala 1-5</div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 5.2 Prácticas culturales (Encuesta Bienal) -->
+    <!-- ============================================================ -->
+    <hr class="sep">
+
+    <p class="page-subtitle">
+      <span>5.2 Prácticas culturales y artísticas — Bogotá</span><br>
+      Fuente: Encuesta Bienal de Culturas 2025 – Secretaría de Cultura, Recreación y Deporte<br>
+      <span class="meta">Período: 2025 · Población representada: 6.763.265 · Actualización: cada dos años</span>
+    </p>
+
+    <div class="nota-metodologica">
+      El grupo <strong>13-28 años</strong> de la Encuesta Bienal es el proxy más cercano a la definición legal de juventud (14-28 años, Ley 1622/2013 y Ley 1885/2018). Los datos se presentan comparados con los grupos 29-59 años y 60 o más para contextualizar el comportamiento juvenil frente al promedio de la ciudad.
+    </div>
+
+    <!-- KPI grande: práctica cultural -->
+    <div class="kpi-grande">
+      <div class="numero" id="kpi-practica">14,5%</div>
+      <div class="texto">
+        <strong>de los jóvenes (13-28 años) practica alguna actividad cultural, artística o creativa en Bogotá</strong>
+        <span>¿Practica actualmente alguna actividad cultural, artística o creativa? · Respuesta: Sí</span>
+      </div>
+    </div>
+
+    <!-- Gráficas principales -->
+    <div class="grid-2col">
+
+      <div class="card">
+        <div class="card-title">Satisfacción con actividades culturales del Distrito</div>
+        <div style="font-size:0.75rem; color:var(--gris); margin-bottom:1rem; line-height:1.4;">
+          ¿Cuál es su nivel de satisfacción con las actividades que organizan las entidades del Distrito en su localidad? · Escala 1 (Nada) a 4 (Muy satisfecho/a)
+        </div>
+        <div class="chart-container" style="height:240px;">
+          <canvas id="chart-satisfaccion"></canvas>
+        </div>
+        <div style="margin-top:0.8rem; font-size:0.75rem; color:var(--gris);">
+          Jóvenes 13-28 satisfechos o muy satisfechos: <strong id="pct-satisfechos-jovenes">–</strong>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Participación en actividades culturales y artísticas</div>
+        <div style="font-size:0.75rem; color:var(--gris); margin-bottom:1rem; line-height:1.4;">
+          En los últimos 12 meses, ¿cuál de las siguientes actividades practicó o realizó? · % que respondió Sí por grupo de edad
+        </div>
+        <div class="chart-container" style="height:240px;">
+          <canvas id="chart-participacion"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <span>Fuentes: Encuesta Bienal de Culturas 2025 (Sec. Cultura, Recreación y Deporte) · Encuesta de Percepción Ciudadana 2025 (Bogotá Cómo Vamos)</span>
+      <span>Subdirección para la Juventud – SDIS · Bogotá D.C.</span>
+    </div>
+
+  </div>
+
+<script>
+// ============================================================
+// Utilidades
+// ============================================================
+function fmtDec(v, d) {
+  if (v == null || isNaN(v)) return '–';
+  return v.toFixed(d).replace('.', ',');
+}
+
+// ============================================================
+// 5.1 Satisfacción BCV
+// ============================================================
+fetch('data/cultura_recreacion.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(d => {
+    const pctCult = d.cultural?.satisfaccion?.satisfecho;
+    const pctRec  = d.recreativa?.satisfaccion?.satisfecho;
+    if (pctCult != null) document.getElementById('kpi-sat-cultural').textContent   = fmtDec(pctCult, 1) + '%';
+    if (pctRec  != null) document.getElementById('kpi-sat-recreativa').textContent = fmtDec(pctRec, 1) + '%';
+  })
+  .catch(() => {});
+
+// ============================================================
+// 5.2 Encuesta Bienal de Culturas
+// ============================================================
+fetch('data/bienal_culturas.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(d => {
+    // KPI práctica cultural
+    const pct = d.practica_cultural_actual?.jovenes_13_28;
+    if (pct != null) document.getElementById('kpi-practica').textContent = fmtDec(pct, 1) + '%';
+
+    renderSatisfaccion(d.satisfaccion_oferta_distrital);
+    renderParticipacion(d.participacion_actividades);
+  })
+  .catch(err => console.warn('bienal_culturas.json:', err));
+
+// ------------------------------------------------------------
+// Chart satisfacción (barras apiladas horizontales)
+// ------------------------------------------------------------
+function renderSatisfaccion(sat) {
+  const grupos  = ['13-28 años', '29-59 años', '60 o más'];
+  const data    = [sat.jovenes_13_28, sat.adultos_29_59, sat.mayores_60_mas];
+  const niveles = [
+    { key: 'nada',          label: '1. Nada satisfecho/a',  color: '#c62828' },
+    { key: 'poco',          label: '2. Poco satisfecho/a',  color: '#ef6c00' },
+    { key: 'satisfecho',    label: '3. Satisfecho/a',       color: '#81c784' },
+    { key: 'muy_satisfecho',label: '4. Muy satisfecho/a',   color: '#2e7d32' },
+  ];
+
+  // Calcular pct satisfechos jóvenes para el texto bajo el gráfico
+  const j = sat.jovenes_13_28;
+  const pctSat = (j.satisfecho + j.muy_satisfecho);
+  document.getElementById('pct-satisfechos-jovenes').textContent = fmtDec(pctSat, 1) + '%';
+
+  new Chart(document.getElementById('chart-satisfaccion'), {
+    type: 'bar',
+    data: {
+      labels: grupos,
+      datasets: niveles.map(n => ({
+        label: n.label,
+        data: data.map(g => g[n.key]),
+        backgroundColor: n.color,
+        borderRadius: 2,
+      }))
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'rect', font: { size: 10 }, boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + fmtDec(ctx.parsed.x, 1) + '%'
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          ticks: { callback: v => v + '%', font: { size: 10 } },
+          grid: { color: '#ecf0f1' }, max: 100,
+        },
+        y: { stacked: true, ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+// ------------------------------------------------------------
+// Chart participación (barras agrupadas horizontales)
+// ------------------------------------------------------------
+function renderParticipacion(part) {
+  const actividades = part.actividades;
+  const labels      = actividades.map(a => a.nombre);
+  const grupos = [
+    { key: 'jovenes_13_28',  label: '13-28 años', color: '#c9a51a' },
+    { key: 'adultos_29_59',  label: '29-59 años', color: '#8c6d10' },
+    { key: 'mayores_60_mas', label: '60 o más',   color: '#4e3b06' },
+  ];
+
+  new Chart(document.getElementById('chart-participacion'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: grupos.map(g => ({
+        label: g.label,
+        data: actividades.map(a => a[g.key]),
+        backgroundColor: g.color,
+        borderRadius: 2,
+      }))
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'rect', font: { size: 10 }, boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + fmtDec(ctx.parsed.x, 1) + '%'
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#ecf0f1' }, max: 80 },
+        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

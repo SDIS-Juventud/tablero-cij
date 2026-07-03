@@ -1,0 +1,27 @@
+{
+  "fuente": "Encuesta Bienal de Culturas 2025 — Secretaría de Cultura, Recreación y Deporte de Bogotá",
+  "poblacion_representada": 6763265,
+  "corte": "2025",
+  "nota": "Grupo de edad 13-28 años como proxy de juventud (Ley 1622/2013 define 14-28 años). Encuesta bienal: actualización cada dos años. Fuente: Observatorio de Culturas — Secretaría de Cultura, Recreación y Deporte.",
+  "practica_cultural_actual": {
+    "pregunta": "¿Practica actualmente alguna actividad cultural, artística o creativa?",
+    "jovenes_13_28": 14.5,
+    "adultos_29_59": 14.5,
+    "mayores_60_mas": 14.3
+  },
+  "satisfaccion_oferta_distrital": {
+    "pregunta": "¿Cuál es su nivel de satisfacción con las actividades culturales y artísticas que organizan las entidades del Distrito en su localidad? (escala 1-4)",
+    "jovenes_13_28": { "nada": 18.8, "poco": 15.1, "satisfecho": 56.6, "muy_satisfecho": 9.5 },
+    "adultos_29_59": { "nada": 12.2, "poco": 27.2, "satisfecho": 52.3, "muy_satisfecho": 8.3 },
+    "mayores_60_mas": { "nada": 10.3, "poco": 29.3, "satisfecho": 53.7, "muy_satisfecho": 6.7 }
+  },
+  "participacion_actividades": {
+    "pregunta": "En los últimos 12 meses, ¿cuál de las siguientes actividades practicó o realizó?",
+    "actividades": [
+      { "nombre": "Cantar, crear o componer música", "jovenes_13_28": 54.0, "adultos_29_59": 55.1, "mayores_60_mas": 50.9 },
+      { "nombre": "Recorridos por el centro histórico", "jovenes_13_28": 44.7, "adultos_29_59": 26.6, "mayores_60_mas": 23.1 },
+      { "nombre": "Obras de teatro", "jovenes_13_28": 37.5, "adultos_29_59": 34.9, "mayores_60_mas": 34.6 },
+      { "nombre": "Comprar libros o publicaciones", "jovenes_13_28": 33.5, "adultos_29_59": 27.5, "mayores_60_mas": 25.0 }
+    ]
+  }
+}
