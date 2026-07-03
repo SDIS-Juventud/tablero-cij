@@ -205,6 +205,7 @@
       <span id="lbl-fec-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
 
+
     <div class="kpis-row">
       <div class="kpi-group">
         <div class="kpi-group-title">Adolescentes — <span id="lbl-fec-anio1"></span></div>
@@ -257,7 +258,8 @@
 
     <p class="page-subtitle">
       <span>4.4 Mortalidad en jóvenes (15-29 años) — Bogotá</span><br>
-      Fuente: DANE – RUAF – ND / Observatorio de Salud de Bogotá – SaludData
+      Fuente: DANE – RUAF – ND / Observatorio de Salud de Bogotá – SaludData<br>
+      <span id="lbl-mort-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
 
     <div class="filtros">
@@ -429,7 +431,10 @@ function renderFec() {
   ['lbl-fec-anio1', 'lbl-fec-anio2', 'lbl-fec-loc-anio'].forEach(id => {
     document.getElementById(id).textContent = ultimo;
   });
-  if (FEC.fuente) document.getElementById('lbl-fec-corte').textContent = FEC.fuente;
+  const primerAnio = FEC.por_anio[0].anio;
+  const corteStr = FEC.corte ? ' · Actualización fuente: ' + FEC.corte : '';
+  document.getElementById('lbl-fec-corte').textContent =
+    'Período: ' + primerAnio + ' – ' + ultimo + corteStr;
 
   const ult = FEC.por_anio[FEC.por_anio.length - 1];
   document.getElementById('kpi-fec-tasa1014').textContent = ult.tasa_10_14 != null ? fmtDec(ult.tasa_10_14, 2) + ' ‰' : '–';
@@ -604,6 +609,12 @@ function initMort() {
   });
   sel.value = anios[anios.length - 1];
   sel.onchange = actualizarMort;
+
+  // Período y actualización
+  const primerAnioM = anios[0];
+  const corteStrM = MORT.corte ? ' · Actualización fuente: ' + MORT.corte : '';
+  document.getElementById('lbl-mort-corte').textContent =
+    'Período: ' + primerAnioM + ' – ' + anios[anios.length - 1] + corteStrM;
 
   // Causas y localidades fijas al último año disponible (siempre más completo)
   const ultimo = MORT.por_anio[MORT.por_anio.length - 1];

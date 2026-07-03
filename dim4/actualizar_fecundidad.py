@@ -18,6 +18,7 @@ EXCEL_PATH  = os.path.join(os.path.dirname(SCRIPT_DIR),
                             'tablero-cij-compartido', 'dim4', 'datos-dim4.xlsx')
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, 'data', 'fecundidad_adolescente.json')
 
+CORTE  = '11/06/2026'  # actualizar cada año con la fecha de descarga desde SaludData
 FUENTE = ('SaludData – Observatorio de Salud de Bogotá. '
           'Actualización fuente: 11/06/2026. p: preliminar.')
 NOTA   = ('Tasa específica de fecundidad = nacidos vivos de madres del grupo de edad '
@@ -106,6 +107,7 @@ def main():
         'por_anio':      por_anio,
         'por_localidad': por_localidad,
         'ultimo_anio':   ultimo_anio,
+        'corte':         CORTE,
         'fuente':        FUENTE,
         'nota':          NOTA,
     }

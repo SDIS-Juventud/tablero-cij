@@ -18,6 +18,7 @@ EXCEL_PATH  = os.path.join(os.path.dirname(SCRIPT_DIR),
                             'tablero-cij-compartido', 'dim4', 'datos-dim4.xlsx')
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, 'data', 'mortalidad.json')
 
+CORTE = '11/06/2026'  # actualizar cada año con la fecha de descarga desde SaludData
 NOTA = ('Defunciones de jóvenes 15-29 años residentes en Bogotá. '
         'Tasa por cada 100.000 jóvenes del rango 15-29. '
         'Causas agrupadas según lista 6/67. '
@@ -117,6 +118,7 @@ def main():
     resultado = {
         'por_anio':   registros,
         'ultimo_anio': ultimo_anio,
+        'corte':       CORTE,
         'nota':        NOTA,
     }
 

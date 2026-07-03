@@ -356,6 +356,7 @@
     }
   ],
   "ultimo_anio": "2025p",
+  "corte": "11/06/2026",
   "fuente": "SaludData – Observatorio de Salud de Bogotá. Actualización fuente: 11/06/2026. p: preliminar.",
   "nota": "Tasa específica de fecundidad = nacidos vivos de madres del grupo de edad por cada 1.000 mujeres del mismo grupo. Numerador: DANE–RUAF–ND (SDS), series finales 2014–2023, 2024 preliminar. Denominador: proyecciones DANE-FONDANE-SDP, CNPV 2018."
 }
