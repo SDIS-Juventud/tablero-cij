@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Centro de Información de Juventud - Dimensión 4: Salud integral y autocuidado</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
       --rojo: #b5302a;
@@ -121,7 +119,6 @@
       text-align: center; color: var(--gris); margin-bottom: 1.5rem;
     }
     .pendiente-msg strong { color: var(--gris-oscuro); }
-    #map-natalidad { height: 400px; border-radius: 8px; }
     .footer {
       margin-top: 1.5rem; padding: 1rem 1.5rem; font-size: 0.8rem; color: var(--gris);
     }
@@ -186,70 +183,64 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- 4.3 Natalidad -->
+    <!-- 4.3 Fecundidad adolescente -->
     <!-- ============================================================ -->
     <hr style="border:none; border-top:3px solid var(--azul); margin:2.5rem 0 1.5rem;">
 
     <p class="page-subtitle">
-      <span>4.3 Tasa de natalidad por cada mil en jóvenes</span><br>
-      Fuente: Observatorio de Salud de Bogotá – SaludData · Población: DANE, proyecciones CNPV 2018
+      <span>4.3 Fecundidad adolescente (10 a 14 y 15 a 19 años) — Bogotá D.C.</span><br>
+      Fuente: SaludData – Observatorio de Salud de Bogotá · Población: DANE, proyecciones CNPV 2018<br>
+      <span id="lbl-fec-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
-
-    <div class="filtros">
-      <div class="filtro-grupo">
-        <label>Año</label>
-        <select class="filtro-select" id="filtro-anio-nat"></select>
-      </div>
-      <div class="filtro-grupo">
-        <label>Grupo de edad</label>
-        <select class="filtro-select" id="filtro-grupo-nat">
-          <option value="total" selected>Todas (15-29)</option>
-          <option value="15_19">15 a 19 años</option>
-          <option value="20_24">20 a 24 años</option>
-          <option value="25_29">25 a 29 años</option>
-        </select>
-      </div>
-    </div>
 
     <div class="kpis-row">
       <div class="kpi-group">
-        <div class="kpi-group-title">Indicadores de natalidad en jóvenes</div>
+        <div class="kpi-group-title">Mujeres de 10 a 14 años — <span id="lbl-fec-anio1"></span></div>
         <div class="kpi-cards">
-          <div class="kpi-card natalidad">
-            <div class="kpi-valor" id="kpi-tasa-nat">–</div>
-            <div class="kpi-label">Tasa por cada mil</div>
+          <div class="kpi-card" style="background:#fdf0f0;">
+            <div class="kpi-valor" id="kpi-fec-tasa1014" style="color:var(--rojo);">–</div>
+            <div class="kpi-label">Tasa por cada 1.000</div>
           </div>
-          <div class="kpi-card natalidad">
-            <div class="kpi-valor" id="kpi-nacidos">–</div>
+          <div class="kpi-card" style="background:#fdf0f0;">
+            <div class="kpi-valor" id="kpi-fec-nv1014" style="color:var(--rojo);">–</div>
             <div class="kpi-label">Nacidos vivos</div>
           </div>
         </div>
       </div>
       <div class="kpi-group">
-        <div class="kpi-group-title">Nacidos vivos por grupo de edad de la madre</div>
-        <div class="chart-container" style="height:140px;">
-          <canvas id="chart-nat-grupos"></canvas>
+        <div class="kpi-group-title">Mujeres de 15 a 19 años — <span id="lbl-fec-anio2"></span></div>
+        <div class="kpi-cards">
+          <div class="kpi-card natalidad">
+            <div class="kpi-valor" id="kpi-fec-tasa1519">–</div>
+            <div class="kpi-label">Tasa por cada 1.000</div>
+          </div>
+          <div class="kpi-card natalidad">
+            <div class="kpi-valor" id="kpi-fec-nv1519">–</div>
+            <div class="kpi-label">Nacidos vivos</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="grid-2col">
+    <div class="grid-2col" style="margin-bottom:1.5rem;">
       <div class="card">
-        <div class="card-title">Histórico de tasa de natalidad por cada mil</div>
+        <div class="card-title">Tasa de fecundidad — 10 a 14 años (por cada 1.000)</div>
         <div class="chart-container">
-          <canvas id="chart-nat-historico"></canvas>
+          <canvas id="chart-fec-hist1014"></canvas>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Tasa de natalidad por localidad</div>
-        <div id="map-natalidad"></div>
+        <div class="card-title">Tasa de fecundidad — 15 a 19 años (por cada 1.000)</div>
+        <div class="chart-container">
+          <canvas id="chart-fec-hist1519"></canvas>
+        </div>
       </div>
     </div>
 
     <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Tasa de natalidad por localidad (por cada mil)</div>
-      <div class="chart-container" style="height:420px;">
-        <canvas id="chart-nat-localidad"></canvas>
+      <div class="card-title">Tasa de fecundidad por localidad — <span id="lbl-fec-loc-anio"></span></div>
+      <div class="chart-container" style="height:520px;">
+        <canvas id="chart-fec-localidad"></canvas>
       </div>
     </div>
 
@@ -318,9 +309,9 @@
     <div class="footer">
       <div class="footer-top">
         <div>
-          Fuente: Observatorio de Salud de Bogotá – SaludData · DANE, Proyecciones CNPV 2018<br>
-          4.2: Discapacidad certificada · 4.3: Natalidad (madres 15-29 años) · 4.4: Mortalidad (15-29 años)<br>
-          Nota: los datos de esta página corresponden a jóvenes entre 15 y 29 años.
+          Fuente: SaludData – Observatorio de Salud de Bogotá · DANE, Proyecciones CNPV 2018<br>
+          4.2: Discapacidad certificada · 4.3: Fecundidad adolescente (10-14 y 15-19 años) · 4.4: Mortalidad (15-29 años)<br>
+          Juventud según Ley 1622/2013 y Ley 1885/2018: 14 a 28 años.
         </div>
         <div style="text-align:right;">
           Secretaría de Integración Social<br>
@@ -411,231 +402,184 @@ function renderDisc() {
 }
 
 // ============================================================
-// 4.3 Natalidad (azules)
+// 4.3 Fecundidad adolescente
 // ============================================================
-let NAT = null, chartNatGrupos = null, chartNatHist = null, chartNatLoc = null, mapNat = null, geoLayer = null;
+let FEC = null, chartFec1014 = null, chartFec1519 = null, chartFecLoc = null;
 
-fetch('data/natalidad.json')
+fetch('data/fecundidad_adolescente.json')
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(d => { NAT = d; initNat(); actualizarNat(); })
-  .catch(err => console.warn('natalidad.json:', err));
+  .then(d => { FEC = d; renderFec(); })
+  .catch(err => console.warn('fecundidad_adolescente.json:', err));
 
-function initNat() {
-  const sel = document.getElementById('filtro-anio-nat');
-  const anios = NAT.por_anio.map(d => d.anio).sort();
-  anios.forEach(a => {
-    const opt = document.createElement('option');
-    opt.value = a; opt.textContent = a;
-    if (a === Math.max(...anios)) opt.selected = true;
-    sel.appendChild(opt);
-  });
-  sel.onchange = actualizarNat;
-  document.getElementById('filtro-grupo-nat').onchange = actualizarNat;
+function renderFec() {
+  const ultimo = FEC.ultimo_anio;
+  document.getElementById('lbl-fec-anio1').textContent = ultimo;
+  document.getElementById('lbl-fec-anio2').textContent = ultimo;
+  document.getElementById('lbl-fec-loc-anio').textContent = ultimo;
+  if (FEC.fuente) document.getElementById('lbl-fec-corte').textContent = FEC.fuente;
+
+  const ult = FEC.por_anio[FEC.por_anio.length - 1];
+  document.getElementById('kpi-fec-tasa1014').textContent = ult.tasa_10_14 != null ? fmtDec(ult.tasa_10_14, 2) + ' ‰' : '–';
+  document.getElementById('kpi-fec-nv1014').textContent   = fmtNum(ult.nv_10_14);
+  document.getElementById('kpi-fec-tasa1519').textContent = ult.tasa_15_19 != null ? fmtDec(ult.tasa_15_19, 2) + ' ‰' : '–';
+  document.getElementById('kpi-fec-nv1519').textContent   = fmtNum(ult.nv_15_19);
+
+  const labels = FEC.por_anio.map(d => d.anio);
+
+  if (chartFec1014) chartFec1014.destroy();
+  chartFec1014 = buildComboFec(
+    'chart-fec-hist1014', labels,
+    FEC.por_anio.map(d => d.nv_10_14),
+    FEC.por_anio.map(d => d.tasa_10_14),
+    '#f5c6c4', '#b5302a', 'Nacidos vivos 10-14', 'Tasa 10-14 ‰'
+  );
+
+  if (chartFec1519) chartFec1519.destroy();
+  chartFec1519 = buildComboFec(
+    'chart-fec-hist1519', labels,
+    FEC.por_anio.map(d => d.nv_15_19),
+    FEC.por_anio.map(d => d.tasa_15_19),
+    '#b8d4ee', '#3a7fc1', 'Nacidos vivos 15-19', 'Tasa 15-19 ‰'
+  );
+
+  renderFecLocalidad();
 }
 
-function actualizarNat() {
-  const anio = parseInt(document.getElementById('filtro-anio-nat').value);
-  const grupo = document.getElementById('filtro-grupo-nat').value;
-  const d = NAT.por_anio.find(r => r.anio === anio);
-  if (!d) return;
-
-  // KPIs
-  let tasa, nacidos;
-  if (grupo === 'total') { tasa = d.tasa_total; nacidos = d.nacidos_total; }
-  else if (grupo === '15_19') { tasa = d.tasa_15_19; nacidos = d.nacidos_15_19; }
-  else if (grupo === '20_24') { tasa = d.tasa_20_24; nacidos = d.nacidos_20_24; }
-  else { tasa = d.tasa_25_29; nacidos = d.nacidos_25_29; }
-  document.getElementById('kpi-tasa-nat').textContent = tasa != null ? fmtDec(tasa, 1) + ' ‰' : '–';
-  document.getElementById('kpi-nacidos').textContent = fmtNum(nacidos);
-
-  // Barras grupo edad
-  const grupos = [
-    { label: '15 a 19', val: d.nacidos_15_19, color: '#7fb3e0' },
-    { label: '20 a 24', val: d.nacidos_20_24, color: '#3a7fc1' },
-    { label: '25 a 29', val: d.nacidos_25_29, color: '#1a4a7a' },
-  ];
-  if (chartNatGrupos) chartNatGrupos.destroy();
-  chartNatGrupos = new Chart(document.getElementById('chart-nat-grupos'), {
+function buildComboFec(id, labels, nvData, tasaData, barColor, lineColor, labelNV, labelTasa) {
+  return new Chart(document.getElementById(id), {
     type: 'bar',
-    data: { labels: grupos.map(g => g.label), datasets: [{ data: grupos.map(g => g.val), backgroundColor: grupos.map(g => g.color), borderRadius: 4 }] },
-    options: {
-      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => fmtNum(ctx.parsed.x) + ' nacidos' } } },
-      scales: {
-        x: { ticks: { callback: v => fmtNum(v), font: { size: 10 } }, grid: { color: '#ecf0f1' } },
-        y: { ticks: { font: { size: 11 } }, grid: { display: false } }
-      }
-    },
-    plugins: [{
-      id: 'blg', afterDatasetsDraw(chart) {
-        const ctx = chart.ctx;
-        chart.getDatasetMeta(0).data.forEach((bar, i) => {
-          if (bar.x - bar.base > 50) {
-            ctx.save(); ctx.fillStyle='#fff'; ctx.font='bold 11px Segoe UI,system-ui,sans-serif';
-            ctx.textAlign='right'; ctx.textBaseline='middle';
-            ctx.fillText(fmtNum(chart.data.datasets[0].data[i]), bar.x-8, bar.y); ctx.restore();
-          }
-        });
-      }
-    }]
-  });
-
-  // Histórico
-  let campos;
-  if (grupo === 'total') {
-    campos = [
-      { label: '15 a 19 años', key: 'tasa_15_19', color: '#7fb3e0' },
-      { label: '20 a 24 años', key: 'tasa_20_24', color: '#3a7fc1' },
-      { label: '25 a 29 años', key: 'tasa_25_29', color: '#1a4a7a' },
-    ];
-  } else {
-    const map = {
-      '15_19': { label: '15 a 19 años', key: 'tasa_15_19', color: '#7fb3e0' },
-      '20_24': { label: '20 a 24 años', key: 'tasa_20_24', color: '#3a7fc1' },
-      '25_29': { label: '25 a 29 años', key: 'tasa_25_29', color: '#1a4a7a' },
-    };
-    campos = [map[grupo]];
-  }
-  if (chartNatHist) chartNatHist.destroy();
-  chartNatHist = new Chart(document.getElementById('chart-nat-historico'), {
-    type: 'line',
     data: {
-      labels: NAT.por_anio.map(d => d.anio),
-      datasets: campos.map(c => ({
-        label: c.label, data: NAT.por_anio.map(d => d[c.key]),
-        borderColor: c.color, backgroundColor: c.color,
-        borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: c.color, tension: 0.3,
-      }))
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: labelNV,
+          data: nvData,
+          backgroundColor: barColor,
+          yAxisID: 'yNV',
+          borderRadius: 3,
+          order: 2
+        },
+        {
+          type: 'line',
+          label: labelTasa,
+          data: tasaData,
+          borderColor: lineColor,
+          backgroundColor: lineColor,
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointBackgroundColor: '#fff',
+          pointBorderColor: lineColor,
+          pointBorderWidth: 2,
+          tension: 0.25,
+          yAxisID: 'yTasa',
+          order: 1
+        }
+      ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } },
-        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtDec(ctx.parsed.y, 1) + ' ‰' } }
+        tooltip: { callbacks: {
+          label: ctx => ctx.datasetIndex === 0
+            ? labelNV + ': ' + fmtNum(ctx.parsed.y)
+            : labelTasa + ': ' + fmtDec(ctx.parsed.y, 2)
+        } }
       },
       scales: {
-        y: { ticks: { callback: v => fmtDec(v, 0) + ' ‰', font: { size: 11 } }, grid: { color: '#ecf0f1' } },
+        yNV: {
+          type: 'linear', position: 'left',
+          ticks: { callback: v => fmtNum(v), font: { size: 10 } },
+          grid: { color: '#ecf0f1' },
+          title: { display: true, text: 'Nacidos vivos', font: { size: 10 }, color: '#7f8c8d' }
+        },
+        yTasa: {
+          type: 'linear', position: 'right',
+          ticks: { callback: v => fmtDec(v, 1) + ' ‰', font: { size: 10 } },
+          grid: { drawOnChartArea: false },
+          title: { display: true, text: 'Tasa ‰', font: { size: 10 }, color: lineColor }
+        },
         x: { ticks: { font: { size: 11 } }, grid: { display: false } }
-      }
-    }
-  });
-
-  // Barras tasa por localidad
-  renderBarrasNatLoc();
-
-  // Mapa
-  renderMapaNat();
-}
-
-function renderBarrasNatLoc() {
-  if (!NAT.por_localidad || NAT.por_localidad.length === 0) return;
-  const locs = NAT.por_localidad.filter(l => l.tasa_por_mil != null);
-  if (chartNatLoc) chartNatLoc.destroy();
-  chartNatLoc = new Chart(document.getElementById('chart-nat-localidad'), {
-    type: 'bar',
-    data: {
-      labels: locs.map(l => l.localidad),
-      datasets: [{ data: locs.map(l => l.tasa_por_mil), backgroundColor: '#3a7fc1', borderRadius: 3 }]
-    },
-    options: {
-      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: {
-        label: ctx => fmtDec(ctx.parsed.x, 1) + ' ‰ · ' + fmtNum(locs[ctx.dataIndex].nacidos) + ' nacidos'
-      } } },
-      scales: {
-        x: { ticks: { callback: v => fmtDec(v, 0) + ' ‰', font: { size: 10 } }, grid: { color: '#ecf0f1' } },
-        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
       }
     },
     plugins: [{
-      id: 'blnat', afterDatasetsDraw(chart) {
+      id: 'lblTasa_' + id,
+      afterDatasetsDraw(chart) {
         const ctx = chart.ctx;
-        chart.getDatasetMeta(0).data.forEach((bar, i) => {
-          if (bar.x - bar.base > 40) {
-            ctx.save(); ctx.fillStyle='#fff'; ctx.font='bold 10px Segoe UI,system-ui,sans-serif';
-            ctx.textAlign='right'; ctx.textBaseline='middle';
-            ctx.fillText(fmtDec(chart.data.datasets[0].data[i], 1), bar.x-6, bar.y); ctx.restore();
-          }
+        const meta = chart.getDatasetMeta(1);
+        meta.data.forEach((point, i) => {
+          const val = tasaData[i];
+          if (val == null) return;
+          ctx.save();
+          ctx.fillStyle = lineColor;
+          ctx.font = 'bold 10px Segoe UI,system-ui,sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(fmtDec(val, 2), point.x, point.y - 6);
+          ctx.restore();
         });
       }
     }]
   });
 }
 
-// Mapa coroplético de natalidad por localidad
-function renderMapaNat() {
-  if (!NAT.por_localidad || NAT.por_localidad.length === 0) return;
-
-  if (!mapNat) {
-    mapNat = L.map('map-natalidad', { zoomControl: true, attributionControl: false });
-    mapNat.setView([4.65, -74.1], 10);
-  }
-  if (geoLayer) mapNat.removeLayer(geoLayer);
-
-  // Crear lookup de tasa por nombre de localidad
-  const tasaMap = {};
-  NAT.por_localidad.forEach(l => {
-    tasaMap[l.localidad.toUpperCase()] = l;
-  });
-
-  fetch('data/localidades.geojson')
-    .then(r => r.json())
-    .then(geo => {
-      // Encontrar min/max para escala de color
-      const tasas = NAT.por_localidad.map(l => l.tasa_por_mil).filter(t => t != null);
-      const minT = Math.min(...tasas);
-      const maxT = Math.max(...tasas);
-
-      geoLayer = L.geoJSON(geo, {
-        style: function(feature) {
-          const nombre = feature.properties.nombre.toUpperCase();
-          // Buscar coincidencia flexible
-          let dato = tasaMap[nombre];
-          if (!dato) {
-            // Intentar sin tildes
-            for (const key in tasaMap) {
-              if (nombre.includes(key.substring(0, 5)) || key.includes(nombre.substring(0, 5))) {
-                dato = tasaMap[key]; break;
-              }
-            }
-          }
-          const tasa = dato ? dato.tasa_por_mil : 0;
-          const t = maxT > minT ? (tasa - minT) / (maxT - minT) : 0.5;
-          // Escala azul claro → azul oscuro
-          const r = Math.round(200 - t * 150);
-          const g = Math.round(220 - t * 140);
-          const b = Math.round(240 - t * 80);
-          return {
-            fillColor: `rgb(${r},${g},${b})`,
-            weight: 1.5,
-            color: '#fff',
-            fillOpacity: 0.85,
-          };
+function renderFecLocalidad() {
+  const locs = FEC.por_localidad;
+  if (chartFecLoc) chartFecLoc.destroy();
+  chartFecLoc = new Chart(document.getElementById('chart-fec-localidad'), {
+    type: 'bar',
+    data: {
+      labels: locs.map(l => l.localidad),
+      datasets: [
+        {
+          label: '15 a 19 años',
+          data: locs.map(l => l.tasa_15_19),
+          backgroundColor: '#3a7fc1',
+          borderRadius: 3
         },
-        onEachFeature: function(feature, layer) {
-          const nombre = feature.properties.nombre;
-          const nombreUp = nombre.toUpperCase();
-          let dato = tasaMap[nombreUp];
-          if (!dato) {
-            for (const key in tasaMap) {
-              if (nombreUp.includes(key.substring(0, 5)) || key.includes(nombreUp.substring(0, 5))) {
-                dato = tasaMap[key]; break;
-              }
-            }
-          }
-          const tasa = dato ? fmtDec(dato.tasa_por_mil, 1) + ' ‰' : 'N/D';
-          const nac = dato ? fmtNum(dato.nacidos) : 'N/D';
-          layer.bindTooltip(
-            `<strong>${nombre}</strong><br>Tasa: ${tasa}<br>Nacidos: ${nac}`,
-            { sticky: true }
-          );
+        {
+          label: '10 a 14 años',
+          data: locs.map(l => l.tasa_10_14),
+          backgroundColor: '#b5302a',
+          borderRadius: 3
         }
-      }).addTo(mapNat);
-
-      mapNat.fitBounds(geoLayer.getBounds(), { padding: [10, 10] });
-    })
-    .catch(err => console.warn('localidades.geojson:', err));
+      ]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } },
+        tooltip: { callbacks: {
+          label: ctx => {
+            const l = locs[ctx.dataIndex];
+            const nv = ctx.datasetIndex === 0 ? l.nv_15_19 : l.nv_10_14;
+            return ctx.dataset.label + ': ' + fmtDec(ctx.parsed.x, 2) + ' ‰ (' + fmtNum(nv) + ' NV)';
+          }
+        } }
+      },
+      scales: {
+        x: { ticks: { callback: v => fmtDec(v, 0) + ' ‰', font: { size: 10 } }, grid: { color: '#ecf0f1' } },
+        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    },
+    plugins: [{
+      id: 'blFecLoc', afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        chart.getDatasetMeta(0).data.forEach((bar, i) => {
+          const val = locs[i].tasa_15_19;
+          if (bar.x - bar.base > 45) {
+            ctx.save(); ctx.fillStyle = '#fff';
+            ctx.font = 'bold 10px Segoe UI,system-ui,sans-serif';
+            ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+            ctx.fillText(fmtDec(val, 1), bar.x - 6, bar.y);
+            ctx.restore();
+          }
+        });
+      }
+    }]
+  });
 }
 
 // ============================================================

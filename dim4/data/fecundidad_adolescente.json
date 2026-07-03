@@ -1,0 +1,41 @@
+{
+  "por_anio": [
+    {"anio": "2014", "nv_10_14": 417, "pob_10_14": 275139, "tasa_10_14": 1.52, "nv_15_19": 16747, "pob_15_19": 325974, "tasa_15_19": 51.38},
+    {"anio": "2015", "nv_10_14": 367, "pob_10_14": 265220, "tasa_10_14": 1.38, "nv_15_19": 15379, "pob_15_19": 317402, "tasa_15_19": 48.45},
+    {"anio": "2016", "nv_10_14": 315, "pob_10_14": 256832, "tasa_10_14": 1.23, "nv_15_19": 13757, "pob_15_19": 306452, "tasa_15_19": 44.89},
+    {"anio": "2017", "nv_10_14": 304, "pob_10_14": 249318, "tasa_10_14": 1.22, "nv_15_19": 12036, "pob_15_19": 294840, "tasa_15_19": 40.82},
+    {"anio": "2018", "nv_10_14": 275, "pob_10_14": 243373, "tasa_10_14": 1.13, "nv_15_19": 10676, "pob_15_19": 284835, "tasa_15_19": 37.48},
+    {"anio": "2019", "nv_10_14": 206, "pob_10_14": 242353, "tasa_10_14": 0.85, "nv_15_19": 9618,  "pob_15_19": 279280, "tasa_15_19": 34.44},
+    {"anio": "2020", "nv_10_14": 181, "pob_10_14": 236980, "tasa_10_14": 0.76, "nv_15_19": 8408,  "pob_15_19": 265971, "tasa_15_19": 31.61},
+    {"anio": "2021", "nv_10_14": 154, "pob_10_14": 234793, "tasa_10_14": 0.66, "nv_15_19": 6474,  "pob_15_19": 257729, "tasa_15_19": 25.12},
+    {"anio": "2022", "nv_10_14": 139, "pob_10_14": 232247, "tasa_10_14": 0.60, "nv_15_19": 5716,  "pob_15_19": 250624, "tasa_15_19": 22.81},
+    {"anio": "2023", "nv_10_14": 150, "pob_10_14": 229831, "tasa_10_14": 0.65, "nv_15_19": 5132,  "pob_15_19": 244075, "tasa_15_19": 21.03},
+    {"anio": "2024", "nv_10_14": 172, "pob_10_14": 227910, "tasa_10_14": 0.75, "nv_15_19": 4353,  "pob_15_19": 238081, "tasa_15_19": 18.28},
+    {"anio": "2025p","nv_10_14": 143, "pob_10_14": 226361, "tasa_10_14": 0.63, "nv_15_19": 4131,  "pob_15_19": 232750, "tasa_15_19": 17.75}
+  ],
+  "por_localidad": [
+    {"localidad": "Sumapaz",            "nv_10_14": 0,  "tasa_10_14": 0.00, "nv_15_19": 8,   "tasa_15_19": 62.50},
+    {"localidad": "Los Mártires",       "nv_10_14": 2,  "tasa_10_14": 0.83, "nv_15_19": 93,  "tasa_15_19": 41.67},
+    {"localidad": "La Candelaria",      "nv_10_14": 0,  "tasa_10_14": 0.00, "nv_15_19": 14,  "tasa_15_19": 36.65},
+    {"localidad": "Santa Fe",           "nv_10_14": 3,  "tasa_10_14": 0.97, "nv_15_19": 93,  "tasa_15_19": 30.07},
+    {"localidad": "Ciudad Bolívar",     "nv_10_14": 28, "tasa_10_14": 1.21, "nv_15_19": 644, "tasa_15_19": 28.21},
+    {"localidad": "Rafael Uribe Uribe", "nv_10_14": 7,  "tasa_10_14": 0.61, "nv_15_19": 285, "tasa_15_19": 23.51},
+    {"localidad": "Usme",               "nv_10_14": 14, "tasa_10_14": 0.99, "nv_15_19": 308, "tasa_15_19": 21.46},
+    {"localidad": "San Cristóbal",      "nv_10_14": 10, "tasa_10_14": 0.81, "nv_15_19": 250, "tasa_15_19": 18.18},
+    {"localidad": "Antonio Nariño",     "nv_10_14": 0,  "tasa_10_14": 0.00, "nv_15_19": 40,  "tasa_15_19": 18.00},
+    {"localidad": "Tunjuelito",         "nv_10_14": 2,  "tasa_10_14": 0.39, "nv_15_19": 98,  "tasa_15_19": 17.86},
+    {"localidad": "Bosa",               "nv_10_14": 19, "tasa_10_14": 0.71, "nv_15_19": 472, "tasa_15_19": 17.73},
+    {"localidad": "Kennedy",            "nv_10_14": 17, "tasa_10_14": 0.53, "nv_15_19": 563, "tasa_15_19": 16.99},
+    {"localidad": "Barrios Unidos",     "nv_10_14": 7,  "tasa_10_14": 2.52, "nv_15_19": 46,  "tasa_15_19": 14.73},
+    {"localidad": "Suba",               "nv_10_14": 16, "tasa_10_14": 0.47, "nv_15_19": 504, "tasa_15_19": 14.62},
+    {"localidad": "Chapinero",          "nv_10_14": 4,  "tasa_10_14": 1.19, "nv_15_19": 39,  "tasa_15_19": 13.60},
+    {"localidad": "Usaquén",            "nv_10_14": 3,  "tasa_10_14": 0.22, "nv_15_19": 179, "tasa_15_19": 13.37},
+    {"localidad": "Engativá",           "nv_10_14": 7,  "tasa_10_14": 0.33, "nv_15_19": 289, "tasa_15_19": 12.96},
+    {"localidad": "Fontibón",           "nv_10_14": 3,  "tasa_10_14": 0.30, "nv_15_19": 113, "tasa_15_19": 10.58},
+    {"localidad": "Puente Aranda",      "nv_10_14": 1,  "tasa_10_14": 0.17, "nv_15_19": 67,  "tasa_15_19": 10.17},
+    {"localidad": "Teusaquillo",        "nv_10_14": 0,  "tasa_10_14": 0.00, "nv_15_19": 21,  "tasa_15_19":  7.09}
+  ],
+  "ultimo_anio": "2025p",
+  "fuente": "SaludData – Observatorio de Salud de Bogotá. Corte: 30/04/2026. p: preliminar.",
+  "nota": "Tasa = nacidos vivos por cada 1.000 mujeres del grupo de edad. Población: proyecciones DANE-FONDANE-SDP, CNPV 2018. Nota: Sumapaz presenta tasa elevada por el tamaño muy pequeño de la población (128 mujeres 15-19 en 2025p)."
+}
