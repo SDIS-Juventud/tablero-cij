@@ -20,5 +20,38 @@
     "insatisfecho": 23.56,
     "n": 225
   },
-  "notas": "La variable de acciones ambientales y satisfacción con vivienda específica no están disponibles en los microdatos. Se usa GOB_3 (satisfacción con Bogotá como lugar para vivir) como proxy."
+  "satisfaccion_agua_servicio": {
+    "satisfecho": 70.54,
+    "ni_satisfecho_ni_insatisfecho": 12.05,
+    "insatisfecho": 17.41,
+    "n": 224
+  },
+  "satisfaccion_aseo": {
+    "satisfecho": 67.11,
+    "ni_satisfecho_ni_insatisfecho": 11.56,
+    "insatisfecho": 21.33,
+    "n": 225
+  },
+  "percepcion_normas_ambientales": {
+    "satisfecho": 18.26,
+    "ni_satisfecho_ni_insatisfecho": 28.77,
+    "insatisfecho": 52.97,
+    "n": 219
+  },
+  "notas": "satisfaccion_vivienda aquí es GOB_3 (satisfacción con Bogotá como lugar para vivir en general, no con la vivienda específica). La satisfacción con la vivienda propiamente dicha está en acciones_ambientales.satisfaccion_vivienda (otra encuesta, ver sección 7.2).",
+  "acciones_ambientales": {
+    "fuente": "Encuesta Bienal de Culturas 2025 — módulo Cultura Ambiental",
+    "poblacion": "Jóvenes de 13 a 28 años de Bogotá",
+    "n_jovenes": 1345,
+    "separa_residuos": 34.3,
+    "limpia_reciclables": 28.4,
+    "compostaje": 6.7,
+    "satisfaccion_vivienda": {
+      "nada": 3.3,
+      "poco": 17.6,
+      "satisfecho": 70.8,
+      "muy_satisfecho": 8.4
+    },
+    "nota": "Esta sección viene de una encuesta distinta (Bienal de Culturas, módulo Cultura Ambiental), con un rango de edad diferente (13-28 años) al resto de la página (18-25 años, Bogotá Cómo Vamos). La satisfacción con la vivienda reemplaza el proxy anterior (GOB_3), que medía satisfacción con Bogotá en general, no con la vivienda específicamente."
+  }
 }
