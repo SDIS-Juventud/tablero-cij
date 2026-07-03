@@ -1,27 +1,286 @@
 {
-  "fuente": "Encuesta Bienal de Culturas 2025 — Secretaría de Cultura, Recreación y Deporte de Bogotá",
-  "poblacion_representada": 6763265,
-  "corte": "2025",
-  "nota": "Grupo de edad 13-28 años como proxy de juventud (Ley 1622/2013 define 14-28 años). Encuesta bienal: actualización cada dos años. Fuente: Observatorio de Culturas — Secretaría de Cultura, Recreación y Deporte.",
-  "practica_cultural_actual": {
-    "pregunta": "¿Practica actualmente alguna actividad cultural, artística o creativa?",
-    "jovenes_13_28": 14.5,
-    "adultos_29_59": 14.5,
-    "mayores_60_mas": 14.3
+  "fuente_cultura": "Encuesta Bienal de Culturas 2025 — Secretaría de Cultura, Recreación y Deporte",
+  "fuente_deportes": "Encuesta de Prácticas Deportivas y Calidad de Vida 2024 (módulo de la Bienal)",
+  "corte_edad": "13 a 28 años",
+  "nota_categorias_descontinuadas": "Ferias, Conferencias, Tertulias literarias y Carnaval ya no se preguntan en la encuesta 2025",
+  "kpis": {
+    "practica_cultural_actual": 14.7,
+    "practica_deportiva_actual": 33.4
   },
-  "satisfaccion_oferta_distrital": {
-    "pregunta": "¿Cuál es su nivel de satisfacción con las actividades culturales y artísticas que organizan las entidades del Distrito en su localidad? (escala 1-4)",
-    "jovenes_13_28": { "nada": 18.8, "poco": 15.1, "satisfecho": 56.6, "muy_satisfecho": 9.5 },
-    "adultos_29_59": { "nada": 12.2, "poco": 27.2, "satisfecho": 52.3, "muy_satisfecho": 8.3 },
-    "mayores_60_mas": { "nada": 10.3, "poco": 29.3, "satisfecho": 53.7, "muy_satisfecho": 6.7 }
+  "satisfaccion": {
+    "cultura_distrito": {
+      "nada": 13,
+      "poco": 25.5,
+      "satisfecho": 53.1,
+      "muy_satisfecho": 8.4
+    },
+    "deporte_distrito": {
+      "nada": 12.7,
+      "poco": 27.3,
+      "satisfecho": 45.6,
+      "muy_satisfecho": 14.3
+    }
   },
-  "participacion_actividades": {
-    "pregunta": "En los últimos 12 meses, ¿cuál de las siguientes actividades practicó o realizó?",
-    "actividades": [
-      { "nombre": "Cantar, crear o componer música", "jovenes_13_28": 54.0, "adultos_29_59": 55.1, "mayores_60_mas": 50.9 },
-      { "nombre": "Recorridos por el centro histórico", "jovenes_13_28": 44.7, "adultos_29_59": 26.6, "mayores_60_mas": 23.1 },
-      { "nombre": "Obras de teatro", "jovenes_13_28": 37.5, "adultos_29_59": 34.9, "mayores_60_mas": 34.6 },
-      { "nombre": "Comprar libros o publicaciones", "jovenes_13_28": 33.5, "adultos_29_59": 27.5, "mayores_60_mas": 25.0 }
-    ]
-  }
+  "practica_cultural": [
+    {
+      "nombre": "Bailar",
+      "pct": 10.1
+    },
+    {
+      "nombre": "Cantar, crear o componer música",
+      "pct": 7.8
+    },
+    {
+      "nombre": "Pintar, dibujar, fotografiar",
+      "pct": 7.4
+    },
+    {
+      "nombre": "Escribir (novela, poesía, cuento, ensayo, cómic...)",
+      "pct": 6.7
+    },
+    {
+      "nombre": "Expresarse verbalmente (narración, podcasts, stand up...)",
+      "pct": 5.5
+    },
+    {
+      "nombre": "Interpretar instrumentos",
+      "pct": 5.4
+    },
+    {
+      "nombre": "Dirigir o actuar en espectáculos escénicos",
+      "pct": 5
+    },
+    {
+      "nombre": "Cocinar o hacer bebidas como tradición cultural",
+      "pct": 5
+    },
+    {
+      "nombre": "Diseñar o crear contenidos publicitarios",
+      "pct": 4.4
+    },
+    {
+      "nombre": "Filmar, animar o editar contenidos audiovisuales",
+      "pct": 3.9
+    },
+    {
+      "nombre": "Crear videojuegos, apps o software",
+      "pct": 3.9
+    },
+    {
+      "nombre": "Diseñar instalaciones y escenografías",
+      "pct": 3.1
+    },
+    {
+      "nombre": "Esculpir, tejer, bordar, tallar, confeccionar",
+      "pct": 3
+    },
+    {
+      "nombre": "Diseñar o fabricar instrumentos musicales",
+      "pct": 2.3
+    },
+    {
+      "nombre": "Diseñar o fabricar joyería",
+      "pct": 2.3
+    },
+    {
+      "nombre": "Diseñar o fabricar juguetes",
+      "pct": 2.1
+    },
+    {
+      "nombre": "Otra actividad artística o creativa propia",
+      "pct": 1.4
+    }
+  ],
+  "asistencia_cultural": [
+    {
+      "nombre": "Recorridos por el centro histórico",
+      "pct": 30.9
+    },
+    {
+      "nombre": "Iglesias o centros religiosos",
+      "pct": 20.8
+    },
+    {
+      "nombre": "Plazas de mercado",
+      "pct": 20
+    },
+    {
+      "nombre": "Museos",
+      "pct": 18.8
+    },
+    {
+      "nombre": "Recorridos por lugares naturales o rurales",
+      "pct": 17.7
+    },
+    {
+      "nombre": "Visitas a monumentos",
+      "pct": 17.3
+    },
+    {
+      "nombre": "Festivales y eventos culturales",
+      "pct": 16.9
+    },
+    {
+      "nombre": "Espacios reconocidos como patrimonio",
+      "pct": 11.8
+    },
+    {
+      "nombre": "Obras de arte en el espacio público",
+      "pct": 10.4
+    },
+    {
+      "nombre": "Plazas fundacionales",
+      "pct": 9.8
+    },
+    {
+      "nombre": "Corredores de murales y arte urbano",
+      "pct": 8.7
+    },
+    {
+      "nombre": "Salas de exposiciones o galerías de arte",
+      "pct": 6.3
+    },
+    {
+      "nombre": "Distritos Creativos de Bogotá",
+      "pct": 5.8
+    },
+    {
+      "nombre": "Manifestaciones de pueblos y comunidades étnicas",
+      "pct": 4
+    },
+    {
+      "nombre": "Actividades culturales para primera infancia",
+      "pct": 3.4
+    }
+  ],
+  "razon_no_deporte": [
+    {
+      "nombre": "No tengo tiempo",
+      "pct": 60.7
+    },
+    {
+      "nombre": "Falta de voluntad",
+      "pct": 20.6
+    },
+    {
+      "nombre": "Tengo varias obligaciones del trabajo,estudio,familiares",
+      "pct": 4.8
+    },
+    {
+      "nombre": "Otro ¿cuál? ",
+      "pct": 4.3
+    },
+    {
+      "nombre": "No soy suficientemente bueno en ningún deporte",
+      "pct": 2.1
+    },
+    {
+      "nombre": "Estoy muy cansado durante la semana",
+      "pct": 1.7
+    },
+    {
+      "nombre": "Necesito tomar clases",
+      "pct": 1.7
+    },
+    {
+      "nombre": "A las personas que conozco no les gusta realizar deporte para competir con otros.",
+      "pct": 1.5
+    },
+    {
+      "nombre": "No tengo lugares adecuados para entrenar cerca a mi casa",
+      "pct": 0.9
+    },
+    {
+      "nombre": "Mis actividades sociales habituales con mis familiares y amigos no incluye practicar deporte",
+      "pct": 0.7
+    },
+    {
+      "nombre": "Es muy costoso",
+      "pct": 0.6
+    },
+    {
+      "nombre": "Me da miedo lesionarme",
+      "pct": 0.3
+    },
+    {
+      "nombre": "Me da vergüenza",
+      "pct": 0.2
+    }
+  ],
+  "donde_actividad_fisica": [
+    {
+      "nombre": "Parques y escenarios deportivos",
+      "pct": 24.8
+    },
+    {
+      "nombre": "Otros lugares del espacio público urbano. calles, andenes, plazoletas",
+      "pct": 23.1
+    },
+    {
+      "nombre": "Tengo varias obligaciones del trabajo,estudio,familiares",
+      "pct": 13.6
+    },
+    {
+      "nombre": "Necesito tomar clases",
+      "pct": 12.2
+    },
+    {
+      "nombre": "Ciclovía",
+      "pct": 7.6
+    },
+    {
+      "nombre": "Lugar de trabajo",
+      "pct": 5.4
+    },
+    {
+      "nombre": "Centros de entrenamiento privado",
+      "pct": 3.7
+    },
+    {
+      "nombre": "Ciclorutas",
+      "pct": 3.1
+    },
+    {
+      "nombre": "Centro deportivo .Colegio, universidad o gremio",
+      "pct": 2.8
+    },
+    {
+      "nombre": "Centros de entrenamiento público",
+      "pct": 1.9
+    },
+    {
+      "nombre": "Club o Caja de compensación",
+      "pct": 1.5
+    },
+    {
+      "nombre": "Cerros y montañas de la ciudad",
+      "pct": 0.1
+    },
+    {
+      "nombre": "Otro ¿cuál? ",
+      "pct": 0.1
+    }
+  ],
+  "etapas_cambio": [
+    {
+      "nombre": "He sido físicamente activo en los últimos 24 meses",
+      "pct": 26.9
+    },
+    {
+      "nombre": "No tengo intención de ser físicamente activo",
+      "pct": 25.1
+    },
+    {
+      "nombre": "Tengo la intención de ser físicamente activo, en los próximos seis meses",
+      "pct": 23.7
+    },
+    {
+      "nombre": "He sido físicamente activo durante los últimos seis meses",
+      "pct": 14.9
+    },
+    {
+      "nombre": "Tengo la intención de ser físicamente activao, en los próximos 30 días",
+      "pct": 9.5
+    }
+  ]
 }

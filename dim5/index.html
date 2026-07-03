@@ -45,7 +45,8 @@
     }
     .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
     .container { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
-    .page-subtitle { font-size: 1.1rem; color: var(--gris); margin-bottom: 1rem; }
+    .page-subtitle { font-size: 1.1rem; color: var(--gris); margin-bottom: 1rem; margin-top: 2rem; }
+    .page-subtitle:first-child { margin-top: 0; }
     .page-subtitle span { font-weight: 600; color: var(--gris-oscuro); }
     .kpis-row {
       display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
@@ -61,26 +62,19 @@
       margin-bottom: 1rem; padding-bottom: 0.5rem;
       border-bottom: 2px solid var(--gris-claro);
     }
-    .kpi-cards { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .kpi-card {
-      flex: 1; min-width: 140px; text-align: center;
-      padding: 0.9rem; border-radius: 8px; background: #fdf8e8;
-    }
-    .kpi-valor { font-size: 1.8rem; font-weight: 700; color: var(--principal); }
-    .kpi-label { font-size: 0.78rem; color: var(--gris); margin-top: 3px; line-height: 1.3; }
-    .grid-2col {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
-    }
-    @media (max-width: 960px) { .grid-2col { grid-template-columns: 1fr; } }
     .card {
       background: var(--blanco); border-radius: 10px;
       padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom: 1.5rem;
     }
     .card-title {
       font-size: 0.85rem; font-weight: 700; color: var(--gris);
       text-transform: uppercase; letter-spacing: 0.5px;
       margin-bottom: 1rem; padding-bottom: 0.5rem;
       border-bottom: 2px solid var(--gris-claro);
+    }
+    .card-nota {
+      font-size: 0.78rem; color: var(--gris); margin-bottom: 1rem; line-height: 1.4;
     }
     .chart-container { position: relative; }
     .footer {
@@ -89,6 +83,8 @@
     .footer-top {
       display: flex; justify-content: space-between;
       align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 0.8rem; padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--gris-claro);
     }
   </style>
 </head>
@@ -103,23 +99,20 @@
   <div class="container">
 
     <!-- ============================================================ -->
-    <!-- 5.1 Prácticas culturales — Encuesta Bienal 2025            -->
+    <!-- 5.1 Cultura                                                  -->
     <!-- ============================================================ -->
     <p class="page-subtitle">
-      <span>5.1 Prácticas culturales y artísticas — Bogotá</span><br>
+      <span>5.1 Prácticas culturales y artísticas — jóvenes de Bogotá</span><br>
       Fuente: Encuesta Bienal de Culturas 2025 – Secretaría de Cultura, Recreación y Deporte<br>
-      <span style="font-size:0.8em; font-weight:400; color:#888;">
-        Período: 2025 · Población representada: 6.763.265 · Actualización: cada dos años
-      </span>
+      <span style="font-size:0.8em; font-weight:400; color:#888;" id="nota-corte-cultura">Corte: 2025</span>
     </p>
 
-    <!-- KPI grande: práctica cultural -->
     <div class="kpis-row">
       <div class="kpi-group" style="display:flex; align-items:center; gap:1.5rem;">
-        <div style="font-size:3.2rem; font-weight:800; color:var(--principal); line-height:1;" id="kpi-practica">14,5%</div>
+        <div style="font-size:3.2rem; font-weight:800; color:var(--principal); line-height:1;" id="kpi-practica-cultural">–</div>
         <div>
           <div style="font-size:1rem; font-weight:700; color:var(--gris-oscuro); margin-bottom:5px;">
-            de los jóvenes (13-28 años) practica alguna actividad cultural, artística o creativa en Bogotá
+            de los jóvenes practica actualmente alguna actividad cultural, artística o creativa
           </div>
           <div style="font-size:0.8rem; color:var(--gris);">
             ¿Practica actualmente alguna actividad cultural, artística o creativa? · Respuesta: Sí
@@ -128,42 +121,106 @@
       </div>
       <div class="kpi-group">
         <div class="kpi-group-title">Nota metodológica</div>
-        <div style="font-size:0.82rem; color:var(--gris); line-height:1.55;">
+        <div style="font-size:0.82rem; color:var(--gris); line-height:1.55;" id="nota-metodologica-cultura">
           El grupo <strong>13-28 años</strong> de la Encuesta Bienal es el proxy más cercano a la definición legal
-          de juventud (14-28 años, Ley 1622/2013 y Ley 1885/2018). Los datos se presentan comparados con
-          29-59 años y 60 o más para contextualizar el comportamiento juvenil frente al conjunto de la ciudad.
+          de juventud (14-28 años, Ley 1622/2013 y Ley 1885/2018). Los porcentajes están ponderados por el
+          factor de expansión de la encuesta.
         </div>
       </div>
     </div>
 
-    <!-- Gráficas: satisfacción y participación -->
-    <div class="grid-2col">
+    <div class="card">
+      <div class="card-title">Práctica cultural por tipo de actividad</div>
+      <div class="card-nota">En los últimos 12 meses, ¿cuál de las siguientes actividades practicó con alguna frecuencia?</div>
+      <div class="chart-container" id="cont-practica-cultural">
+        <canvas id="chart-practica-cultural"></canvas>
+      </div>
+    </div>
 
-      <div class="card">
-        <div class="card-title">Satisfacción con actividades culturales del Distrito</div>
-        <div style="font-size:0.78rem; color:var(--gris); margin-bottom:1rem; line-height:1.4;">
-          ¿Cuál es su nivel de satisfacción con las actividades que organizan las entidades del
-          Distrito en su localidad? (escala 1 Nada – 4 Muy satisfecho/a)
-        </div>
-        <div class="chart-container" style="height:220px;">
-          <canvas id="chart-satisfaccion"></canvas>
-        </div>
-        <div style="margin-top:0.7rem; font-size:0.78rem; color:var(--gris);">
-          Jóvenes 13-28 satisfechos o muy satisfechos: <strong id="nota-satisfechos">–</strong>
+    <div class="card">
+      <div class="card-title">Asistencia a espacios y actividades culturales</div>
+      <div class="card-nota">En los últimos 12 meses, ¿asistió al menos una vez a...?</div>
+      <div class="chart-container" id="cont-asistencia-cultural">
+        <canvas id="chart-asistencia-cultural"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Satisfacción con la oferta cultural del Distrito</div>
+      <div class="card-nota">
+        ¿Cuál es su nivel de satisfacción con las actividades culturales y artísticas que organizan
+        las entidades del Distrito en su localidad? (escala 1 Nada – 4 Muy satisfecho/a)
+      </div>
+      <div class="chart-container" style="height:110px;">
+        <canvas id="chart-satisfaccion-cultura"></canvas>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 5.2 Deporte y recreación                                     -->
+    <!-- ============================================================ -->
+    <p class="page-subtitle">
+      <span>5.2 Recreación y deporte — jóvenes de Bogotá</span><br>
+      Fuente: Encuesta de Prácticas Deportivas y Calidad de Vida 2024 (módulo de la Bienal de Culturas)<br>
+      <span style="font-size:0.8em; font-weight:400; color:#888;">Corte: diciembre de 2024</span>
+    </p>
+
+    <div class="kpis-row">
+      <div class="kpi-group" style="display:flex; align-items:center; gap:1.5rem;">
+        <div style="font-size:3.2rem; font-weight:800; color:var(--principal); line-height:1;" id="kpi-practica-deporte">–</div>
+        <div>
+          <div style="font-size:1rem; font-weight:700; color:var(--gris-oscuro); margin-bottom:5px;">
+            de los jóvenes practica deporte actualmente
+          </div>
+          <div style="font-size:0.8rem; color:var(--gris);">
+            ¿Usted practica deporte actualmente? · Respuesta: Sí
+          </div>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-title">Participación en actividades culturales y artísticas</div>
-        <div style="font-size:0.78rem; color:var(--gris); margin-bottom:1rem; line-height:1.4;">
-          En los últimos 12 meses, ¿cuál de las siguientes actividades practicó o realizó?
-          (% que respondió Sí, por grupo de edad)
-        </div>
-        <div class="chart-container" style="height:220px;">
-          <canvas id="chart-participacion"></canvas>
+      <div class="kpi-group">
+        <div class="kpi-group-title">Nota metodológica</div>
+        <div style="font-size:0.82rem; color:var(--gris); line-height:1.55;">
+          El grupo <strong>13-28 años</strong> de la Encuesta Bienal es el proxy más cercano a la definición legal
+          de juventud (14-28 años, Ley 1622/2013 y Ley 1885/2018). Los porcentajes están ponderados por el
+          factor de expansión de la encuesta. Encuesta de campo diciembre de 2024: se excluyeron 36 registros
+          marcados como "Not Selected" por control de calidad de la fuente antes de calcular cualquier porcentaje.
         </div>
       </div>
+    </div>
 
+    <div class="card">
+      <div class="card-title">Dónde realiza actividad física principalmente</div>
+      <div class="card-nota">Principalmente, ¿dónde realiza actividad física?</div>
+      <div class="chart-container" id="cont-donde-actividad-fisica">
+        <canvas id="chart-donde-actividad-fisica"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Comportamiento frente a la actividad física</div>
+      <div class="card-nota">¿Cuál de las siguientes afirmaciones se asemeja más a su situación actual?</div>
+      <div class="chart-container" id="cont-etapas-cambio">
+        <canvas id="chart-etapas-cambio"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Razón principal para no practicar deporte</div>
+      <div class="card-nota">Base: solo jóvenes que respondieron que no practican deporte actualmente.</div>
+      <div class="chart-container" id="cont-razon-no-deporte">
+        <canvas id="chart-razon-no-deporte"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Satisfacción con la oferta deportiva y recreativa del Distrito</div>
+      <div class="card-nota">
+        ¿Cuál es su nivel de satisfacción con las actividades deportivas y recreativas que organizan
+        las entidades del Distrito en su localidad? (escala 1 Nada – 4 Muy satisfecho/a)
+      </div>
+      <div class="chart-container" style="height:110px;">
+        <canvas id="chart-satisfaccion-deporte"></canvas>
+      </div>
     </div>
 
     <div class="footer">
@@ -181,55 +238,155 @@ function fmt(v, d) {
   return v.toFixed(d).replace('.', ',');
 }
 
-// Datos precargados — se actualizan con actualizar_bienal.py
+// Datos precargados — se actualizan con extraer_bienal_microdatos.py + actualizar_bienal.py
 const BIENAL = {
-  practica_cultural_actual: {
-    jovenes_13_28: 14.5, adultos_29_59: 14.5, mayores_60_mas: 14.3
+  "fuente_cultura": "Encuesta Bienal de Culturas 2025 — Secretaría de Cultura, Recreación y Deporte",
+  "fuente_deportes": "Encuesta de Prácticas Deportivas y Calidad de Vida 2024 (módulo de la Bienal)",
+  "corte_edad": "13 a 28 años",
+  "nota_categorias_descontinuadas": "Ferias, Conferencias, Tertulias literarias y Carnaval ya no se preguntan en la encuesta 2025",
+  "kpis": { "practica_cultural_actual": 14.7, "practica_deportiva_actual": 33.4 },
+  "satisfaccion": {
+    "cultura_distrito": { "nada": 13, "poco": 25.5, "satisfecho": 53.1, "muy_satisfecho": 8.4 },
+    "deporte_distrito":  { "nada": 12.7, "poco": 27.3, "satisfecho": 45.6, "muy_satisfecho": 14.3 }
   },
-  satisfaccion_oferta_distrital: {
-    jovenes_13_28:  { nada: 18.8, poco: 15.1, satisfecho: 56.6, muy_satisfecho: 9.5 },
-    adultos_29_59:  { nada: 12.2, poco: 27.2, satisfecho: 52.3, muy_satisfecho: 8.3 },
-    mayores_60_mas: { nada: 10.3, poco: 29.3, satisfecho: 53.7, muy_satisfecho: 6.7 }
-  },
-  participacion_actividades: {
-    actividades: [
-      { nombre: 'Cantar, crear o componer música',    jovenes_13_28: 54.0, adultos_29_59: 55.1, mayores_60_mas: 50.9 },
-      { nombre: 'Recorridos por el centro histórico', jovenes_13_28: 44.7, adultos_29_59: 26.6, mayores_60_mas: 23.1 },
-      { nombre: 'Obras de teatro',                    jovenes_13_28: 37.5, adultos_29_59: 34.9, mayores_60_mas: 34.6 },
-      { nombre: 'Comprar libros o publicaciones',     jovenes_13_28: 33.5, adultos_29_59: 27.5, mayores_60_mas: 25.0 }
-    ]
-  }
+  "practica_cultural": [
+    { "nombre": "Bailar", "pct": 10.1 },
+    { "nombre": "Cantar, crear o componer música", "pct": 7.8 },
+    { "nombre": "Pintar, dibujar, fotografiar", "pct": 7.4 },
+    { "nombre": "Escribir (novela, poesía, cuento, ensayo, cómic...)", "pct": 6.7 },
+    { "nombre": "Expresarse verbalmente (narración, podcasts, stand up...)", "pct": 5.5 },
+    { "nombre": "Interpretar instrumentos", "pct": 5.4 },
+    { "nombre": "Dirigir o actuar en espectáculos escénicos", "pct": 5 },
+    { "nombre": "Cocinar o hacer bebidas como tradición cultural", "pct": 5 },
+    { "nombre": "Diseñar o crear contenidos publicitarios", "pct": 4.4 },
+    { "nombre": "Filmar, animar o editar contenidos audiovisuales", "pct": 3.9 },
+    { "nombre": "Crear videojuegos, apps o software", "pct": 3.9 },
+    { "nombre": "Diseñar instalaciones y escenografías", "pct": 3.1 },
+    { "nombre": "Esculpir, tejer, bordar, tallar, confeccionar", "pct": 3 },
+    { "nombre": "Diseñar o fabricar instrumentos musicales", "pct": 2.3 },
+    { "nombre": "Diseñar o fabricar joyería", "pct": 2.3 },
+    { "nombre": "Diseñar o fabricar juguetes", "pct": 2.1 },
+    { "nombre": "Otra actividad artística o creativa propia", "pct": 1.4 }
+  ],
+  "asistencia_cultural": [
+    { "nombre": "Recorridos por el centro histórico", "pct": 30.9 },
+    { "nombre": "Iglesias o centros religiosos", "pct": 20.8 },
+    { "nombre": "Plazas de mercado", "pct": 20 },
+    { "nombre": "Museos", "pct": 18.8 },
+    { "nombre": "Recorridos por lugares naturales o rurales", "pct": 17.7 },
+    { "nombre": "Visitas a monumentos", "pct": 17.3 },
+    { "nombre": "Festivales y eventos culturales", "pct": 16.9 },
+    { "nombre": "Espacios reconocidos como patrimonio", "pct": 11.8 },
+    { "nombre": "Obras de arte en el espacio público", "pct": 10.4 },
+    { "nombre": "Plazas fundacionales", "pct": 9.8 },
+    { "nombre": "Corredores de murales y arte urbano", "pct": 8.7 },
+    { "nombre": "Salas de exposiciones o galerías de arte", "pct": 6.3 },
+    { "nombre": "Distritos Creativos de Bogotá", "pct": 5.8 },
+    { "nombre": "Manifestaciones de pueblos y comunidades étnicas", "pct": 4 },
+    { "nombre": "Actividades culturales para primera infancia", "pct": 3.4 }
+  ],
+  "razon_no_deporte": [
+    { "nombre": "No tengo tiempo", "pct": 60.7 },
+    { "nombre": "Falta de voluntad", "pct": 20.6 },
+    { "nombre": "Tengo varias obligaciones del trabajo, estudio, familiares", "pct": 4.8 },
+    { "nombre": "Otro ¿cuál?", "pct": 4.3 },
+    { "nombre": "No soy suficientemente bueno en ningún deporte", "pct": 2.1 },
+    { "nombre": "Estoy muy cansado durante la semana", "pct": 1.7 },
+    { "nombre": "Necesito tomar clases", "pct": 1.7 },
+    { "nombre": "A las personas que conozco no les gusta competir con otros", "pct": 1.5 },
+    { "nombre": "No tengo lugares adecuados para entrenar cerca a mi casa", "pct": 0.9 },
+    { "nombre": "Mis actividades sociales no incluyen practicar deporte", "pct": 0.7 },
+    { "nombre": "Es muy costoso", "pct": 0.6 },
+    { "nombre": "Me da miedo lesionarme", "pct": 0.3 },
+    { "nombre": "Me da vergüenza", "pct": 0.2 }
+  ],
+  "donde_actividad_fisica": [
+    { "nombre": "Parques y escenarios deportivos", "pct": 24.8 },
+    { "nombre": "Otros lugares del espacio público (calles, andenes, plazoletas)", "pct": 23.1 },
+    { "nombre": "Tengo varias obligaciones del trabajo, estudio, familiares", "pct": 13.6 },
+    { "nombre": "Necesito tomar clases", "pct": 12.2 },
+    { "nombre": "Ciclovía", "pct": 7.6 },
+    { "nombre": "Lugar de trabajo", "pct": 5.4 },
+    { "nombre": "Centros de entrenamiento privado", "pct": 3.7 },
+    { "nombre": "Ciclorutas", "pct": 3.1 },
+    { "nombre": "Centro deportivo (colegio, universidad o gremio)", "pct": 2.8 },
+    { "nombre": "Centros de entrenamiento público", "pct": 1.9 },
+    { "nombre": "Club o Caja de compensación", "pct": 1.5 },
+    { "nombre": "Cerros y montañas de la ciudad", "pct": 0.1 },
+    { "nombre": "Otro ¿cuál?", "pct": 0.1 }
+  ],
+  "etapas_cambio": [
+    { "nombre": "He sido físicamente activo en los últimos 24 meses", "pct": 26.9 },
+    { "nombre": "No tengo intención de ser físicamente activo", "pct": 25.1 },
+    { "nombre": "Tengo la intención de ser físicamente activo en los próximos 6 meses", "pct": 23.7 },
+    { "nombre": "He sido físicamente activo durante los últimos 6 meses", "pct": 14.9 },
+    { "nombre": "Tengo la intención de ser físicamente activo en los próximos 30 días", "pct": 9.5 }
+  ]
 };
 
 function renderBienal(d) {
-  const pct = d.practica_cultural_actual?.jovenes_13_28;
-  if (pct != null) document.getElementById('kpi-practica').textContent = fmt(pct, 1) + '%';
-  renderSatisfaccion(d.satisfaccion_oferta_distrital);
-  renderParticipacion(d.participacion_actividades);
+  document.getElementById('kpi-practica-cultural').textContent = fmt(d.kpis.practica_cultural_actual, 1) + '%';
+  document.getElementById('kpi-practica-deporte').textContent = fmt(d.kpis.practica_deportiva_actual, 1) + '%';
+
+  renderBarras('chart-practica-cultural', 'cont-practica-cultural', d.practica_cultural);
+  renderBarras('chart-asistencia-cultural', 'cont-asistencia-cultural', d.asistencia_cultural);
+  renderBarras('chart-razon-no-deporte', 'cont-razon-no-deporte', d.razon_no_deporte);
+  renderBarras('chart-donde-actividad-fisica', 'cont-donde-actividad-fisica', d.donde_actividad_fisica);
+  renderBarras('chart-etapas-cambio', 'cont-etapas-cambio', d.etapas_cambio);
+
+  renderSatisfaccion('chart-satisfaccion-cultura', d.satisfaccion.cultura_distrito);
+  renderSatisfaccion('chart-satisfaccion-deporte', d.satisfaccion.deporte_distrito);
 }
 
-function renderSatisfaccion(sat) {
-  const grupos  = ['13-28 años', '29-59 años', '60 o más'];
-  const data    = [sat.jovenes_13_28, sat.adultos_29_59, sat.mayores_60_mas];
+// Gráfica genérica de barras horizontales (% por categoría, ordenadas de mayor a menor)
+function renderBarras(canvasId, containerId, datos) {
+  const alturaPorFila = 20;
+  document.getElementById(containerId).style.height = (datos.length * alturaPorFila + 30) + 'px';
+
+  new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    data: {
+      labels: datos.map(d => d.nombre),
+      datasets: [{
+        data: datos.map(d => d.pct),
+        backgroundColor: '#c9a51a',
+        borderRadius: 2,
+        maxBarThickness: 16,
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => fmt(ctx.parsed.x, 1) + '%' } }
+      },
+      scales: {
+        x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#ecf0f1' } },
+        y: { ticks: { font: { size: 10.5 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+// Gráfica de satisfacción: barra única apilada, gradiente rojo (insatisfecho) a verde (satisfecho)
+function renderSatisfaccion(canvasId, sat) {
   const niveles = [
     { key: 'nada',           label: '1 – Nada satisfecho/a', color: '#c62828' },
-    { key: 'poco',           label: '2 – Poco satisfecho/a', color: '#ef6c00' },
+    { key: 'poco',           label: '2 – Poco satisfecho/a', color: '#e57373' },
     { key: 'satisfecho',     label: '3 – Satisfecho/a',      color: '#81c784' },
     { key: 'muy_satisfecho', label: '4 – Muy satisfecho/a',  color: '#2e7d32' },
   ];
 
-  const j = sat.jovenes_13_28;
-  document.getElementById('nota-satisfechos').textContent = fmt(j.satisfecho + j.muy_satisfecho, 1) + '%';
-
-  new Chart(document.getElementById('chart-satisfaccion'), {
+  new Chart(document.getElementById(canvasId), {
     type: 'bar',
     data: {
-      labels: grupos,
+      labels: [''],
       datasets: niveles.map(n => ({
         label: n.label,
-        data:  data.map(g => g[n.key]),
+        data: [sat[n.key]],
         backgroundColor: n.color,
         borderRadius: 2,
+        maxBarThickness: 46,
       }))
     },
     options: {
@@ -240,40 +397,7 @@ function renderSatisfaccion(sat) {
       },
       scales: {
         x: { stacked: true, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#ecf0f1' } },
-        y: { stacked: true, ticks: { font: { size: 11 } }, grid: { display: false } }
-      }
-    }
-  });
-}
-
-function renderParticipacion(part) {
-  const acts = part.actividades;
-  const grupos = [
-    { key: 'jovenes_13_28',  label: '13-28 años', color: '#c9a51a' },
-    { key: 'adultos_29_59',  label: '29-59 años', color: '#8c6d10' },
-    { key: 'mayores_60_mas', label: '60 o más',   color: '#4e3b06' },
-  ];
-
-  new Chart(document.getElementById('chart-participacion'), {
-    type: 'bar',
-    data: {
-      labels: acts.map(a => a.nombre),
-      datasets: grupos.map(g => ({
-        label: g.label,
-        data:  acts.map(a => a[g.key]),
-        backgroundColor: g.color,
-        borderRadius: 2,
-      }))
-    },
-    options: {
-      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'rect', font: { size: 10 }, boxWidth: 11 } },
-        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmt(ctx.parsed.x, 1) + '%' } }
-      },
-      scales: {
-        x: { max: 80, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#ecf0f1' } },
-        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+        y: { stacked: true, ticks: { display: false }, grid: { display: false } }
       }
     }
   });

@@ -1,10 +1,15 @@
 # actualizar_bienal.py — Dimensión 5: Cultura, Recreación y Deporte
-# Lee datos-dim5.xlsx (hoja Bienal_Culturas) y genera bienal_culturas.json.
+# Lee datos-dim5.xlsx (generado por extraer_bienal_microdatos.py) y genera
+# bienal_culturas.json, que es lo que consume dim5/index.html.
 #
 # Flujo de actualización (cada dos años — encuesta bienal):
-#   1. Abrir tablero-cij-compartido/dim5/datos-dim5.xlsx
-#   2. Actualizar los valores en la hoja Bienal_Culturas
+#   1. Conseguir los microdatos nuevos y guardarlos en dim5/fuentes/
+#   2. Correr: python dim5/extraer_bienal_microdatos.py
 #   3. Correr: python dim5/actualizar_bienal.py
+#
+# Si la fuente cambia de formato en el futuro, solo hay que reescribir
+# extraer_bienal_microdatos.py — este script y el esquema del Excel
+# intermedio se mantienen iguales.
 #
 # Requiere: pip install openpyxl
 
@@ -12,103 +17,74 @@ import os
 import json
 import openpyxl
 
-SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
-EXCEL_PATH  = os.path.join(os.path.dirname(SCRIPT_DIR),
-                            'tablero-cij-compartido', 'dim5', 'datos-dim5.xlsx')
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+EXCEL_PATH = os.path.join(os.path.dirname(SCRIPT_DIR),
+                          'tablero-cij-compartido', 'dim5', 'datos-dim5.xlsx')
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, 'data', 'bienal_culturas.json')
 
-FUENTE = 'Encuesta Bienal de Culturas 2025 — Secretaría de Cultura, Recreación y Deporte de Bogotá'
-NOTA   = ('Grupo de edad 13-28 años como proxy de juventud (Ley 1622/2013 define 14-28 años). '
-          'Encuesta bienal: actualización cada dos años. '
-          'Fuente: Observatorio de Culturas — Secretaría de Cultura, Recreación y Deporte.')
-CORTE  = '2025'  # actualizar con el año de la encuesta
+
+def leer_pares(ws):
+    """Lee una hoja de dos columnas (etiqueta, valor) y la devuelve como lista."""
+    filas = []
+    for etiqueta, valor in ws.iter_rows(min_row=2, values_only=True):
+        if etiqueta is None:
+            continue
+        filas.append({'nombre': etiqueta, 'pct': valor})
+    return filas
 
 
-def a_float(v):
-    if v is None:
-        return None
-    return round(float(v), 1)
+def leer_info(ws):
+    return {fila[0]: fila[1] for fila in ws.iter_rows(min_row=2, values_only=True) if fila[0]}
 
 
 def main():
     print('=' * 60)
-    print('Encuesta Bienal de Culturas — actualización desde Excel')
+    print('Generación de bienal_culturas.json desde datos-dim5.xlsx')
     print('=' * 60)
-    print(f'Excel: {EXCEL_PATH}')
 
     if not os.path.exists(EXCEL_PATH):
         print('ERROR: No se encontró datos-dim5.xlsx')
-        print('  → Crear el Excel con la hoja Bienal_Culturas primero.')
+        print('  → Correr primero: python dim5/extraer_bienal_microdatos.py')
         return
 
     wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
 
-    if 'Bienal_Culturas' not in wb.sheetnames:
-        print('ERROR: No se encontró la hoja "Bienal_Culturas" en el Excel.')
-        return
+    info = leer_info(wb['Info'])
 
-    ws = wb['Bienal_Culturas']
-    datos = {r[0]: r[1:] for r in ws.iter_rows(min_row=2, values_only=True) if r[0]}
+    kpis = {fila[0]: fila[1] for fila in wb['KPIs'].iter_rows(min_row=2, values_only=True) if fila[0]}
 
-    # Estructura esperada en la hoja:
-    # Col A: indicador (ej: "practica_actual_jovenes")
-    # Col B: valor jóvenes 13-28
-    # Col C: valor adultos 29-59
-    # Col D: valor mayores 60+
-    def v(key, col):
-        row = datos.get(key)
-        if row is None:
-            return None
-        return a_float(row[col])
+    ws_sat = wb['Satisfaccion']
+    niveles_clave = {
+        'Nada satisfecho/a': 'nada',
+        'Poco satisfecho/a': 'poco',
+        'Satisfecho/a': 'satisfecho',
+        'Muy satisfecho/a': 'muy_satisfecho',
+    }
+    sat_cultura, sat_deporte = {}, {}
+    for nivel, cultura, deporte in ws_sat.iter_rows(min_row=2, values_only=True):
+        clave = niveles_clave.get(nivel, nivel)
+        sat_cultura[clave] = cultura
+        sat_deporte[clave] = deporte
 
     resultado = {
-        'fuente': FUENTE,
-        'poblacion_representada': 6763265,
-        'corte': CORTE,
-        'nota': NOTA,
-        'practica_cultural_actual': {
-            'pregunta': '¿Practica actualmente alguna actividad cultural, artística o creativa?',
-            'jovenes_13_28':  v('practica_actual', 0),
-            'adultos_29_59':  v('practica_actual', 1),
-            'mayores_60_mas': v('practica_actual', 2),
+        'fuente_cultura': info.get('Fuente Cultura'),
+        'fuente_deportes': info.get('Fuente Deportes'),
+        'corte_edad': info.get('Corte edad jóvenes'),
+        'nota_categorias_descontinuadas': info.get('Categorías de participación cultural descontinuadas'),
+        'kpis': {
+            'practica_cultural_actual': kpis.get('practica_cultural_actual'),
+            'practica_deportiva_actual': kpis.get('practica_deportiva_actual'),
         },
-        'satisfaccion_oferta_distrital': {
-            'pregunta': '¿Cuál es su nivel de satisfacción con las actividades culturales y artísticas que organizan las entidades del Distrito en su localidad? (escala 1-4)',
-            'jovenes_13_28': {
-                'nada':          v('sat_nada', 0),
-                'poco':          v('sat_poco', 0),
-                'satisfecho':    v('sat_sat', 0),
-                'muy_satisfecho': v('sat_muy', 0),
-            },
-            'adultos_29_59': {
-                'nada':          v('sat_nada', 1),
-                'poco':          v('sat_poco', 1),
-                'satisfecho':    v('sat_sat', 1),
-                'muy_satisfecho': v('sat_muy', 1),
-            },
-            'mayores_60_mas': {
-                'nada':          v('sat_nada', 2),
-                'poco':          v('sat_poco', 2),
-                'satisfecho':    v('sat_sat', 2),
-                'muy_satisfecho': v('sat_muy', 2),
-            },
+        'satisfaccion': {
+            'cultura_distrito': sat_cultura,
+            'deporte_distrito': sat_deporte,
         },
-        'participacion_actividades': {
-            'pregunta': 'En los últimos 12 meses, ¿cuál de las siguientes actividades practicó o realizó?',
-            'actividades': []
-        }
+        'practica_cultural': leer_pares(wb['Practica_Cultural']),
+        'asistencia_cultural': leer_pares(wb['Asistencia_Cultural']),
+        'razon_no_deporte': leer_pares(wb['Razon_No_Deporte']),
+        'donde_actividad_fisica': leer_pares(wb['Donde_Actividad_Fisica']),
+        'etapas_cambio': leer_pares(wb['Etapas_Cambio']),
     }
-
-    # Actividades: filas que empiezan con "act_"
-    for key, vals in datos.items():
-        if str(key).startswith('act_'):
-            nombre = vals[3] if len(vals) > 3 and vals[3] else key.replace('act_', '')
-            resultado['participacion_actividades']['actividades'].append({
-                'nombre':        nombre,
-                'jovenes_13_28': a_float(vals[0]),
-                'adultos_29_59': a_float(vals[1]),
-                'mayores_60_mas': a_float(vals[2]),
-            })
 
     wb.close()
 
@@ -116,11 +92,10 @@ def main():
     with open(OUTPUT_PATH, 'w', encoding='utf-8') as f:
         json.dump(resultado, f, ensure_ascii=False, indent=2)
 
-    print(f'\nPráctica cultural — jóvenes: {resultado["practica_cultural_actual"]["jovenes_13_28"]}%')
-    j = resultado['satisfaccion_oferta_distrital']['jovenes_13_28']
-    sat = (j['satisfecho'] or 0) + (j['muy_satisfecho'] or 0)
-    print(f'Satisfechos con oferta distrital — jóvenes: {sat}%')
-    print(f'Actividades registradas: {len(resultado["participacion_actividades"]["actividades"])}')
+    print(f'Práctica cultural actual: {resultado["kpis"]["practica_cultural_actual"]}%')
+    print(f'Práctica deportiva actual: {resultado["kpis"]["practica_deportiva_actual"]}%')
+    print(f'Actividades culturales (práctica): {len(resultado["practica_cultural"])}')
+    print(f'Actividades culturales (asistencia): {len(resultado["asistencia_cultural"])}')
     print(f'\nArchivo: {OUTPUT_PATH}')
 
 
