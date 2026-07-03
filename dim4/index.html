@@ -126,6 +126,18 @@
       display: flex; justify-content: space-between;
       align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;
     }
+    /* Toggles de grupos */
+    .toggle-grupo {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px; border: 2px solid;
+      font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      opacity: 0.28; transition: opacity 0.18s, background 0.18s;
+      background: transparent;
+    }
+    .toggle-grupo.activo { opacity: 1; }
+    .toggle-grupo .toggle-dot {
+      width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -224,6 +236,7 @@
 
     <div class="card" style="margin-bottom:1.5rem;">
       <div class="card-title">Tasa específica de fecundidad por grupo de edad — Bogotá D.C. (por cada 1.000 mujeres)</div>
+      <div id="fec-hist-toggles" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;"></div>
       <div class="chart-container" style="height:340px;">
         <canvas id="chart-fec-historico"></canvas>
       </div>
@@ -231,6 +244,7 @@
 
     <div class="card" style="margin-bottom:1.5rem;">
       <div class="card-title">Tasa de fecundidad por localidad — <span id="lbl-fec-loc-anio"></span></div>
+      <div id="fec-loc-toggles" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;"></div>
       <div class="chart-container" style="height:600px;">
         <canvas id="chart-fec-localidad"></canvas>
       </div>
@@ -399,10 +413,10 @@ function renderDisc() {
 let FEC = null, chartFecHist = null, chartFecLoc = null;
 
 const FEC_SERIES = [
-  { key: 'tasa_10_14', label: '10 a 14 años', color: '#b5302a' },
-  { key: 'tasa_15_19', label: '15 a 19 años', color: '#3a7fc1' },
-  { key: 'tasa_20_24', label: '20 a 24 años', color: '#1a4a7a' },
-  { key: 'tasa_25_29', label: '25 a 29 años', color: '#e07830' },
+  { key: 'tasa_10_14', label: '10 a 14 años', color: '#93c4e4' },
+  { key: 'tasa_15_19', label: '15 a 19 años', color: '#1a5fa8' },
+  { key: 'tasa_20_24', label: '20 a 24 años', color: '#7ec87e' },
+  { key: 'tasa_25_29', label: '25 a 29 años', color: '#2d6a2d' },
 ];
 
 fetch('data/fecundidad_adolescente.json')
@@ -451,7 +465,7 @@ function renderFecHistorico() {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } },
+        legend: { display: false },
         tooltip: { callbacks: {
           label: ctx => {
             const nvKey = FEC_SERIES[ctx.datasetIndex].key.replace('tasa_', 'nv_');
@@ -474,6 +488,7 @@ function renderFecHistorico() {
       afterDatasetsDraw(chart) {
         const ctx = chart.ctx;
         FEC_SERIES.forEach((s, si) => {
+          if (!chart.isDatasetVisible(si)) return;
           const meta = chart.getDatasetMeta(si);
           const lastPt = meta.data[meta.data.length - 1];
           if (!lastPt) return;
@@ -490,11 +505,30 @@ function renderFecHistorico() {
       }
     }]
   });
+
+  // Crear toggles — todos activos por defecto en la vista histórica
+  const cont = document.getElementById('fec-hist-toggles');
+  cont.innerHTML = '';
+  FEC_SERIES.forEach((s, si) => {
+    const btn = document.createElement('button');
+    btn.className = 'toggle-grupo activo';
+    btn.style.borderColor = s.color;
+    btn.style.color = s.color;
+    btn.innerHTML = '<span class="toggle-dot" style="background:' + s.color + '"></span>' + s.label;
+    btn.addEventListener('click', () => {
+      const visible = chartFecHist.isDatasetVisible(si);
+      chartFecHist.setDatasetVisibility(si, !visible);
+      chartFecHist.update();
+      btn.classList.toggle('activo', !visible);
+    });
+    cont.appendChild(btn);
+  });
 }
 
 function renderFecLocalidad() {
   const locs = FEC.por_localidad;
   const nvKeys = ['nv_10_14', 'nv_15_19', 'nv_20_24', 'nv_25_29'];
+
   if (chartFecLoc) chartFecLoc.destroy();
   chartFecLoc = new Chart(document.getElementById('chart-fec-localidad'), {
     type: 'bar',
@@ -505,12 +539,13 @@ function renderFecLocalidad() {
         data: locs.map(l => l[s.key]),
         backgroundColor: s.color,
         borderRadius: 2,
+        hidden: si !== 1,  // solo 15-19 visible por defecto
       }))
     },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } },
+        legend: { display: false },
         tooltip: { callbacks: {
           label: ctx => {
             const l = locs[ctx.dataIndex];
@@ -524,6 +559,24 @@ function renderFecLocalidad() {
         y: { ticks: { font: { size: 10 } }, grid: { display: false } }
       }
     }
+  });
+
+  // Crear toggles
+  const cont = document.getElementById('fec-loc-toggles');
+  cont.innerHTML = '';
+  FEC_SERIES.forEach((s, si) => {
+    const btn = document.createElement('button');
+    btn.className = 'toggle-grupo' + (si === 1 ? ' activo' : '');
+    btn.style.borderColor = s.color;
+    btn.style.color = s.color;
+    btn.innerHTML = '<span class="toggle-dot" style="background:' + s.color + '"></span>' + s.label;
+    btn.addEventListener('click', () => {
+      const visible = chartFecLoc.isDatasetVisible(si);
+      chartFecLoc.setDatasetVisibility(si, !visible);
+      chartFecLoc.update();
+      btn.classList.toggle('activo', !visible);
+    });
+    cont.appendChild(btn);
   });
 }
 
