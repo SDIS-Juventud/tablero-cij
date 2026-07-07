@@ -15,7 +15,7 @@
     /* Barra institucional */
     .header-bar {
       background: #fff;
-      border-bottom: 4px solid #d4a017;
+      border-bottom: 4px solid #000;
       padding: 10px 24px;
       display: flex;
       align-items: center;
@@ -94,7 +94,6 @@
       border: 1.5px solid #ddd;
       border-radius: 6px;
       padding: 14px 16px;
-      border-left: 4px solid;
     }
     .desc-card h3 {
       font-size: 0.9rem;
@@ -107,21 +106,14 @@
       color: #444;
     }
 
-    /* Colores de tarjetas */
-    .desc-card.dim1 { border-left-color: #c9a51a; }
-    .desc-card.dim1 h3 { color: #c9a51a; }
-    .desc-card.dim2 { border-left-color: #c49518; }
-    .desc-card.dim2 h3 { color: #c49518; }
-    .desc-card.dim3 { border-left-color: #c0392b; }
-    .desc-card.dim3 h3 { color: #c0392b; }
-    .desc-card.dim4 { border-left-color: #a32a2a; }
-    .desc-card.dim4 h3 { color: #a32a2a; }
-    .desc-card.dim5 { border-left-color: #8c6d10; }
-    .desc-card.dim5 h3 { color: #8c6d10; }
-    .desc-card.dim6 { border-left-color: #5e1818; }
-    .desc-card.dim6 h3 { color: #5e1818; }
-    .desc-card.dim7 { border-left-color: #7a6a1e; }
-    .desc-card.dim7 h3 { color: #7a6a1e; }
+    /* Colores de tarjetas — mismo mapeo de dimensión → color del index */
+    .desc-card.dim1 h3 { color: #f4676e; }
+    .desc-card.dim2 h3 { color: #1eaf76; }
+    .desc-card.dim3 h3 { color: #663a93; }
+    .desc-card.dim4 h3 { color: #1e9da3; }
+    .desc-card.dim5 h3 { color: #f58b53; }
+    .desc-card.dim6 h3 { color: #2fa4d4; }
+    .desc-card.dim7 h3 { color: #1e7895; }
 
     /* Spacer para alinear tarjetas con cintas */
     .spacer { height: 30px; }
@@ -181,13 +173,13 @@
       transform: scale(1.03);
     }
 
-    .dim-arrow:nth-child(1) { background: #c9a51a; }
-    .dim-arrow:nth-child(2) { background: #c49518; }
-    .dim-arrow:nth-child(3) { background: #c0392b; }
-    .dim-arrow:nth-child(4) { background: #a32a2a; }
-    .dim-arrow:nth-child(5) { background: #8c6d10; }
-    .dim-arrow:nth-child(6) { background: #5e1818; }
-    .dim-arrow:nth-child(7) { background: #7a6a1e; }
+    .dim-arrow:nth-child(1) { background: #f4676e; }
+    .dim-arrow:nth-child(2) { background: #1eaf76; }
+    .dim-arrow:nth-child(3) { background: #663a93; }
+    .dim-arrow:nth-child(4) { background: #1e9da3; }
+    .dim-arrow:nth-child(5) { background: #f58b53; }
+    .dim-arrow:nth-child(6) { background: #2fa4d4; }
+    .dim-arrow:nth-child(7) { background: #1e7895; }
   </style>
 </head>
 <body>
@@ -227,7 +219,7 @@
 
         <div class="desc-card dim6">
           <h3>6. Paz, Convivencia y Justicia</h3>
-          <p>En esta dimensi&oacute;n se presentan los resultados de la Encuesta de Percepci&oacute;n Ciudadana de Bogot&aacute; C&oacute;mo Vamos 2023 en relaci&oacute;n con paz, justicia y convivencia.</p>
+          <p>En esta dimensi&oacute;n se presentan los resultados de la Encuesta de Percepci&oacute;n Ciudadana de Bogot&aacute; C&oacute;mo Vamos 2025 en relaci&oacute;n con paz, justicia y convivencia.</p>
         </div>
       </div>
 
@@ -236,10 +228,10 @@
         <a href="dim1/" class="dim-arrow">1. Ser joven</a>
         <a href="dim2/" class="dim-arrow">2. Educaci&oacute;n</a>
         <a href="dim3/" class="dim-arrow">3. Inclusi&oacute;n Productiva</a>
-        <a href="#" class="dim-arrow">4. Salud Integral y<br>Autocuidado</a>
-        <a href="#" class="dim-arrow">5. Cultura, Recreaci&oacute;n y<br>Deporte</a>
-        <a href="#" class="dim-arrow">6. Paz, Convivencia y<br>Justicia</a>
-        <a href="#" class="dim-arrow">7. H&aacute;bitat</a>
+        <a href="dim4/" class="dim-arrow">4. Salud Integral y<br>Autocuidado</a>
+        <a href="dim5/" class="dim-arrow">5. Cultura, Recreaci&oacute;n y<br>Deporte</a>
+        <a href="dim6/" class="dim-arrow">6. Paz, Convivencia y<br>Justicia</a>
+        <a href="dim7/" class="dim-arrow">7. H&aacute;bitat</a>
       </div>
 
       <!-- Columna derecha: dimensiones impares (1, 3, 5, 7) -->
@@ -256,12 +248,12 @@
 
         <div class="desc-card dim5">
           <h3>5. Cultura, Recreaci&oacute;n y Deporte</h3>
-          <p>En esta dimensi&oacute;n se presentan los resultados de la Encuesta de Percepci&oacute;n Ciudadana de Bogot&aacute; C&oacute;mo Vamos 2023 relacionados con la oferta cultural, recreativa y deportiva para j&oacute;venes.</p>
+          <p>En esta dimensi&oacute;n se presentan los resultados de la Encuesta Bienal de Culturas 2025 y de la Encuesta de Pr&aacute;cticas Deportivas y Calidad de Vida 2024 relacionados con la oferta cultural, recreativa y deportiva para j&oacute;venes.</p>
         </div>
 
         <div class="desc-card dim7">
           <h3>7. H&aacute;bitat</h3>
-          <p>En esta dimensi&oacute;n se presentan los resultados de la Encuesta de Percepci&oacute;n Ciudadana de Bogot&aacute; C&oacute;mo Vamos 2023 relacionados con el h&aacute;bitat.</p>
+          <p>En esta dimensi&oacute;n se presentan los resultados de la Encuesta de Percepci&oacute;n Ciudadana de Bogot&aacute; C&oacute;mo Vamos 2025 y de la Encuesta Bienal de Culturas 2025 (m&oacute;dulo de Cultura Ambiental) relacionados con el h&aacute;bitat.</p>
         </div>
       </div>
     </div>

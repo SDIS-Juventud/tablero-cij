@@ -6,97 +6,62 @@
   <title>Centro de Información de Juventud – Dimensión 5: Cultura, Recreación y Deporte</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@700&family=Figtree:wght@400;500;600;700;800&display=swap');
     :root {
-      /* Identidad de la dimensión 5 (Cultura, Recreación y Deporte): naranja coral, según
-         mapeo de 7 colores oficiales. El naranja coral base no da contraste suficiente para
-         texto — --acento-oscuro es la variante ya usada como alerta en dim2. */
-      --acento: #f58b53;
-      --acento-oscuro: #c46f42;
-      --crema: #f5efd2;
-      --gris-oscuro: #2f2b28;
-      --gris: #83766c;
-      --gris-claro: #f4f2ee;
-      --blanco: #ffffff;
+      --principal:       #8c6d10;
+      --principal-claro: #c9a51a;
+      --principal-bg:    #fdf8e8;
+      --gris-oscuro:     #2c3e50;
+      --gris:            #7f8c8d;
+      --gris-claro:      #ecf0f1;
+      --blanco:          #ffffff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Figtree', 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--gris-claro);
       color: var(--gris-oscuro);
       line-height: 1.5;
     }
-    .header-hero {
-      position: relative;
-      background: url('../imagenes/SDIS/Fondo naranja.png') center/cover;
-      padding-top: 3rem;
-      overflow: hidden;
+    .header {
+      background: var(--principal);
+      color: var(--blanco);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    .header-hero .hero-texto { text-align: center; padding: 0 2rem 2.5rem; }
-    .header-hero .hero-title {
-      font-family: 'Anton', 'Segoe UI', sans-serif;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.01em;
-      font-size: 3.4rem;
-      line-height: 1.08;
-      color: var(--crema);
-    }
-    .header-hero .hero-subtitle {
-      font-family: 'Antonio', 'Segoe UI', sans-serif;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-size: 1.15rem;
-      color: var(--crema);
-      opacity: 0.85;
-      margin-top: 0.4rem;
-    }
-    .header-hero .btn-home {
-      position: absolute; top: 1.3rem; left: 2rem; z-index: 2;
-      color: var(--crema);
+    .header svg { width: 32px; height: 32px; fill: var(--blanco); }
+    .header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+    .header .btn-home {
+      color: var(--blanco);
       text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border: 1.5px solid rgba(245,239,210,0.55);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1.5px solid rgba(255,255,255,0.5);
       border-radius: 6px;
       transition: all 0.15s;
+      white-space: nowrap;
     }
-    .header-hero .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--crema); }
-    .footer-marca { display: block; width: 100%; height: auto; margin-top: 2rem; }
-    @media (max-width: 600px) {
-      .header-hero { padding-top: 2.2rem; }
-      .header-hero .hero-title { font-size: 2.2rem; }
-      .header-hero .hero-subtitle { font-size: 0.9rem; }
-      .header-hero .btn-home { top: 0.9rem; left: 1rem; font-size: 0.72rem; padding: 4px 10px; }
-    }
+    .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
     .container { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
     .page-subtitle { font-size: 1.1rem; color: var(--gris); margin-bottom: 1rem; margin-top: 2rem; }
     .page-subtitle:first-child { margin-top: 0; }
     .page-subtitle span { font-weight: 600; color: var(--gris-oscuro); }
-
-    /* Franja de estadísticas en blanco: mismo formato de dim2/dim4 (pastilla + número
-       grande + etiqueta), pero pensada para convivir con tarjetas blancas — número y
-       pastilla en color en vez de blanco sobre fondo sólido. */
-    .stat-strip {
-      display: flex; background: var(--blanco);
-      border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    .kpis-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
     }
-    .stat-tile { position: relative; flex: 1; padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; }
-    .stat-tile:not(:first-child)::before {
-      content: ''; position: absolute; left: 0; top: 50%;
-      width: 1px; height: 56%; background: var(--gris-claro);
-      transform: translateY(-50%);
+    @media (max-width: 800px) { .kpis-row { grid-template-columns: 1fr; } }
+    .kpi-group {
+      background: var(--blanco); border-radius: 10px;
+      padding: 1.2rem 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    .stat-numero {
-      font-family: 'Anton', 'Figtree', sans-serif; font-weight: 400;
-      font-size: 3rem; color: var(--acento-oscuro); line-height: 1; flex-shrink: 0;
+    .kpi-group-title {
+      font-size: 0.85rem; font-weight: 700; color: var(--gris);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
     }
-    .stat-texto { font-size: 1rem; font-weight: 700; color: var(--gris-oscuro); margin-bottom: 5px; }
-    .stat-meta { font-size: 0.8rem; color: var(--gris); }
-    .stat-imagen { height: 240px; width: auto; flex-shrink: 0; align-self: flex-end; }
-
     .card {
       background: var(--blanco); border-radius: 10px;
       padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
@@ -105,7 +70,8 @@
     .card-title {
       font-size: 0.85rem; font-weight: 700; color: var(--gris);
       text-transform: uppercase; letter-spacing: 0.5px;
-      margin-bottom: 1rem;
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
     }
     .card-nota {
       font-size: 0.78rem; color: var(--gris); margin-bottom: 1rem; line-height: 1.4;
@@ -120,24 +86,14 @@
       margin-bottom: 0.8rem; padding-bottom: 0.8rem;
       border-bottom: 1px solid var(--gris-claro);
     }
-    .footer-notas {
-      background: #f8f9fa;
-      border-radius: 6px;
-      padding: 0.8rem 1rem;
-      font-size: 0.72rem;
-      line-height: 1.6;
-      color: #666;
-    }
   </style>
 </head>
 <body>
 
-  <div class="header-hero">
+  <div class="header">
+    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+    <h1>Dimensión 5 – Cultura, Recreación y Deporte</h1>
     <a href="../index.html" class="btn-home">&#8592; Inicio</a>
-    <div class="hero-texto">
-      <h1 class="hero-title">Cultura, recreación y deporte</h1>
-      <p class="hero-subtitle">Dimensión 5</p>
-    </div>
   </div>
 
   <div class="container">
@@ -148,17 +104,28 @@
     <p class="page-subtitle">
       <span>5.1 Prácticas culturales y artísticas — jóvenes de Bogotá</span><br>
       Fuente: Encuesta Bienal de Culturas 2025 – Secretaría de Cultura, Recreación y Deporte<br>
-      <span style="font-size:0.8em; font-weight:400; color:#888;" id="nota-corte-cultura">Corte: 2025, jóvenes de 13-28 años</span>
+      <span style="font-size:0.8em; font-weight:400; color:#888;" id="nota-corte-cultura">Corte: 2025</span>
     </p>
 
-    <div class="stat-strip" style="margin-bottom:1.5rem;">
-      <div class="stat-tile">
-        <div class="stat-numero" id="kpi-practica-cultural">–</div>
+    <div class="kpis-row">
+      <div class="kpi-group" style="display:flex; align-items:center; gap:1.5rem;">
+        <div style="font-size:3.2rem; font-weight:800; color:var(--principal); line-height:1;" id="kpi-practica-cultural">–</div>
         <div>
-          <div class="stat-texto">de los jóvenes practica actualmente alguna actividad cultural, artística o creativa</div>
-          <div class="stat-meta">¿Practica actualmente alguna actividad cultural, artística o creativa? · Respuesta: Sí</div>
+          <div style="font-size:1rem; font-weight:700; color:var(--gris-oscuro); margin-bottom:5px;">
+            de los jóvenes practica actualmente alguna actividad cultural, artística o creativa
+          </div>
+          <div style="font-size:0.8rem; color:var(--gris);">
+            ¿Practica actualmente alguna actividad cultural, artística o creativa? · Respuesta: Sí
+          </div>
         </div>
-        <img src="../imagenes/elementos/3.png" alt="" class="stat-imagen">
+      </div>
+      <div class="kpi-group">
+        <div class="kpi-group-title">Nota metodológica</div>
+        <div style="font-size:0.82rem; color:var(--gris); line-height:1.55;" id="nota-metodologica-cultura">
+          El grupo <strong>13-28 años</strong> de la Encuesta Bienal es el proxy más cercano a la definición legal
+          de juventud (14-28 años, Ley 1622/2013 y Ley 1885/2018). Los porcentajes están ponderados por el
+          factor de expansión de la encuesta.
+        </div>
       </div>
     </div>
 
@@ -198,14 +165,26 @@
       <span style="font-size:0.8em; font-weight:400; color:#888;">Corte: diciembre de 2024</span>
     </p>
 
-    <div class="stat-strip" style="margin-bottom:1.5rem;">
-      <div class="stat-tile">
-        <div class="stat-numero" id="kpi-practica-deporte">–</div>
+    <div class="kpis-row">
+      <div class="kpi-group" style="display:flex; align-items:center; gap:1.5rem;">
+        <div style="font-size:3.2rem; font-weight:800; color:var(--principal); line-height:1;" id="kpi-practica-deporte">–</div>
         <div>
-          <div class="stat-texto">de los jóvenes practica deporte actualmente</div>
-          <div class="stat-meta">¿Usted practica deporte actualmente? · Respuesta: Sí</div>
+          <div style="font-size:1rem; font-weight:700; color:var(--gris-oscuro); margin-bottom:5px;">
+            de los jóvenes practica deporte actualmente
+          </div>
+          <div style="font-size:0.8rem; color:var(--gris);">
+            ¿Usted practica deporte actualmente? · Respuesta: Sí
+          </div>
         </div>
-        <img src="../imagenes/elementos/4.png" alt="" class="stat-imagen">
+      </div>
+      <div class="kpi-group">
+        <div class="kpi-group-title">Nota metodológica</div>
+        <div style="font-size:0.82rem; color:var(--gris); line-height:1.55;">
+          El grupo <strong>13-28 años</strong> de la Encuesta Bienal es el proxy más cercano a la definición legal
+          de juventud (14-28 años, Ley 1622/2013 y Ley 1885/2018). Los porcentajes están ponderados por el
+          factor de expansión de la encuesta. Encuesta de campo diciembre de 2024: se excluyeron 36 registros
+          marcados como "Not Selected" por control de calidad de la fuente antes de calcular cualquier porcentaje.
+        </div>
       </div>
     </div>
 
@@ -249,14 +228,9 @@
         <span>Fuente: Encuesta Bienal de Culturas 2025 — Secretaría de Cultura, Recreación y Deporte de Bogotá</span>
         <span>Subdirección para la Juventud – SDIS · Bogotá D.C.</span>
       </div>
-      <div class="footer-notas">
-        <p>Los porcentajes están ponderados por el factor de expansión de la encuesta.</p>
-      </div>
     </div>
 
   </div>
-
-  <img src="../imagenes/SDIS/Distrito joven.png" alt="Distrito Joven — Secretaría de Integración Social" class="footer-marca">
 
 <script>
 function fmt(v, d) {
@@ -375,7 +349,7 @@ function renderBarras(canvasId, containerId, datos) {
       labels: datos.map(d => d.nombre),
       datasets: [{
         data: datos.map(d => d.pct),
-        backgroundColor: '#f58b53',
+        backgroundColor: '#c9a51a',
         borderRadius: 2,
         maxBarThickness: 16,
       }]
@@ -387,22 +361,20 @@ function renderBarras(canvasId, containerId, datos) {
         tooltip: { callbacks: { label: ctx => fmt(ctx.parsed.x, 1) + '%' } }
       },
       scales: {
-        x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#f4f2ee' } },
+        x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#ecf0f1' } },
         y: { ticks: { font: { size: 10.5 } }, grid: { display: false } }
       }
     }
   });
 }
 
-// Gráfica de satisfacción: barra única apilada. Orden de izquierda a derecha: lo bueno
-// primero, lo malo al final — mismo formato de dim6/dim7: dos familias de color (azul
-// petróleo bueno, rosa coral malo) con variación de intensidad, no cuatro tonos distintos.
+// Gráfica de satisfacción: barra única apilada, gradiente rojo (insatisfecho) a verde (satisfecho)
 function renderSatisfaccion(canvasId, sat) {
   const niveles = [
-    { key: 'muy_satisfecho', label: '4 – Muy satisfecho/a',  color: '#114252' },
-    { key: 'satisfecho',     label: '3 – Satisfecho/a',      color: '#1e7895' },
-    { key: 'poco',           label: '2 – Poco satisfecho/a', color: '#e86269' },
-    { key: 'nada',           label: '1 – Nada satisfecho/a', color: '#c35258' },
+    { key: 'nada',           label: '1 – Nada satisfecho/a', color: '#c62828' },
+    { key: 'poco',           label: '2 – Poco satisfecho/a', color: '#e57373' },
+    { key: 'satisfecho',     label: '3 – Satisfecho/a',      color: '#81c784' },
+    { key: 'muy_satisfecho', label: '4 – Muy satisfecho/a',  color: '#2e7d32' },
   ];
 
   new Chart(document.getElementById(canvasId), {
@@ -424,7 +396,7 @@ function renderSatisfaccion(canvasId, sat) {
         tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmt(ctx.parsed.x, 1) + '%' } }
       },
       scales: {
-        x: { stacked: true, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#f4f2ee' } },
+        x: { stacked: true, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#ecf0f1' } },
         y: { stacked: true, ticks: { display: false }, grid: { display: false } }
       }
     }

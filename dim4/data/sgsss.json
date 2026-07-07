@@ -1,0 +1,50 @@
+{
+  "corte": "MAYO-2026",
+  "fuente": "MinSalud – Caracterización de afiliados (PISIS/BDUA)",
+  "nota": "Bogotá D.C., jóvenes de 15 a 29 años.",
+  "regimenes": [
+    "CONTRIBUTIVO",
+    "SUBSIDIADO",
+    "EXCEPCION",
+    "INPEC INTRAMURAL"
+  ],
+  "por_cohorte": [
+    {
+      "quinquenio": "15-19",
+      "total": 529881,
+      "regimen": {
+        "CONTRIBUTIVO": 382688,
+        "SUBSIDIADO": 139553,
+        "EXCEPCION": 7602,
+        "INPEC INTRAMURAL": 38
+      }
+    },
+    {
+      "quinquenio": "20-24",
+      "total": 598973,
+      "regimen": {
+        "CONTRIBUTIVO": 443972,
+        "SUBSIDIADO": 148327,
+        "EXCEPCION": 5590,
+        "INPEC INTRAMURAL": 1084
+      }
+    },
+    {
+      "quinquenio": "25-29",
+      "total": 697261,
+      "regimen": {
+        "CONTRIBUTIVO": 521132,
+        "SUBSIDIADO": 171345,
+        "EXCEPCION": 1808,
+        "INPEC INTRAMURAL": 2976
+      }
+    }
+  ],
+  "totales_regimen": {
+    "CONTRIBUTIVO": 1347792,
+    "SUBSIDIADO": 459225,
+    "EXCEPCION": 15000,
+    "INPEC INTRAMURAL": 4098
+  },
+  "total_general": 1826115
+}

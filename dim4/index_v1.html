@@ -6,70 +6,48 @@
   <title>Centro de Información de Juventud - Dimensión 4: Salud integral y autocuidado</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@700&family=Figtree:wght@400;500;600;700;800&display=swap');
     :root {
-      /* Identidad de la dimensión 4 (Salud): teal, según mapeo de 7 colores oficiales x 7 dimensiones */
-      --acento: #1e9da3;
-      --acento-oscuro: #14666b;
-      --acento-claro: #5bb8bd;
-      --crema: #f5efd2;
-      --gris-oscuro: #2f2b28;
-      --gris: #83766c;
-      --gris-claro: #f4f2ee;
+      --rojo: #b5302a;
+      --rojo-oscuro: #8c2420;
+      --rojo-claro: #d94f48;
+      --naranja: #e07830;
+      --azul: #3a7fc1;
+      --azul-oscuro: #1a4a7a;
+      --azul-claro: #7fb3e0;
+      --gris-oscuro: #2c3e50;
+      --gris: #7f8c8d;
+      --gris-claro: #ecf0f1;
       --blanco: #ffffff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Figtree', 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--gris-claro);
       color: var(--gris-oscuro);
       line-height: 1.5;
     }
-    .header-hero {
-      position: relative;
-      background: url('../imagenes/SDIS/Fondo azul 2.png') center/cover;
-      padding-top: 3rem;
-      overflow: hidden;
+    .header {
+      background: var(--rojo);
+      color: var(--blanco);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    .header-hero .hero-texto { text-align: center; padding: 0 2rem 2.5rem; }
-    .header-hero .hero-title {
-      font-family: 'Anton', 'Segoe UI', sans-serif;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.01em;
-      font-size: 3.4rem;
-      line-height: 1.08;
-      color: var(--crema);
-    }
-    .header-hero .hero-subtitle {
-      font-family: 'Antonio', 'Segoe UI', sans-serif;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-size: 1.15rem;
-      color: var(--crema);
-      opacity: 0.85;
-      margin-top: 0.4rem;
-    }
-    .header-hero .btn-home {
-      position: absolute; top: 1.3rem; left: 2rem; z-index: 2;
-      color: var(--crema);
+    .header svg { width: 32px; height: 32px; fill: var(--blanco); }
+    .header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+    .header .btn-home {
+      color: var(--blanco);
       text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border: 1.5px solid rgba(245,239,210,0.55);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1.5px solid rgba(255,255,255,0.5);
       border-radius: 6px;
       transition: all 0.15s;
+      white-space: nowrap;
     }
-    .header-hero .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--crema); }
-    .footer-marca { display: block; width: 100%; height: auto; margin-top: 2rem; }
-    @media (max-width: 600px) {
-      .header-hero { padding-top: 2.2rem; }
-      .header-hero .hero-title { font-size: 2.2rem; }
-      .header-hero .hero-subtitle { font-size: 0.9rem; }
-      .header-hero .btn-home { top: 0.9rem; left: 1rem; font-size: 0.72rem; padding: 4px 10px; }
-    }
+    .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
     .container { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
     .page-subtitle { font-size: 1.1rem; color: var(--gris); margin-bottom: 1rem; }
     .page-subtitle span { font-weight: 600; color: var(--gris-oscuro); }
@@ -94,39 +72,32 @@
       font-size: 0.9rem; color: var(--gris-oscuro); background: var(--blanco);
       cursor: pointer; min-width: 100px;
     }
-    .filtro-select:focus { outline: none; border-color: var(--acento); }
-
-    /* Franja de estadísticas: sin tarjetas ni bordes de color, separadores finos */
-    .stat-strip {
-      display: flex; background: var(--acento);
-      border-radius: 10px; overflow: hidden; margin-bottom: 1.5rem;
+    .filtro-select:focus { outline: none; border-color: var(--rojo); }
+    .kpis-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
     }
-    .stat-tile {
-      position: relative; flex: 1; padding: 28px 24px 22px;
+    @media (max-width: 800px) { .kpis-row { grid-template-columns: 1fr; } }
+    .kpi-group {
+      background: var(--blanco); border-radius: 10px;
+      padding: 1.2rem 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    .stat-tile:not(:first-child)::before {
-      content: ''; position: absolute; left: 0; top: 50%;
-      width: 1px; height: 56%; background: rgba(255,255,255,0.2);
-      transform: translateY(-50%);
+    .kpi-group-title {
+      font-size: 0.85rem; font-weight: 700; color: var(--gris);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
     }
-    .stat-pill {
-      display: block; color: var(--crema);
-      font-family: 'Antonio', 'Figtree', sans-serif; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.04em;
-      font-size: 0.75rem; margin-bottom: 20px; opacity: 0.85;
+    .kpi-cards { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .kpi-card {
+      flex: 1; min-width: 100px; text-align: center;
+      padding: 0.8rem; border-radius: 8px; background: #fdf0f0;
     }
-    .stat-numero {
-      font-family: 'Anton', 'Figtree', sans-serif; font-weight: 400;
-      font-size: 2.5rem; color: var(--blanco); line-height: 1; margin-bottom: 8px;
-    }
-    .stat-meta { font-size: 0.78rem; color: var(--crema); opacity: 0.75; }
-    @media (max-width: 800px) {
-      .stat-strip { flex-direction: column; }
-      .stat-tile:not(:first-child)::before {
-        left: 50%; top: 0; width: 56%; height: 1px; transform: translateX(-50%);
-      }
-    }
-
+    .kpi-valor { font-size: 1.6rem; font-weight: 700; color: var(--rojo); }
+    .kpi-card.natalidad { background: #e8f0f8; }
+    .kpi-card.natalidad .kpi-valor { color: #2a6aaa; }
+    .kpi-card.mortalidad { background: #fdf0f0; }
+    .kpi-card.mortalidad .kpi-valor { color: var(--rojo); }
+    .kpi-label { font-size: 0.78rem; color: var(--gris); margin-top: 2px; }
     .grid-2col {
       display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
     }
@@ -138,7 +109,8 @@
     .card-title {
       font-size: 0.85rem; font-weight: 700; color: var(--gris);
       text-transform: uppercase; letter-spacing: 0.5px;
-      margin-bottom: 1rem;
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
     }
     .chart-container { position: relative; height: 320px; }
     .pendiente-msg {
@@ -170,53 +142,18 @@
 </head>
 <body>
 
-  <div class="header-hero">
+  <div class="header">
+    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-2v-4H8v-2h4V8h2v4h4v2z"/></svg>
+    <h1>Dimensión 4 – Salud integral y autocuidado</h1>
     <a href="../index.html" class="btn-home">&#8592; Inicio</a>
-    <div class="hero-texto">
-      <h1 class="hero-title">Salud integral y autocuidado</h1>
-      <p class="hero-subtitle">Dimensión 4</p>
-    </div>
   </div>
 
   <div class="container">
 
-    <!-- ============================================================ -->
-    <!-- 4.1 SGSSS -->
-    <!-- ============================================================ -->
-    <p class="page-subtitle">
-      <span>4.1 Jóvenes afiliados al Sistema General de Seguridad Social en Salud (SGSSS) — Bogotá</span><br>
-      Fuente: MinSalud – Caracterización de afiliados (PISIS/BDUA)<br>
-      <span id="lbl-sgsss-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
-    </p>
-
-    <div class="stat-strip">
-      <div class="stat-tile">
-        <span class="stat-pill">15 a 19 años</span>
-        <div class="stat-numero" id="kpi-sgsss-1519">–</div>
-        <div class="stat-meta">Afiliados SGSSS</div>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-pill">20 a 24 años</span>
-        <div class="stat-numero" id="kpi-sgsss-2024">–</div>
-        <div class="stat-meta">Afiliados SGSSS</div>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-pill">25 a 29 años</span>
-        <div class="stat-numero" id="kpi-sgsss-2529">–</div>
-        <div class="stat-meta">Afiliados SGSSS</div>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-pill">Total 15 a 29 años</span>
-        <div class="stat-numero" id="kpi-sgsss-total">–</div>
-        <div class="stat-meta">Afiliados SGSSS</div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Afiliados por régimen y cohorte de edad</div>
-      <div class="chart-container" style="height:260px;">
-        <canvas id="chart-sgsss-regimen"></canvas>
-      </div>
+    <!-- 4.1 SGSSS (pendiente) -->
+    <div class="pendiente-msg">
+      <strong>4.1 Jóvenes afiliados al SGSSS</strong><br>
+      Sección pendiente — datos de régimen de seguridad social aún no disponibles.
     </div>
 
     <!-- ============================================================ -->
@@ -224,25 +161,29 @@
     <!-- ============================================================ -->
     <p class="page-subtitle">
       <span>4.2 Adolescentes y jóvenes en condición de discapacidad — Bogotá</span><br>
-      Fuente: SaludData – Observatorio de Salud de Bogotá, personas certificadas según momento de su curso de vida en cinco grandes grupos de los cuales se toman para esta sección los grupos "Adolescencia" y "Juventud"<br>
+      Fuente: SaludData – Observatorio de Salud de Bogotá<br>
       <span id="lbl-disc-anio" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
 
-    <div class="stat-strip">
-      <div class="stat-tile">
-        <span class="stat-pill">Total personas con discapacidad · Bogotá</span>
-        <div class="stat-numero" id="kpi-total-bogota-disc">–</div>
+    <div class="kpis-row">
+      <div class="kpi-group">
+        <div class="kpi-group-title">Adolescentes y jóvenes con discapacidad certificada</div>
+        <div class="kpi-cards">
+          <div class="kpi-card">
+            <div class="kpi-valor" id="kpi-total-bogota-disc">–</div>
+            <div class="kpi-label">Total Bogotá</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-valor" id="kpi-total-disc">–</div>
+            <div class="kpi-label">Adolescentes y jóvenes</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-tile">
-        <span class="stat-pill">Total adolescentes y jóvenes con discapacidad certificada</span>
-        <div class="stat-numero" id="kpi-total-disc">–</div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Cantidad por tipo de discapacidad en adolescentes y jóvenes</div>
-      <div class="chart-container" style="height:220px;">
-        <canvas id="chart-disc-tipo"></canvas>
+      <div class="kpi-group">
+        <div class="kpi-group-title">Cantidad por tipo de discapacidad en adolescentes y jóvenes</div>
+        <div class="chart-container" style="height:220px;">
+          <canvas id="chart-disc-tipo"></canvas>
+        </div>
       </div>
     </div>
 
@@ -256,29 +197,41 @@
     <!-- ============================================================ -->
     <!-- 4.3 Fecundidad adolescente -->
     <!-- ============================================================ -->
-    <p class="page-subtitle" style="margin-top:2.5rem;">
-      <span>4.3 Tasa específica de fecundidad en jóvenes (15-29 años) — Bogotá D.C.</span><br>
+    <hr style="border:none; border-top:3px solid var(--azul); margin:2.5rem 0 1.5rem;">
+
+    <p class="page-subtitle">
+      <span>4.3 Tasa específica de fecundidad en jóvenes (10-29 años) — Bogotá D.C.</span><br>
       Fuente: SaludData – Observatorio de Salud de Bogotá · Población: DANE, proyecciones CNPV 2018<br>
-      <span id="lbl-fec-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span><br>
-      <span style="font-size:0.8em; font-weight:400; color:#888;">¿Cómo leer esta tasa? Indica cuántas mujeres de ese grupo de edad tuvieron un nacido vivo, por cada 1.000 mujeres de esa misma edad. El símbolo ‰ significa "por mil" (no "por cien" como el %) — no es un porcentaje ni el promedio de hijos por mujer.</span>
+      <span id="lbl-fec-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
 
 
-    <div class="stat-strip">
-      <div class="stat-tile">
-        <span class="stat-pill">15 a 19 años · <span id="lbl-fec-anio-1519"></span></span>
-        <div class="stat-numero" id="kpi-fec-tasa1519">–</div>
-        <div class="stat-meta">Tasa de fecundidad ‰</div>
+    <div class="kpis-row">
+      <div class="kpi-group">
+        <div class="kpi-group-title">Adolescentes — <span id="lbl-fec-anio1"></span></div>
+        <div class="kpi-cards">
+          <div class="kpi-card" style="background:#fdf0f0;">
+            <div class="kpi-valor" id="kpi-fec-tasa1014" style="color:var(--rojo);">–</div>
+            <div class="kpi-label">10 a 14 años · tasa ‰</div>
+          </div>
+          <div class="kpi-card natalidad">
+            <div class="kpi-valor" id="kpi-fec-tasa1519">–</div>
+            <div class="kpi-label">15 a 19 años · tasa ‰</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-tile">
-        <span class="stat-pill">20 a 24 años · <span id="lbl-fec-anio-2024"></span></span>
-        <div class="stat-numero" id="kpi-fec-tasa2024">–</div>
-        <div class="stat-meta">Tasa de fecundidad ‰</div>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-pill">25 a 29 años · <span id="lbl-fec-anio-2529"></span></span>
-        <div class="stat-numero" id="kpi-fec-tasa2529">–</div>
-        <div class="stat-meta">Tasa de fecundidad ‰</div>
+      <div class="kpi-group">
+        <div class="kpi-group-title">Jóvenes (rango 14-28) — <span id="lbl-fec-anio2"></span></div>
+        <div class="kpi-cards">
+          <div class="kpi-card" style="background:#e8f0f8;">
+            <div class="kpi-valor" id="kpi-fec-tasa2024" style="color:var(--azul-oscuro);">–</div>
+            <div class="kpi-label">20 a 24 años · tasa ‰</div>
+          </div>
+          <div class="kpi-card" style="background:#fef3e8;">
+            <div class="kpi-valor" id="kpi-fec-tasa2529" style="color:var(--naranja);">–</div>
+            <div class="kpi-label">25 a 29 años · tasa ‰</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -301,7 +254,9 @@
     <!-- ============================================================ -->
     <!-- 4.4 Mortalidad -->
     <!-- ============================================================ -->
-    <p class="page-subtitle" style="margin-top:2.5rem;">
+    <hr style="border:none; border-top:3px solid var(--rojo-claro); margin:2.5rem 0 1.5rem;">
+
+    <p class="page-subtitle">
       <span>4.4 Mortalidad en jóvenes (15-29 años) — Bogotá</span><br>
       Fuente: DANE – RUAF – ND / Observatorio de Salud de Bogotá – SaludData<br>
       <span id="lbl-mort-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
@@ -314,29 +269,33 @@
       </div>
     </div>
 
-    <div class="stat-strip">
-      <div class="stat-tile">
-        <span class="stat-pill">Total jóvenes fallecidos · 15 a 29 años</span>
-        <div class="stat-numero" id="kpi-mort-total">–</div>
+    <div class="kpis-row">
+      <div class="kpi-group">
+        <div class="kpi-group-title">Defunciones de jóvenes</div>
+        <div class="kpi-cards">
+          <div class="kpi-card mortalidad">
+            <div class="kpi-valor" id="kpi-mort-total">–</div>
+            <div class="kpi-label">Total fallecidos</div>
+          </div>
+          <div class="kpi-card mortalidad">
+            <div class="kpi-valor" id="kpi-mort-hombres">–</div>
+            <div class="kpi-label">Hombres</div>
+          </div>
+          <div class="kpi-card mortalidad">
+            <div class="kpi-valor" id="kpi-mort-mujeres">–</div>
+            <div class="kpi-label">Mujeres</div>
+          </div>
+          <div class="kpi-card mortalidad">
+            <div class="kpi-valor" id="kpi-mort-tasa">–</div>
+            <div class="kpi-label">Tasa × 100.000</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-tile">
-        <span class="stat-pill">Hombres fallecidos · 15 a 29 años</span>
-        <div class="stat-numero" id="kpi-mort-hombres">–</div>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-pill">Mujeres fallecidas · 15 a 29 años</span>
-        <div class="stat-numero" id="kpi-mort-mujeres">–</div>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-pill">Tasa de mortalidad × 100.000 jóvenes</span>
-        <div class="stat-numero" id="kpi-mort-tasa">–</div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Muertes según sexo</div>
-      <div class="chart-container" style="height:180px;">
-        <canvas id="chart-mort-sexo"></canvas>
+      <div class="kpi-group">
+        <div class="kpi-group-title">Muertes según sexo</div>
+        <div class="chart-container" style="height:180px;">
+          <canvas id="chart-mort-sexo"></canvas>
+        </div>
       </div>
     </div>
 
@@ -359,7 +318,7 @@
       <div class="footer-top">
         <div>
           Fuente: SaludData – Observatorio de Salud de Bogotá · DANE, Proyecciones CNPV 2018<br>
-          4.2: Discapacidad certificada · 4.3: Fecundidad en jóvenes (15-29 años) · 4.4: Mortalidad (15-29 años)<br>
+          4.2: Discapacidad certificada · 4.3: Fecundidad adolescente (10-14 y 15-19 años) · 4.4: Mortalidad (15-29 años)<br>
           Juventud según Ley 1622/2013 y Ley 1885/2018: 14 a 28 años.
         </div>
         <div style="text-align:right;">
@@ -369,8 +328,6 @@
       </div>
     </div>
   </div>
-
-  <img src="../imagenes/SDIS/Distrito joven.png" alt="Distrito Joven — Secretaría de Integración Social" class="footer-marca">
 
 <script>
 // ============================================================
@@ -385,79 +342,7 @@ function fmtDec(n, d=2) {
   return n.toLocaleString('es-CO', { minimumFractionDigits: d, maximumFractionDigits: d });
 }
 
-const COLORES_DISC = ['#a35c2f','#c06f34','#d97f3f','#f58b53','#f8a374','#fabb96','#fdd3b8'];
-
-// ============================================================
-// 4.1 SGSSS
-// ============================================================
-let chartSgsss = null;
-
-const SGSSS_FALLBACK = {
-  "corte": "MAYO-2026",
-  "fuente": "MinSalud – Caracterización de afiliados (PISIS/BDUA)",
-  "nota": "Bogotá D.C., jóvenes de 15 a 29 años.",
-  "regimenes": ["CONTRIBUTIVO", "SUBSIDIADO", "EXCEPCION", "INPEC INTRAMURAL"],
-  "por_cohorte": [
-    { "quinquenio": "15-19", "total": 529881, "regimen": { "CONTRIBUTIVO": 382688, "SUBSIDIADO": 139553, "EXCEPCION": 7602, "INPEC INTRAMURAL": 38 } },
-    { "quinquenio": "20-24", "total": 598973, "regimen": { "CONTRIBUTIVO": 443972, "SUBSIDIADO": 148327, "EXCEPCION": 5590, "INPEC INTRAMURAL": 1084 } },
-    { "quinquenio": "25-29", "total": 697261, "regimen": { "CONTRIBUTIVO": 521132, "SUBSIDIADO": 171345, "EXCEPCION": 1808, "INPEC INTRAMURAL": 2976 } }
-  ],
-  "totales_regimen": { "CONTRIBUTIVO": 1347792, "SUBSIDIADO": 459225, "EXCEPCION": 15000, "INPEC INTRAMURAL": 4098 },
-  "total_general": 1826115
-};
-
-const NOMBRES_REGIMEN = {
-  'CONTRIBUTIVO': 'Contributivo', 'SUBSIDIADO': 'Subsidiado',
-  'EXCEPCION': 'Excepción', 'INPEC INTRAMURAL': 'Inpec intramural',
-};
-const COLORES_REGIMEN = {
-  'CONTRIBUTIVO': '#1e9da3', 'SUBSIDIADO': '#5bb8bd',
-  'EXCEPCION': '#2f3e3c', 'INPEC INTRAMURAL': '#83766c',
-};
-
-fetch('data/sgsss.json')
-  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .catch(() => SGSSS_FALLBACK)
-  .then(d => renderSgsss(d));
-
-function renderSgsss(d) {
-  document.getElementById('lbl-sgsss-corte').textContent = 'Corte: ' + d.corte + ' · ' + d.nota;
-
-  const porCohorte = d.por_cohorte;
-  document.getElementById('kpi-sgsss-1519').textContent = fmtNum(porCohorte.find(c => c.quinquenio === '15-19').total);
-  document.getElementById('kpi-sgsss-2024').textContent = fmtNum(porCohorte.find(c => c.quinquenio === '20-24').total);
-  document.getElementById('kpi-sgsss-2529').textContent = fmtNum(porCohorte.find(c => c.quinquenio === '25-29').total);
-  document.getElementById('kpi-sgsss-total').textContent = fmtNum(d.total_general);
-
-  const labels = porCohorte.map(c => c.quinquenio + ' años');
-  const datasets = d.regimenes.map(r => ({
-    label: NOMBRES_REGIMEN[r] || r,
-    data: porCohorte.map(c => c.regimen[r] || 0),
-    backgroundColor: COLORES_REGIMEN[r] || '#999',
-    stack: 'regimen',
-  }));
-
-  if (chartSgsss) chartSgsss.destroy();
-  chartSgsss = new Chart(document.getElementById('chart-sgsss-regimen'), {
-    type: 'bar',
-    data: { labels, datasets },
-    options: {
-      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12 } },
-        tooltip: { callbacks: { label: ctx => {
-          const total = porCohorte[ctx.dataIndex].total;
-          const pct = (ctx.parsed.x / total * 100).toFixed(1).replace('.', ',');
-          return `${ctx.dataset.label}: ${fmtNum(ctx.parsed.x)} (${pct}%)`;
-        } } }
-      },
-      scales: {
-        x: { stacked: true, ticks: { callback: v => fmtNum(v), font: { size: 10 } }, grid: { color: '#ecf0f1' } },
-        y: { stacked: true, ticks: { font: { size: 11 } }, grid: { display: false } }
-      }
-    }
-  });
-}
+const COLORES_DISC = ['#d94f48','#c0392b','#b5302a','#993322','#e07830','#cc8844','#884422'];
 
 // ============================================================
 // 4.2 Discapacidad
@@ -1138,7 +1023,7 @@ function renderDisc() {
   if (chartDiscLoc) chartDiscLoc.destroy();
   chartDiscLoc = new Chart(document.getElementById('chart-disc-localidad'), {
     type: 'bar',
-    data: { labels: locs.map(l => l.localidad), datasets: [{ data: locs.map(l => l.cantidad), backgroundColor: '#f58b53', borderRadius: 3 }] },
+    data: { labels: locs.map(l => l.localidad), datasets: [{ data: locs.map(l => l.cantidad), backgroundColor: '#b5302a', borderRadius: 3 }] },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => fmtNum(ctx.parsed.x) + ' jóvenes' } } },
@@ -1156,9 +1041,10 @@ function renderDisc() {
 let FEC = null, chartFecHist = null, chartFecLoc = null;
 
 const FEC_SERIES = [
-  { key: 'tasa_15_19', label: '15 a 19 años', color: '#1e9da3' },
-  { key: 'tasa_20_24', label: '20 a 24 años', color: '#1eaf76' },
-  { key: 'tasa_25_29', label: '25 a 29 años', color: '#1e7895' },
+  { key: 'tasa_10_14', label: '10 a 14 años', color: '#93c4e4' },
+  { key: 'tasa_15_19', label: '15 a 19 años', color: '#1a5fa8' },
+  { key: 'tasa_20_24', label: '20 a 24 años', color: '#7ec87e' },
+  { key: 'tasa_25_29', label: '25 a 29 años', color: '#2d6a2d' },
 ];
 
 fetch('data/fecundidad_adolescente.json')
@@ -1168,15 +1054,16 @@ fetch('data/fecundidad_adolescente.json')
 
 function renderFec() {
   const ultimo = FEC.ultimo_anio;
-  ['lbl-fec-anio-1519', 'lbl-fec-anio-2024', 'lbl-fec-anio-2529', 'lbl-fec-loc-anio'].forEach(id => {
+  ['lbl-fec-anio1', 'lbl-fec-anio2', 'lbl-fec-loc-anio'].forEach(id => {
     document.getElementById(id).textContent = ultimo;
   });
   const primerAnio = FEC.por_anio[0].anio;
   const corteStr = FEC.corte ? ' · Actualización fuente: ' + FEC.corte : '';
   document.getElementById('lbl-fec-corte').textContent =
-    'Período: ' + primerAnio + ' – ' + ultimo + corteStr + ', jóvenes por grupos de edades quinquenales';
+    'Período: ' + primerAnio + ' – ' + ultimo + corteStr;
 
   const ult = FEC.por_anio[FEC.por_anio.length - 1];
+  document.getElementById('kpi-fec-tasa1014').textContent = ult.tasa_10_14 != null ? fmtDec(ult.tasa_10_14, 2) + ' ‰' : '–';
   document.getElementById('kpi-fec-tasa1519').textContent = ult.tasa_15_19 != null ? fmtDec(ult.tasa_15_19, 2) + ' ‰' : '–';
   document.getElementById('kpi-fec-tasa2024').textContent = ult.tasa_20_24 != null ? fmtDec(ult.tasa_20_24, 2) + ' ‰' : '–';
   document.getElementById('kpi-fec-tasa2529').textContent = ult.tasa_25_29 != null ? fmtDec(ult.tasa_25_29, 2) + ' ‰' : '–';
@@ -1271,7 +1158,7 @@ function renderFecHistorico() {
 
 function renderFecLocalidad() {
   const locs = FEC.por_localidad;
-  const nvKeys = ['nv_15_19', 'nv_20_24', 'nv_25_29'];
+  const nvKeys = ['nv_10_14', 'nv_15_19', 'nv_20_24', 'nv_25_29'];
 
   if (chartFecLoc) chartFecLoc.destroy();
   chartFecLoc = new Chart(document.getElementById('chart-fec-localidad'), {
@@ -1283,7 +1170,7 @@ function renderFecLocalidad() {
         data: locs.map(l => l[s.key]),
         backgroundColor: s.color,
         borderRadius: 2,
-        hidden: si !== 0,  // solo 15-19 visible por defecto
+        hidden: si !== 1,  // solo 15-19 visible por defecto
       }))
     },
     options: {
@@ -1310,7 +1197,7 @@ function renderFecLocalidad() {
   cont.innerHTML = '';
   FEC_SERIES.forEach((s, si) => {
     const btn = document.createElement('button');
-    btn.className = 'toggle-grupo' + (si === 0 ? ' activo' : '');
+    btn.className = 'toggle-grupo' + (si === 1 ? ' activo' : '');
     btn.style.borderColor = s.color;
     btn.style.color = s.color;
     btn.innerHTML = '<span class="toggle-dot" style="background:' + s.color + '"></span>' + s.label;
@@ -1353,7 +1240,7 @@ function initMort() {
   const primerAnioM = anios[0];
   const corteStrM = MORT.corte ? ' · Actualización fuente: ' + MORT.corte : '';
   document.getElementById('lbl-mort-corte').textContent =
-    'Período: ' + primerAnioM + ' – ' + anios[anios.length - 1] + corteStrM + ', jóvenes de 15-29 años';
+    'Período: ' + primerAnioM + ' – ' + anios[anios.length - 1] + corteStrM;
 
   // Causas y localidades fijas al último año disponible (siempre más completo)
   const ultimo = MORT.por_anio[MORT.por_anio.length - 1];
@@ -1380,7 +1267,7 @@ function actualizarMort() {
     type: 'doughnut',
     data: {
       labels: ['Hombre ' + fmtNum(d.hombres) + ' (' + pctH + '%)', 'Mujer ' + fmtNum(d.mujeres) + ' (' + pctM + '%)'],
-      datasets: [{ data: [d.hombres, d.mujeres], backgroundColor: ['#1e9da3', '#f58b53'], borderWidth: 2 }]
+      datasets: [{ data: [d.hombres, d.mujeres], backgroundColor: ['#b5302a', '#e8a030'], borderWidth: 2 }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
@@ -1397,7 +1284,7 @@ function renderMortCausas(d) {
     type: 'bar',
     data: {
       labels: causas.map(c => c.causa.length > 40 ? c.causa.substring(0, 37) + '...' : c.causa),
-      datasets: [{ data: causas.map(c => c.casos), backgroundColor: '#f58b53', borderRadius: 3 }]
+      datasets: [{ data: causas.map(c => c.casos), backgroundColor: '#b5302a', borderRadius: 3 }]
     },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false,
@@ -1421,7 +1308,7 @@ function renderMortLocalidad(d) {
     type: 'bar',
     data: {
       labels: locs.map(l => l.localidad),
-      datasets: [{ data: locs.map(l => l.tasa_100k), backgroundColor: '#f58b53', borderRadius: 3 }]
+      datasets: [{ data: locs.map(l => l.tasa_100k), backgroundColor: '#e0a030', borderRadius: 3 }]
     },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false,

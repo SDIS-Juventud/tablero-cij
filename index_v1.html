@@ -5,25 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Centro de Informaci&oacute;n de Juventud – SDIS Bogot&aacute;</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@700&family=Figtree:wght@400;500;600;700;800&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Figtree', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #fff;
       color: #333;
     }
 
-    .footer-marca { display: block; width: 100%; height: auto; }
-
-    /* Botones de guía e información, flotando en la esquina — antes vivían en la barra
-       institucional que se quitó, se mantienen como accesos flotantes sobre el fondo blanco. */
+    /* Barra institucional */
+    .header-bar {
+      background: #fff;
+      border-bottom: 4px solid #d4a017;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .header-bar img { height: 60px; }
     .header-right {
       display: flex;
       gap: 8px;
       position: absolute;
-      top: 20px;
       right: 24px;
-      z-index: 10;
     }
     .icon-btn {
       width: 36px; height: 36px;
@@ -41,6 +45,43 @@
     }
     .icon-btn:hover { border-color: #333; color: #333; }
 
+    /* Tooltip del botón info */
+    .icon-info {
+      position: relative;
+    }
+    .tooltip {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background: #fff;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      padding: 14px 16px;
+      width: 320px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #333;
+      line-height: 1.5;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      z-index: 100;
+    }
+    .tooltip::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      right: 10px;
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-left: 1.5px solid #ccc;
+      border-top: 1.5px solid #ccc;
+      transform: rotate(45deg);
+    }
+    .icon-info:hover .tooltip {
+      display: block;
+    }
+
     /* Contenido principal */
     .main-content {
       max-width: 1200px;
@@ -50,8 +91,8 @@
       display: grid;
       grid-template-columns: 1.1fr 1fr;
       gap: 2rem;
-      min-height: 100vh;
-      align-items: center;
+      min-height: calc(100vh - 80px);
+      align-items: start;
     }
     @media (max-width: 850px) {
       .main-content { grid-template-columns: 1fr; }
@@ -61,35 +102,22 @@
     .left {
       padding-top: 1rem;
     }
-    .titulo-row {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 2.5rem;
-    }
-    .titulo-imagen { height: 400px; width: auto; flex-shrink: 0; }
     .titulo {
-      font-family: 'Anton', 'Segoe UI', sans-serif;
-      font-weight: 400;
-      text-transform: uppercase;
-      font-size: 3.4rem;
-      color: #2f3e3c;
+      font-size: 3.8rem;
+      font-weight: 800;
+      color: #c8a415;
       line-height: 1.15;
-      letter-spacing: 0.01em;
+      letter-spacing: -0.5px;
+      margin-bottom: 2.5rem;
     }
     @media (max-width: 600px) {
       .titulo { font-size: 2.4rem; }
-      .titulo-row { gap: 0.8rem; }
-      .titulo-imagen { height: 150px; }
     }
 
     /* Sección de estadísticas */
     .stats-section h2 {
-      font-family: 'Antonio', 'Segoe UI', sans-serif;
+      font-size: 1.3rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-      font-size: 1.15rem;
       color: #333;
       margin-bottom: 1rem;
     }
@@ -160,10 +188,8 @@
       justify-content: center;
       text-decoration: none;
       color: #fff;
-      font-family: 'Antonio', 'Segoe UI', sans-serif;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      letter-spacing: 0.01em;
       height: 48px;
       text-align: center;
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
@@ -205,30 +231,33 @@
       transform: scale(1.03);
     }
 
-    /* Colores — mapeo fijo de los 7 colores oficiales Distrito Joven a las 7 dimensiones.
-       Cada dimensión conserva este mismo color en su propia página (ver Notes del tablero). */
-    .dim-arrow:nth-child(1) { background: #f4676e; } /* Ser joven — rosa coral */
-    .dim-arrow:nth-child(2) { background: #1eaf76; } /* Educación — verde */
-    .dim-arrow:nth-child(3) { background: #663a93; } /* Inclusión Productiva — morado */
-    .dim-arrow:nth-child(4) { background: #1e9da3; } /* Salud Integral y Autocuidado — teal */
-    .dim-arrow:nth-child(5) { background: #f58b53; } /* Cultura, Recreación y Deporte — naranja coral */
-    .dim-arrow:nth-child(6) { background: #2fa4d4; } /* Paz, Convivencia y Justicia — azul cielo */
-    .dim-arrow:nth-child(7) { background: #1e7895; } /* Hábitat — azul petróleo */
+    /* Colores — rojo para inclusión (dim 3), consistente con su página */
+    .dim-arrow:nth-child(1) { background: #c9a51a; }
+    .dim-arrow:nth-child(2) { background: #c49518; }
+    .dim-arrow:nth-child(3) { background: #c0392b; }
+    .dim-arrow:nth-child(4) { background: #a32a2a; }
+    .dim-arrow:nth-child(5) { background: #8c6d10; }
+    .dim-arrow:nth-child(6) { background: #5e1818; }
+    .dim-arrow:nth-child(7) { background: #7a6a1e; }
   </style>
 </head>
 <body>
 
-  <div class="header-right">
-    <a class="icon-btn" href="guia.html" title="Gu&iacute;a de navegaci&oacute;n">?</a>
+  <!-- Barra institucional -->
+  <div class="header-bar">
+    <img src="img/logo.png" alt="Alcald&iacute;a Mayor de Bogot&aacute; - Secretar&iacute;a de Integraci&oacute;n Social - Bogot&aacute;">
+    <div class="header-right">
+      <a class="icon-btn" href="guia.html" title="Gu&iacute;a de navegaci&oacute;n">?</a>
+      <a class="icon-btn icon-info" title="Informaci&oacute;n">i
+        <div class="tooltip">Nota: Cada p&aacute;gina tiene este &iacute;cono en donde se encuentran la especificaci&oacute;n de los datos presentados. Fecha de creaci&oacute;n de la visualizaci&oacute;n: julio 2024 – Subdirecci&oacute;n para la Juventud.</div>
+      </a>
+    </div>
   </div>
 
   <!-- Contenido -->
   <div class="main-content">
     <div class="left">
-      <div class="titulo-row">
-        <img src="imagenes/elementos/8.png" alt="" class="titulo-imagen">
-        <h1 class="titulo">Centro de<br>Informaci&oacute;n<br>de Juventud</h1>
-      </div>
+      <h1 class="titulo">Centro de<br>Informaci&oacute;n<br>de Juventud</h1>
 
       <div class="stats-section">
         <h2>En Bogot&aacute; contamos con:</h2>
@@ -242,8 +271,8 @@
               </svg>
             </div>
             <div>
-              <div class="stat-number" id="stat-jovenes-total">&ndash;</div>
-              <div class="stat-label" id="stat-jovenes-label">J&oacute;venes</div>
+              <div class="stat-number">1.706.136</div>
+              <div class="stat-label">J&oacute;venes</div>
             </div>
           </div>
           <div class="stat-card">
@@ -259,8 +288,8 @@
               </svg>
             </div>
             <div>
-              <div class="stat-number" id="stat-jovenes-pct">&ndash;</div>
-              <div class="stat-label" id="stat-pct-label">de la poblaci&oacute;n</div>
+              <div class="stat-number">24,15 %</div>
+              <div class="stat-label">de la poblaci&oacute;n</div>
             </div>
           </div>
         </div>
@@ -285,50 +314,6 @@
     </div>
   </div>
 
-  <img src="imagenes/SDIS/Distrito joven.png" alt="Distrito Joven — Secretaría de Integración Social" class="footer-marca">
 
-  <script>
-    // Resumen liviano de dim1/data/resumen_bogota.json (misma fuente, para no duplicar el dato).
-    // Fallback embebido por si fetch() falla (ej. al abrir el archivo con file:// en vez de servidor).
-    const RESUMEN_FALLBACK = [
-      {"anio":2018,"jovenes_total":1949005,"poblacion_total":7412566},
-      {"anio":2019,"jovenes_total":1966609,"poblacion_total":7592871},
-      {"anio":2020,"jovenes_total":1967532,"poblacion_total":7743955},
-      {"anio":2021,"jovenes_total":1943906,"poblacion_total":7834167},
-      {"anio":2022,"jovenes_total":1908158,"poblacion_total":7901653},
-      {"anio":2023,"jovenes_total":1869470,"poblacion_total":7968095},
-      {"anio":2024,"jovenes_total":1823809,"poblacion_total":8034649},
-      {"anio":2025,"jovenes_total":1780772,"poblacion_total":8101412},
-      {"anio":2026,"jovenes_total":1739506,"poblacion_total":8168421},
-      {"anio":2027,"jovenes_total":1701849,"poblacion_total":8235512},
-      {"anio":2028,"jovenes_total":1668211,"poblacion_total":8302442},
-      {"anio":2029,"jovenes_total":1639468,"poblacion_total":8368915},
-      {"anio":2030,"jovenes_total":1615384,"poblacion_total":8434700},
-      {"anio":2031,"jovenes_total":1595239,"poblacion_total":8498716},
-      {"anio":2032,"jovenes_total":1578490,"poblacion_total":8559942},
-      {"anio":2033,"jovenes_total":1563685,"poblacion_total":8618319},
-      {"anio":2034,"jovenes_total":1550719,"poblacion_total":8673804},
-      {"anio":2035,"jovenes_total":1540889,"poblacion_total":8726402}
-    ];
-
-    fetch('dim1/data/resumen_bogota.json')
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .catch(() => RESUMEN_FALLBACK)
-      .then(resumen => {
-        const anioActual = new Date().getFullYear();
-        // Busca el año exacto; si no está (fuera del rango de proyecciones DANE),
-        // usa el año disponible más cercano por debajo, o si no hay ninguno, el más antiguo.
-        let dato = resumen.find(d => d.anio === anioActual);
-        if (!dato) {
-          const anteriores = resumen.filter(d => d.anio < anioActual).sort((a, b) => b.anio - a.anio);
-          dato = anteriores[0] || resumen[0];
-        }
-        const pct = (dato.jovenes_total / dato.poblacion_total * 100).toFixed(2).replace('.', ',');
-        document.getElementById('stat-jovenes-total').textContent = dato.jovenes_total.toLocaleString('es-CO');
-        document.getElementById('stat-jovenes-label').textContent = 'Jóvenes (' + dato.anio + ')';
-        document.getElementById('stat-jovenes-pct').textContent = pct + ' %';
-        document.getElementById('stat-pct-label').textContent = 'de la población (' + dato.anio + ')';
-      });
-  </script>
 </body>
 </html>

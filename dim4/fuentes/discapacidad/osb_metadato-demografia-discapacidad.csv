@@ -1,0 +1,25 @@
+DATOS GENERALES DEL INDICADOR ;
+Nombre del indicador;Poblaci¢n certificada con discapacidad en Bogot  D.C
+Definici¢n del evento;"La certificaci¢n de discapacidad es el procedimiento de valoraci¢n cl¡nica multidisciplinaria simult nea, fundamentado en la Clasificaci¢n Internacional del Funcionamiento, de la Discapacidad y de la Salud ?CIF-, que permite identificar las deficiencias corporales, incluyendo psicol¢gicas, las limitaciones en la actividad y las restricciones en la participaci¢n que presenta una persona, cuyos resultados expresan el correspondiente certificado y son parte integral del aplicativo del Registro de Localizaci¢n y Caracterizaci¢n de Personas con Discapacidad. 
+"
+Utilidad;Monitorear el comportamiento de la poblaci¢n con discapacidad certificada a trav‚s del aplicativo del Registro de Localizaci¢n y Caracterizaci¢n de Personas con Discapacidad en Bogot  D.C de acuerdo con la Resoluci¢n 1239 de 2022. 
+Nivel desagregaci¢n;Localidad
+Unidad de medida;N£mero absoluto
+Periodicidad de actualizaci¢n;Semestral
+Serie disponible;1/07/2020 - 30/06/2024
+Fuente de informaci¢n ;Aplicativo del Registro para la Localizaci¢n y Caracterizaci¢n de Personas con Discapacidad - Certificaci¢n. Ministerio de Salud y Protecci¢n Social - Secretar¡a Distrital de Salud.ÿ
+Grupo de edad;Corresponde al total de personas certificadas por alg£n tipo de discapacidad seg£n su grupo de edad
+Localidad;Corresponde al total de personas certificadas por alguna categoria de discapacidad seg£n su localidad de residencia.
+Cat_Fisica;Corresponde al total de personas certificadas por discapacidad f¡sica 
+Cat_Visual;Corresponde al total de personas certificadas por discapacidad visual
+Cat_Auditiva;Corresponde al total de personas certificadas por discapacidad auditiva
+Cat_Intelectual;Corresponde al total de personas certificadas por discapacidad intelectual
+Cat_Psicosocial;Corresponde al total de personas certificadas por discapacidad psicosocial
+Cat_Sordoceguera;Corresponde al total de personas certificadas por sordoceguera
+Cat_Multiple;Corresponde al total de personas certificadas por una o m s categor¡as de discapcidad 
+Barreras f¡sica;N£meros de personas certificadas por discapacidad que experimentan alg£n tipo de barrera fisica en espacio p£blico, vivienda, transporte p£blico, edificaciones p£blicas o privadas
+Barreras de informaci¢n;N£meros de personas certificadas por discapacidad que experimentan alg£n tipo de barrera de informaci¢n en espacio p£blico, medios de comunicaci¢n masivo, tecnolog¡as de informaci¢n, entidades de salud, entidades educativas, transpoorte p£blico.
+Actitudes negativas en Interacci¢n;N£meros de personas certificadas por discapacidad que experimentan alg£n tipo de actitutes negativas en interacci¢n con conocidos, amigos, miembros de familia, personas a cargo, profesionales de la salud, cuidadores y personal de ayuda, personal encargado, subordinados. etc.
+Asiste a Rehabilitacion;Total de personas certificadas por discapacidad  de acuerdo a si asisten o no a alg£n tipo de rehabilitaci¢n
+Requiere ayuda de otra persona;N£mero de personas certificadas por discapacidad  que requieren o no de ayuda por parte de otra persona
+Nivel de desempe¤o global;Tipo de discapacidad que presenta la persona de acuerdo a su desempe¤o global leve, severa, moderada, completa o no puede hacer

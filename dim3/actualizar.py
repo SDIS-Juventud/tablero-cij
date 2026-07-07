@@ -33,15 +33,10 @@ FUENTES_DIR = os.path.join(TABLERO_DIR, 'fuentes')
 # Carpeta de datos del tablero web
 DATA_DIR = os.path.join(TABLERO_DIR, 'data')
 
-# Ciudades a extraer para comparación
+# Ciudades a extraer para comparación (solo las que se muestran en el tablero)
 CIUDADES_EXTRAER = {
     'Bogotá D.C.': ('23 ciudades trim móvil', 29),
-    'Medellín A.M.': ('23 ciudades trim móvil', 46),
-    'Cali A.M.': ('23 ciudades trim móvil', 63),
-    'Barranquilla A.M.': ('23 ciudades trim móvil', 80),
-    'Bucaramanga A.M.': ('23 ciudades trim móvil', 97),
     'Total nacional': (' Tnal trimestre móvil', 12),
-    'Total 13 ciudades': ('13 ciudades trimestre móvil', 12),
 }
 
 

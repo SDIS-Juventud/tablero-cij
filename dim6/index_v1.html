@@ -6,75 +6,49 @@
   <title>Centro de Información de Juventud - Dimensión 6: Paz, Convivencia y Justicia</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@700&family=Figtree:wght@400;500;600;700;800&display=swap');
     :root {
-      /* Identidad de la dimensión 6 (Paz, convivencia y justicia): azul cielo, según mapeo
-         de 7 colores oficiales. El azul cielo base es muy claro para texto encima de blanco
-         o texto blanco encima — --acento-oscuro es la variante con contraste suficiente. */
-      --acento: #2fa4d4;
-      --acento-oscuro: #217394;
-      /* Semáforo de percepción (mismo criterio que dim7): bueno/seguro a la izquierda con
-         el azul propio de la dimensión, malo/inseguro a la derecha en rosa coral oscuro. */
-      --positivo: #217394;
-      --negativo: #c35258;
-      --crema: #f5efd2;
-      --gris-oscuro: #2f2b28;
-      --gris: #83766c;
-      --gris-claro: #f4f2ee;
+      --principal: #5e1818;
+      --principal-claro: #8b3a3a;
+      --principal-bg: #fdf0f0;
+      --verde: #27ae60;
+      --amarillo: #f1c40f;
+      --rojo: #c0392b;
+      --naranja: #e67e22;
+      --azul: #2980b9;
+      --gris-oscuro: #2c3e50;
+      --gris: #7f8c8d;
+      --gris-claro: #ecf0f1;
       --blanco: #ffffff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Figtree', 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--gris-claro);
       color: var(--gris-oscuro);
       line-height: 1.5;
     }
-    .header-hero {
-      position: relative;
-      background: url('../imagenes/SDIS/Fondo azul 1.png') center/cover;
-      padding-top: 3rem;
-      overflow: hidden;
+    .header {
+      background: var(--principal);
+      color: var(--blanco);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    .header-hero .hero-texto { text-align: center; padding: 0 2rem 2.5rem; }
-    .header-hero .hero-title {
-      font-family: 'Anton', 'Segoe UI', sans-serif;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.01em;
-      font-size: 3.4rem;
-      line-height: 1.08;
-      color: var(--crema);
-    }
-    .header-hero .hero-subtitle {
-      font-family: 'Antonio', 'Segoe UI', sans-serif;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-size: 1.15rem;
-      color: var(--crema);
-      opacity: 0.85;
-      margin-top: 0.4rem;
-    }
-    .header-hero .btn-home {
-      position: absolute; top: 1.3rem; left: 2rem; z-index: 2;
-      color: var(--crema);
+    .header svg { width: 32px; height: 32px; fill: var(--blanco); }
+    .header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+    .header .btn-home {
+      color: var(--blanco);
       text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border: 1.5px solid rgba(245,239,210,0.55);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1.5px solid rgba(255,255,255,0.5);
       border-radius: 6px;
       transition: all 0.15s;
+      white-space: nowrap;
     }
-    .header-hero .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--crema); }
-    .footer-marca { display: block; width: 100%; height: auto; margin-top: 2rem; }
-    @media (max-width: 600px) {
-      .header-hero { padding-top: 2.2rem; }
-      .header-hero .hero-title { font-size: 2.2rem; }
-      .header-hero .hero-subtitle { font-size: 0.9rem; }
-      .header-hero .btn-home { top: 0.9rem; left: 1rem; font-size: 0.72rem; padding: 4px 10px; }
-    }
+    .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
     .container { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
     .page-subtitle { font-size: 1.1rem; color: var(--gris); margin-bottom: 1rem; }
     .page-subtitle span { font-weight: 600; color: var(--gris-oscuro); }
@@ -87,7 +61,7 @@
       padding: 1.2rem; text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    .kpi-valor { font-family: 'Anton', 'Figtree', sans-serif; font-size: 1.8rem; font-weight: 400; color: var(--acento-oscuro); }
+    .kpi-valor { font-size: 1.8rem; font-weight: 700; color: var(--principal); }
     .kpi-label { font-size: 0.78rem; color: var(--gris); margin-top: 4px; }
     .grid-2col {
       display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
@@ -100,7 +74,8 @@
     .card-title {
       font-size: 0.85rem; font-weight: 700; color: var(--gris);
       text-transform: uppercase; letter-spacing: 0.5px;
-      margin-bottom: 1rem;
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
     }
     .chart-container { position: relative; height: 320px; }
     .footer {
@@ -114,12 +89,10 @@
 </head>
 <body>
 
-  <div class="header-hero">
+  <div class="header">
+    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+    <h1>Dimensión 6 – Paz, convivencia y justicia</h1>
     <a href="../index.html" class="btn-home">&#8592; Inicio</a>
-    <div class="hero-texto">
-      <h1 class="hero-title">Paz, convivencia y justicia</h1>
-      <p class="hero-subtitle">Dimensión 6</p>
-    </div>
   </div>
 
   <div class="container">
@@ -128,6 +101,35 @@
       <span>Percepción de seguridad en jóvenes — Bogotá</span><br>
       Fuente: Encuesta de Percepción Ciudadana – Bogotá Cómo Vamos 2025 · Jóvenes de 18 a 25 años
     </p>
+
+    <!-- KPIs -->
+    <div class="kpis-row">
+      <div class="kpi-card">
+        <div class="kpi-valor" id="kpi-victima">–</div>
+        <div class="kpi-label">Fueron víctima de un delito</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-valor" id="kpi-inseguro-ciudad">–</div>
+        <div class="kpi-label">Se sienten inseguros en la ciudad</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-valor" id="kpi-inseguro-barrio">–</div>
+        <div class="kpi-label">Se sienten inseguros en su barrio</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-valor" id="kpi-problema-top">–</div>
+        <div class="kpi-label">Problema principal: atracos callejeros</div>
+      </div>
+    </div>
+
+    <!-- Problemas del barrio (barras horizontales) -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Principales problemas de seguridad en el barrio</div>
+      <p style="font-size:0.8rem; color:var(--gris); margin:-0.5rem 0 1rem;">Respuesta múltiple — porcentaje sobre total de jóvenes encuestados</p>
+      <div class="chart-container" style="height:420px;">
+        <canvas id="chart-problemas"></canvas>
+      </div>
+    </div>
 
     <!-- Víctima de delito (barra apilada) -->
     <div class="card" style="margin-bottom:1.5rem;">
@@ -153,15 +155,6 @@
       </div>
     </div>
 
-    <!-- Problemas del barrio (barras horizontales) -->
-    <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Principales problemas de seguridad en el barrio</div>
-      <p style="font-size:0.8rem; color:var(--gris); margin:-0.5rem 0 1rem;">Respuesta múltiple — porcentaje sobre total de jóvenes encuestados</p>
-      <div class="chart-container" style="height:420px;">
-        <canvas id="chart-problemas"></canvas>
-      </div>
-    </div>
-
     <div class="footer">
       <div class="footer-top">
         <div>
@@ -176,8 +169,6 @@
     </div>
 
   </div>
-
-  <img src="../imagenes/SDIS/Distrito joven.png" alt="Distrito Joven — Secretaría de Integración Social" class="footer-marca">
 
 <script>
 // ============================================================
@@ -297,6 +288,15 @@ function fmtNum(v) {
 let chartProblemas, chartVictima, chartBarrio, chartCiudad;
 
 function renderAll() {
+
+  // KPIs
+  document.getElementById('kpi-victima').textContent = fmtPct(SEG.victima_delito.si);
+  document.getElementById('kpi-inseguro-ciudad').textContent = fmtPct(SEG.percepcion_ciudad.inseguro);
+  document.getElementById('kpi-inseguro-barrio').textContent = fmtPct(SEG.percepcion_barrio.inseguro);
+  if (SEG.problemas_barrio.length > 0) {
+    document.getElementById('kpi-problema-top').textContent = fmtPct(SEG.problemas_barrio[0].porcentaje);
+  }
+
   renderProblemas();
   renderVictima();
   renderBarrio();
@@ -343,7 +343,7 @@ function renderProblemas() {
       labels: probs.map(p => p.problema),
       datasets: [{
         data: probs.map(p => p.porcentaje),
-        backgroundColor: probs.map((_, i) => i === 0 ? '#8a232c' : '#c35258'),
+        backgroundColor: probs.map((_, i) => i === 0 ? '#c0392b' : '#8b3a3a'),
         borderRadius: 3,
       }]
     },
@@ -364,7 +364,7 @@ function renderProblemas() {
           beginAtZero: true,
           max: 70,
           ticks: { callback: v => v + '%' },
-          grid: { color: '#f4f2ee' }
+          grid: { color: '#ecf0f1' }
         },
         y: {
           ticks: {
@@ -395,8 +395,7 @@ const stackedLabelPlugin = {
         const x = (bar.x + bar.base) / 2;
         const y = bar.y;
         ctx.save();
-        // El segmento "Ni seguro ni inseguro" es gris claro — necesita texto oscuro, no blanco
-        ctx.fillStyle = ds.label === 'Ni seguro ni inseguro' ? '#2f2b28' : '#fff';
+        ctx.fillStyle = '#fff';
         ctx.font = 'bold 13px Segoe UI, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -418,8 +417,8 @@ function renderVictima() {
     data: {
       labels: ['¿Ha sido víctima de un delito?'],
       datasets: [
-        { label: 'No', data: [v.no], backgroundColor: '#217394', borderRadius: 3 },
-        { label: 'Sí', data: [v.si], backgroundColor: '#c35258', borderRadius: 3 }
+        { label: 'No', data: [v.no], backgroundColor: '#27ae60', borderRadius: 3 },
+        { label: 'Sí', data: [v.si], backgroundColor: '#c0392b', borderRadius: 3 }
       ]
     },
     options: {
@@ -431,7 +430,7 @@ function renderVictima() {
         tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtPct(ctx.raw) } }
       },
       scales: {
-        x: { stacked: true, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#f4f2ee' } },
+        x: { stacked: true, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#ecf0f1' } },
         y: { stacked: true, display: false }
       }
     },
@@ -450,9 +449,9 @@ function renderBarrio() {
     data: {
       labels: ['Percepción de seguridad en el barrio'],
       datasets: [
-        { label: 'Seguro', data: [p.seguro], backgroundColor: '#217394', borderRadius: 3 },
-        { label: 'Ni seguro ni inseguro', data: [p.ni_seguro_ni_inseguro], backgroundColor: '#bbb4ae' },
-        { label: 'Inseguro', data: [p.inseguro], backgroundColor: '#c35258', borderRadius: 3 }
+        { label: 'Seguro', data: [p.seguro], backgroundColor: '#27ae60', borderRadius: 3 },
+        { label: 'Ni seguro ni inseguro', data: [p.ni_seguro_ni_inseguro], backgroundColor: '#f1c40f' },
+        { label: 'Inseguro', data: [p.inseguro], backgroundColor: '#c0392b', borderRadius: 3 }
       ]
     },
     options: {
@@ -464,7 +463,7 @@ function renderBarrio() {
         tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtPct(ctx.raw) } }
       },
       scales: {
-        x: { stacked: true, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#f4f2ee' } },
+        x: { stacked: true, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#ecf0f1' } },
         y: { stacked: true, display: false }
       }
     },
@@ -486,18 +485,18 @@ function renderCiudad() {
         {
           label: 'Seguro',
           data: [p.seguro],
-          backgroundColor: '#217394',
+          backgroundColor: '#27ae60',
           borderRadius: 3,
         },
         {
           label: 'Ni seguro ni inseguro',
           data: [p.ni_seguro_ni_inseguro],
-          backgroundColor: '#bbb4ae',
+          backgroundColor: '#f1c40f',
         },
         {
           label: 'Inseguro',
           data: [p.inseguro],
-          backgroundColor: '#c35258',
+          backgroundColor: '#c0392b',
           borderRadius: 3,
         }
       ]
@@ -522,7 +521,7 @@ function renderCiudad() {
           stacked: true,
           max: 100,
           ticks: { callback: v => v + '%' },
-          grid: { color: '#f4f2ee' }
+          grid: { color: '#ecf0f1' }
         },
         y: {
           stacked: true,

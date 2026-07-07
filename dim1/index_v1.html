@@ -8,75 +8,50 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@700&family=Figtree:wght@400;500;600;700;800&display=swap');
     :root {
-      /* Identidad de la dimensión 1 (Ser joven): rosa coral, según mapeo de 7 colores
-         oficiales x 7 dimensiones. --acento-oscuro es la variante que sí tiene contraste
-         suficiente para texto — el rosa coral base es demasiado claro para texto sobre
-         blanco (kpi-valor, encabezado) o texto blanco encima (barras de la pirámide). */
-      --acento: #f4676e;
-      --acento-oscuro: #c35258;
-      --crema: #f5efd2;
-      --gris-oscuro: #2f2b28;
-      --gris: #83766c;
-      --gris-claro: #f4f2ee;
+      --dorado: #c9a51a;
+      --dorado-oscuro: #a88a14;
+      --dorado-claro: #e0c94a;
+      --naranja: #e67e22;
+      --naranja-claro: #f5a623;
+      --gris-oscuro: #2c3e50;
+      --gris: #7f8c8d;
+      --gris-claro: #ecf0f1;
       --blanco: #ffffff;
+      --marron: #8b6914;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Figtree', 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--gris-claro);
       color: var(--gris-oscuro);
       line-height: 1.5;
     }
 
-    .header-hero {
-      position: relative;
-      background: url('../imagenes/SDIS/Fondo rosa.png') center/cover;
-      padding-top: 3rem;
-      overflow: hidden;
+    .header {
+      background: var(--dorado);
+      color: var(--blanco);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    .header-hero .hero-texto { text-align: center; padding: 0 2rem 2.5rem; }
-    .header-hero .hero-title {
-      font-family: 'Anton', 'Segoe UI', sans-serif;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.01em;
-      font-size: 3.4rem;
-      line-height: 1.08;
-      color: var(--crema);
-    }
-    .header-hero .hero-subtitle {
-      font-family: 'Antonio', 'Segoe UI', sans-serif;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-size: 1.15rem;
-      color: var(--crema);
-      opacity: 0.85;
-      margin-top: 0.4rem;
-    }
-    .header-hero .btn-home {
-      position: absolute; top: 1.3rem; left: 2rem; z-index: 2;
-      color: var(--crema);
+    .header svg { width: 32px; height: 32px; fill: var(--blanco); }
+    .header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+    .header .btn-home {
+      color: var(--blanco);
       text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border: 1.5px solid rgba(245,239,210,0.55);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1.5px solid rgba(255,255,255,0.5);
       border-radius: 6px;
       transition: all 0.15s;
+      white-space: nowrap;
     }
-    .header-hero .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--crema); }
-    .footer-marca { display: block; width: 100%; height: auto; margin-top: 2rem; }
-    @media (max-width: 600px) {
-      .header-hero { padding-top: 2.2rem; }
-      .header-hero .hero-title { font-size: 2.2rem; }
-      .header-hero .hero-subtitle { font-size: 0.9rem; }
-      .header-hero .btn-home { top: 0.9rem; left: 1rem; font-size: 0.72rem; padding: 4px 10px; }
-    }
+    .header .btn-home:hover { background: rgba(255,255,255,0.15); border-color: var(--blanco); }
 
     .container {
       max-width: 1320px;
@@ -110,7 +85,7 @@
     }
     .kpi-icon { font-size: 2.5rem; }
     .kpi-icon svg { width: 48px; height: 48px; fill: var(--gris-oscuro); }
-    .kpi-valor { font-family: 'Anton', 'Figtree', sans-serif; font-size: 1.8rem; font-weight: 400; color: var(--acento-oscuro); }
+    .kpi-valor { font-size: 1.8rem; font-weight: 700; color: var(--dorado); }
     .kpi-label { font-size: 0.85rem; color: var(--gris); }
 
     /* Filtros */
@@ -143,7 +118,7 @@
       cursor: pointer;
       min-width: 140px;
     }
-    .filtro-select:focus { outline: none; border-color: var(--acento); }
+    .filtro-select:focus { outline: none; border-color: var(--dorado); }
 
     /* Grid */
     .grid-2col {
@@ -175,6 +150,8 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-claro);
     }
 
     /* Gráfico de barras horizontales por edad */
@@ -198,7 +175,7 @@
       height: 22px;
     }
     .bar-h {
-      background: var(--acento-oscuro);
+      background: var(--dorado);
       height: 100%;
       border-radius: 2px 0 0 2px;
       display: flex;
@@ -211,7 +188,7 @@
       min-width: 30px;
     }
     .bar-m {
-      background: #1e9da3;
+      background: var(--naranja);
       height: 100%;
       border-radius: 0 2px 2px 0;
       display: flex;
@@ -265,7 +242,7 @@
       overflow: hidden;
     }
     .tabla-loc .bar-fill {
-      background: var(--acento);
+      background: var(--dorado);
       height: 100%;
       border-radius: 3px;
     }
@@ -299,7 +276,7 @@
       min-width: 160px;
     }
     .info-panel h4 { margin: 0 0 4px; font-size: 0.85rem; color: var(--gris-oscuro); }
-    .info-panel b { color: var(--acento-oscuro); }
+    .info-panel b { color: var(--dorado-oscuro); }
 
     .footer {
       margin-top: 1.5rem;
@@ -331,12 +308,10 @@
 </head>
 <body>
 
-  <div class="header-hero">
+  <div class="header">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+    <h1>Dimensión 1 – Ser joven</h1>
     <a href="../index.html" class="btn-home">&#8592; Inicio</a>
-    <div class="hero-texto">
-      <h1 class="hero-title">Ser joven</h1>
-      <p class="hero-subtitle">Dimensión 1</p>
-    </div>
   </div>
 
   <div class="container">
@@ -402,8 +377,8 @@
       <div class="card">
         <div class="card-title">Proporción de jóvenes por edad y sexo</div>
         <div class="leyenda-sexo">
-          <span><span class="leyenda-dot" style="background:var(--acento-oscuro)"></span> Hombres</span>
-          <span><span class="leyenda-dot" style="background:#1e9da3"></span> Mujeres</span>
+          <span><span class="leyenda-dot" style="background:var(--dorado)"></span> Hombres</span>
+          <span><span class="leyenda-dot" style="background:var(--naranja)"></span> Mujeres</span>
         </div>
         <div id="piramide-edad"></div>
       </div>
@@ -464,8 +439,6 @@
       </div>
     </div>
   </div>
-
-  <img src="../imagenes/SDIS/Distrito joven.png" alt="Distrito Joven — Secretaría de Integración Social" class="footer-marca">
 
 <script>
 // Formato colombiano
@@ -4615,7 +4588,7 @@ function actualizarZona(f) {
       labels: ['Cabecera\nMunicipal', 'Centros Poblados y\nRural Disperso'],
       datasets: [{
         data: [r.zona_cabecera, r.zona_rural],
-        backgroundColor: ['#f4676e', '#83766c'],
+        backgroundColor: ['#c9a51a', '#e0c94a'],
         borderRadius: 4,
       }]
     },
@@ -4638,7 +4611,7 @@ function actualizarZona(f) {
             },
             font: { size: 11 }
           },
-          grid: { color: '#f4f2ee' }
+          grid: { color: '#ecf0f1' }
         },
         x: { ticks: { font: { size: 10 } }, grid: { display: false } }
       }
@@ -4687,10 +4660,10 @@ function actualizarPiramide(f) {
 // ========== Mapa coroplético ==========
 
 function getColorMapa(valor, max) {
-  // Escala secuencial del rosa coral oficial (identidad de la dimensión) a un vino oscuro
-  if (!max || !valor) return '#f4f2ee';
+  // Escala de dorado claro a dorado oscuro/marrón
+  if (!max || !valor) return '#f5f5dc';
   const ratio = valor / max;
-  const colores = ['#fce4e4', '#f8b8ba', '#f4676e', '#d94a52', '#b23540', '#8a232c', '#5c1419'];
+  const colores = ['#f5f0d0', '#e8d87a', '#d4b830', '#c9a51a', '#a88a14', '#8b6914', '#6b4f0e'];
   const idx = Math.min(Math.floor(ratio * (colores.length - 1)), colores.length - 1);
   return colores[idx];
 }
@@ -4787,7 +4760,7 @@ function actualizarLeyendaMapa(maxVal) {
   const leyenda = L.control({ position: 'bottomright' });
   leyenda.onAdd = function() {
     const div = L.DomUtil.create('div', 'mapa-leyenda');
-    const colores = ['#fce4e4', '#f8b8ba', '#f4676e', '#d94a52', '#b23540', '#8a232c', '#5c1419'];
+    const colores = ['#f5f0d0', '#e8d87a', '#d4b830', '#c9a51a', '#a88a14', '#8b6914', '#6b4f0e'];
     const step = maxVal / colores.length;
     div.innerHTML = '<strong>Jóvenes</strong><br>';
     colores.forEach((c, i) => {
@@ -4854,7 +4827,7 @@ function actualizarTopLocalidades(f) {
       labels: datos.map(d => d.localidad),
       datasets: [{
         data: datos.map(d => d.jovenes),
-        backgroundColor: '#f4676e',
+        backgroundColor: '#c9a51a',
         borderRadius: 3,
       }]
     },
@@ -4872,7 +4845,7 @@ function actualizarTopLocalidades(f) {
             callback: v => v >= 1000 ? fmtMiles(Math.round(v/1000)) + ' mil' : fmtMiles(v),
             font: { size: 10 }
           },
-          grid: { color: '#f4f2ee' }
+          grid: { color: '#ecf0f1' }
         },
         y: {
           ticks: { font: { size: 10 } },
@@ -4901,11 +4874,11 @@ function actualizarProyeccion(f) {
       datasets: [{
         label: 'Jóvenes (14-28)',
         data: valores,
-        borderColor: '#f4676e',
-        backgroundColor: 'rgba(244, 103, 110, 0.1)',
+        borderColor: '#c9a51a',
+        backgroundColor: 'rgba(201, 165, 26, 0.1)',
         borderWidth: 3,
         pointRadius: 5,
-        pointBackgroundColor: '#f4676e',
+        pointBackgroundColor: '#c9a51a',
         tension: 0.3,
         fill: true,
       }]
@@ -4930,7 +4903,7 @@ function actualizarProyeccion(f) {
             },
             font: { size: 11 }
           },
-          grid: { color: '#f4f2ee' }
+          grid: { color: '#ecf0f1' }
         },
         x: { ticks: { font: { size: 11 } }, grid: { display: false } }
       }
