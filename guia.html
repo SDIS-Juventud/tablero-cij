@@ -12,28 +12,13 @@
       color: #333;
     }
 
-    /* Barra institucional */
-    .header-bar {
-      background: #fff;
-      border-bottom: 4px solid #000;
-      padding: 10px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .header-bar img { height: 60px; }
-    .header-title {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #333;
-      margin-left: 2rem;
-    }
     .header-right {
       display: flex;
       gap: 8px;
       position: absolute;
+      top: 20px;
       right: 24px;
+      z-index: 10;
     }
     .icon-btn {
       width: 36px; height: 36px;
@@ -185,13 +170,8 @@
 <body>
 
   <!-- Barra institucional -->
-  <div class="header-bar">
-    <img src="img/logo.png" alt="Alcald&iacute;a Mayor de Bogot&aacute; - Secretar&iacute;a de Integraci&oacute;n Social">
-    <span class="header-title">Gu&iacute;a de navegaci&oacute;n</span>
-    <div class="header-right">
-      <a class="icon-btn" href="index.html" title="Inicio">&#8962;</a>
-      <a class="icon-btn" title="Informaci&oacute;n">i</a>
-    </div>
+  <div class="header-right">
+    <a class="icon-btn" href="index.html" title="Inicio">&#8962;</a>
   </div>
 
   <!-- Contenido -->
