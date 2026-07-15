@@ -4,71 +4,137 @@
 
 | Indicador | Fuente | Frecuencia |
 |-----------|--------|------------|
-| Población joven (14-28) por localidad, zona, edad y sexo | DANE — Proyecciones CNPV 2018, desagregación Bogotá | Cuando el DANE publique nuevas proyecciones |
+| Población joven (14-28) por localidad, zona, edad y sexo | SDP - DANE (convenio de desagregación post-COVID, base CNPV 2018) | Cuando la SDP publique una nueva actualización |
 
-**Nota:** Estas proyecciones se basan en el Censo 2018. El archivo actual cubre 2018-2035. No se actualiza trimestralmente como la dimensión 3 — solo cuando el DANE publique nuevas proyecciones (probablemente con el próximo censo).
+**Por qué la SDP y no el DANE:** el DANE es la fuente oficial de las
+proyecciones de población, pero su página de Bogotá no se ha actualizado.
+La SDP, mediante su convenio con el DANE, sí publica las actualizaciones
+post-COVID desagregadas por localidad. Por eso desde julio de 2026 esta
+dimensión se alimenta de la página de la SDP.
 
-## Cómo actualizar (cuando salgan nuevas proyecciones)
+## Cómo funciona (dos pasos)
 
-### 1. Descargar las nuevas proyecciones del DANE
+La SDP cambia el nombre del archivo en cada actualización (el prefijo de
+fecha `202503_`, `202511_`, etc.). Para que eso no rompa nada, el flujo
+tiene un intermedio con nombre fijo:
 
-- Ir a: https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion/proyecciones-de-poblacion-bogota
-- Descargar el archivo de proyecciones por localidad.
-- El nombre actual es `anexo-proyecciones-poblacion-bogota-desagreacion-loc-2018-2035-UPZ-2018-2024.xlsx` pero puede cambiar.
+```
+Archivo de la SDP                    Fuente estándar                 Tablero web
+(nombre cambia cada vez)             (nombre fijo)
+fuentes/SDP-Dane/*.xlsx  ──paso 2──> fuentes/                ──paso 3──> data/*.json
+                                     fuente_dim1_poblacion.xlsx
+```
 
-### 2. Verificar el formato del nuevo archivo
+- `generar_fuente.py` toma el archivo más reciente de `fuentes/SDP-Dane/`
+  y regenera la **fuente estándar** `fuentes/fuente_dim1_poblacion.xlsx`.
+- `actualizar.py` lee solo la fuente estándar y regenera los JSON del tablero.
 
-**Importante:** si el DANE publica un archivo con formato diferente, hay que revisar:
+La fuente estándar trae una hoja `Ficha` que documenta de qué archivo se
+generó y cómo actualizarla — quien abra el Excel se orienta sin leer nada más.
 
-- ¿La hoja se sigue llamando `Localidades`? Si no, actualizar `HOJA_PRINCIPAL` en `actualizar.py`.
-- ¿Los headers siguen en la fila 12? Si no, actualizar `FILA_HEADERS`.
-- ¿Las columnas siguen siendo `COD_LOC`, `NOM_LOC`, `AREA`, `AÑO`, `Hombres_0`...`Hombres_100+`, `Mujeres_0`...`Mujeres_100+`? Si cambiaron los nombres, hay que ajustar el script.
+## Cómo actualizar (cuando la SDP publique algo nuevo)
 
-### 3. Copiar el archivo a `dim1/fuentes/`
+### 1. Descargar el archivo nuevo de la SDP
 
-Pegar el nuevo archivo en `dim1/fuentes/`. **No borrar el anterior.**
+- Ir a: https://sdp.gov.co/gestion-estudios-estrategicos/informacion-estadisticas/censo-2018-post-covid-19/proyecciones-de-poblacion
+- En la sección de descargas, bajar **"Proyecciones y retroproyecciones de
+  población 2005 a 2035 (Localidad)"**.
+- Guardarlo en `dim1/fuentes/SDP-Dane/`. **No borrar el anterior** y no
+  importa el nombre que traiga: el script busca el más reciente.
 
-### 4. Probar localmente (opcional)
+### 2. Regenerar la fuente estándar
+
+```bash
+python dim1/generar_fuente.py
+```
+
+El script valida el archivo (20 localidades, serie de años sin huecos,
+totales que cuadran). Si algo no cuadra, se detiene y dice qué revisar.
+
+### 3. Regenerar los JSON del tablero
 
 ```bash
 python dim1/actualizar.py
 ```
 
-El script busca automáticamente el archivo más reciente que contenga "proyecciones" en el nombre.
+Revisar la verificación que imprime (jóvenes 14-28, % de la población,
+zonas) contra el boletín de la SDP si hay dudas.
 
-### 5. Subir a GitHub
+Este paso también reescribe los datos embebidos dentro de `index.html`
+(el respaldo que usa la página cuando se abre el archivo local sin
+servidor), para que nunca queden con cifras viejas.
+
+### 4. Subir a GitHub
 
 ```bash
-git add dim1/fuentes/
-git commit -m "Nuevas proyecciones de población Bogotá"
+git add dim1/fuentes/ dim1/data/ dim1/index.html
+git commit -m "actualización proyecciones SDP"
 git push
 ```
 
-O subir directamente por GitHub.com a la carpeta `dim1/fuentes/`.
-
-### 6. Verificar
+### 5. Verificar
 
 - Ir a: https://sdis-juventud.github.io/tablero-cij/dim1/
 - Revisar que los datos se vean bien.
 
+### 6. Cuadrar contra SaluData (regla del equipo)
+
+El tablero debe dar lo mismo que SaluData, que consume la misma serie del
+convenio SDP-DANE:
+
+- Ir al tablero de población de SaluData (Observatorio de Salud de Bogotá).
+- Poner el **mismo año** y el filtro de **edad en 14 a 28** (SaluData suele
+  estar en otro rango; si no se ajusta, no va a cuadrar).
+- Comparar total, hombres y mujeres contra los KPI del tablero CIJ.
+  Deben ser idénticos.
+- Si no cuadran, lo más probable es que uno de los dos esté en un corte
+  distinto: comparar la "Fecha de actualización" de SaluData con la fecha
+  del archivo en `fuentes/SDP-Dane/`. Si SaluData va adelante, descargar el
+  corte nuevo de la SDP y repetir desde el paso 1; si vamos adelante
+  nosotros, dejarlo anotado y avisar a Carolina.
+
 ## Qué hacer si el formato cambió
 
-Si el script falla porque el DANE cambió el formato del Excel:
+La SDP cambia detalles del formato en cada corte. El script ya tolera las
+variantes conocidas:
 
-1. Abrir el nuevo archivo en Excel.
-2. Buscar la hoja con datos por localidad.
-3. Identificar en qué fila están los headers (columnas como COD_LOC, NOM_LOC, etc.).
-4. Avisar a Carolina para ajustar el script.
+- **Corte 2025-03:** encabezados en la fila 5, columna `Área`,
+  edades como `Total_14`.
+- **Corte 2025-12 (ajuste DANE agosto 2025):** encabezados en la fila 6,
+  columna `Área Geográfica`, edades como `Total 14 años`, fila de pie de
+  página al final.
+
+El script encuentra solo la fila de encabezados y reconoce esas variantes.
+Si aun así `generar_fuente.py` falla, es porque llegó una variante nueva:
+
+1. Abrir el archivo nuevo en Excel.
+2. Comparar contra el anterior: ¿qué columna cambió de nombre o de lugar?
+3. Avisar a Carolina para ajustar `generar_fuente.py` (solo ese script:
+   `actualizar.py` no se toca porque lee la fuente estándar).
+
+El script también valida los datos (20 localidades, años sin huecos,
+totales que cuadran) y se detiene con un mensaje claro si algo no cuadra —
+nunca corrige en silencio.
 
 ## Archivos de esta dimensión
 
 ```
 dim1/
-├── index.html          ← Página web de la dimensión
-├── actualizar.py       ← Script que procesa el Excel del DANE
-├── fuentes/            ← Aquí se guarda el archivo de proyecciones
-├── data/               ← JSONs generados automáticamente
-│   ├── resumen_bogota.json
-│   └── localidades.json
-└── INSTRUCCIONES.md    ← Este archivo
+├── index.html                       ← Página web de la dimensión
+├── generar_fuente.py                ← Paso 1: archivo SDP → fuente estándar
+├── actualizar.py                    ← Paso 2: fuente estándar → JSONs
+├── INSTRUCCIONES.md                 ← Este archivo
+├── fuentes/
+│   ├── fuente_dim1_poblacion.xlsx   ← FUENTE ESTÁNDAR de la dimensión
+│   ├── SDP-Dane/                    ← Archivos tal como los publica la SDP
+│   │   ├── 2025xx_localidad_proyeccion_retroproyeccion_poblacion_...xlsx  ← el que se usa
+│   │   ├── ...upl / hogares y viviendas (referencia, no se usan aún)
+│   │   ├── documento_metodologico_proyecciones_pob.pdf
+│   │   └── OSB_Demografia-Poblacion-1.pdf
+│   └── Dane/
+│       └── localidades/             ← Shapefile de localidades (fuente del mapa, no cambia)
+└── data/                            ← JSONs generados automáticamente
+    ├── resumen_bogota.json
+    ├── localidades.json
+    └── localidades_geo.json         ← Geometrías del mapa (no se regenera)
 ```

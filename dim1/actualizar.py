@@ -1,19 +1,24 @@
 # actualizar.py — Dimensión 1: Ser joven
-# Script para procesar las proyecciones de población de Bogotá (DANE, CNPV 2018)
-# y generar los JSONs que usa la página web.
+# Script para procesar las proyecciones de población de Bogotá y generar
+# los JSONs que usa la página web.
+#
+# Desde 2026-07-15 la fuente es la SDP (convenio SDP-DANE, actualización
+# post-COVID del CNPV 2018), no la página del DANE. Este script ya no lee
+# el archivo de la SDP directamente: lee la fuente estándar
+# fuentes/fuente_dim1_poblacion.xlsx, que genera dim1/generar_fuente.py.
 #
 # Uso:
-#   1. Descargar el anexo de proyecciones de Bogotá del DANE:
-#      https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion/proyecciones-de-poblacion-bogota
+#   1. Si hay archivo nuevo de la SDP, correr primero:
+#      python dim1/generar_fuente.py
+#      (ver instrucciones de descarga en ese script o en INSTRUCCIONES.md)
 #
-#   2. Guardar el archivo en dim1/fuentes/
-#
-#   3. Correr este script:
+#   2. Correr este script:
 #      python dim1/actualizar.py
 #
-#   4. Los archivos JSON en dim1/data/ se actualizan automáticamente.
+#   3. Los archivos JSON en dim1/data/ se actualizan automáticamente.
 
 import os
+import re
 import json
 import openpyxl
 
@@ -25,6 +30,9 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 FUENTES_DIR = os.path.join(SCRIPT_DIR, 'fuentes')
 DATA_DIR = os.path.join(SCRIPT_DIR, 'data')
 
+# Fuente estándar de la dimensión (nombre fijo, la genera generar_fuente.py)
+FUENTE = os.path.join(FUENTES_DIR, 'fuente_dim1_poblacion.xlsx')
+
 # Rango de edad para "joven" según Ley 1622 (Estatuto de Ciudadanía Juvenil)
 EDAD_MIN = 14
 EDAD_MAX = 28
@@ -33,28 +41,16 @@ EDAD_MAX = 28
 ANIO_MIN = 2018
 ANIO_MAX = 2035
 
-# Nombre de la hoja principal en el Excel del DANE
+# Nombre de la hoja de datos en la fuente estándar
 HOJA_PRINCIPAL = 'Localidades'
 
-# Fila donde empiezan los headers (puede cambiar si el DANE modifica el formato)
-FILA_HEADERS = 12
+# Fila de los headers: en la fuente estándar siempre es la 1
+FILA_HEADERS = 1
 
 
 # ============================================================
 # Funciones
 # ============================================================
-
-def encontrar_archivo_proyecciones(carpeta):
-    """Busca el archivo de proyecciones más reciente en la carpeta."""
-    archivos = [f for f in os.listdir(carpeta)
-                if f.endswith('.xlsx') and not f.startswith('~$')
-                and 'proyecciones' in f.lower()]
-    if not archivos:
-        print(f'ERROR: No se encontró ningún archivo de proyecciones en {carpeta}')
-        return None
-    archivos.sort()
-    return os.path.join(carpeta, archivos[-1])
-
 
 def leer_headers(ws, fila):
     """Lee los nombres de columna de la fila de headers."""
@@ -193,7 +189,8 @@ def generar_jsons(registros):
             continue
         if r['area'] == 'Cabecera Municipal':
             resumen[anio]['zona_cabecera'] += r['jovenes_total']
-        elif r['area'] == 'Centros Poblados y Rural Disperso':
+        elif r['area'] == 'Centro Poblado y Rural Disperso':
+            # etiqueta de la SDP (el archivo viejo del DANE decía "Centros Poblados...")
             resumen[anio]['zona_rural'] += r['jovenes_total']
 
     resumen_list = sorted(resumen.values(), key=lambda x: x['anio'])
@@ -227,19 +224,45 @@ def generar_jsons(registros):
     return ruta_resumen, ruta_loc
 
 
+def actualizar_fallback_html(ruta_resumen, ruta_loc):
+    """Regenera los datos embebidos de respaldo en index.html.
+    El tablero publicado lee los JSON de data/, pero al abrir el HTML local
+    sin servidor usa los datos embebidos (RESUMEN_FALLBACK y
+    LOCALIDADES_FALLBACK). Se reescriben aquí en cada actualización para que
+    nunca queden con cifras viejas frente a los JSON."""
+    ruta_html = os.path.join(SCRIPT_DIR, 'index.html')
+    with open(ruta_html, 'r', encoding='utf-8') as f:
+        html = f.read()
+
+    bloques = [('RESUMEN_FALLBACK', ruta_resumen), ('LOCALIDADES_FALLBACK', ruta_loc)]
+    for nombre, ruta_json in bloques:
+        with open(ruta_json, 'r', encoding='utf-8') as f:
+            datos = json.load(f)
+        nuevo = f'const {nombre} = ' + json.dumps(datos, ensure_ascii=False, indent=2) + ';'
+        patron = re.compile(r'const ' + nombre + r' = \[.*?\n\];', re.DOTALL)
+        if not patron.search(html):
+            print(f'  AVISO: no se encontró el bloque {nombre} en index.html — no se actualizó.')
+            continue
+        html = patron.sub(lambda m: nuevo, html, count=1)
+        print(f'  {nombre} actualizado en index.html')
+
+    with open(ruta_html, 'w', encoding='utf-8') as f:
+        f.write(html)
+
+
 def main():
     print('=' * 60)
     print('Actualización de datos — Dimensión 1: Ser joven')
     print('=' * 60)
 
-    print(f'\nBuscando archivo de proyecciones en: {FUENTES_DIR}')
-    archivo = encontrar_archivo_proyecciones(FUENTES_DIR)
-    if not archivo:
+    if not os.path.exists(FUENTE):
+        print(f'ERROR: no existe {FUENTE}')
+        print('Correr primero: python dim1/generar_fuente.py')
         return
-    print(f'  Archivo: {os.path.basename(archivo)}')
+    print(f'\nFuente estándar: {os.path.basename(FUENTE)}')
 
-    print('\nLeyendo datos del DANE...')
-    wb = openpyxl.load_workbook(archivo, read_only=True, data_only=True)
+    print('\nLeyendo datos...')
+    wb = openpyxl.load_workbook(FUENTE, read_only=True, data_only=True)
     ws = wb[HOJA_PRINCIPAL]
 
     headers = leer_headers(ws, FILA_HEADERS)
@@ -249,6 +272,9 @@ def main():
 
     print('\nGenerando archivos JSON...')
     ruta_resumen, ruta_loc = generar_jsons(registros)
+
+    print('\nActualizando datos embebidos en index.html...')
+    actualizar_fallback_html(ruta_resumen, ruta_loc)
 
     # Verificación rápida
     with open(ruta_resumen, 'r', encoding='utf-8') as f:
