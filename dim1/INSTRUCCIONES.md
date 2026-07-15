@@ -36,9 +36,13 @@ generó y cómo actualizarla — quien abra el Excel se orienta sin leer nada m�
 
 ### 1. Descargar el archivo nuevo de la SDP
 
-- Ir a: https://sdp.gov.co/gestion-estudios-estrategicos/informacion-estadisticas/censo-2018-post-covid-19/proyecciones-de-poblacion
-- En la sección de descargas, bajar **"Proyecciones y retroproyecciones de
-  población 2005 a 2035 (Localidad)"**.
+- Ir a: https://www.sdp.gov.co/gestion-estudios-estrategicos/informacion-estadisticas/censo-2018-act-agosto2025/proyecciones-de-poblacion
+- **Ojo:** la SDP crea una página nueva por cada corte (esa URL es la del
+  corte agosto/2025). Si el enlace quedó viejo, entrar a sdp.gov.co por el
+  menú **"Cifras población"** y escoger la actualización más reciente.
+- En la sección de descargas, bajar el archivo de **población a nivel de
+  Localidad** (el título exacto cambia entre cortes; en el de agosto/2025 es
+  "Población a nivel de Localidad entre 2005 y 2035").
 - Guardarlo en `dim1/fuentes/SDP-Dane/`. **No borrar el anterior** y no
   importa el nombre que traiga: el script busca el más reciente.
 

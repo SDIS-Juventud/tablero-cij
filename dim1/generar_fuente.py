@@ -11,9 +11,9 @@
 # tablero (actualizar.py) solo conoce la fuente estándar.
 #
 # Uso:
-#   1. Descargar de la página de la SDP el archivo
-#      "Proyecciones y retroproyecciones de población 2005 a 2035 (Localidad)":
-#      https://sdp.gov.co/gestion-estudios-estrategicos/informacion-estadisticas/censo-2018-post-covid-19/proyecciones-de-poblacion
+#   1. Descargar de la página de la SDP (menú "Cifras población", actualización
+#      más reciente) el archivo de población a nivel de Localidad:
+#      https://www.sdp.gov.co/gestion-estudios-estrategicos/informacion-estadisticas/censo-2018-act-agosto2025/proyecciones-de-poblacion
 #
 #   2. Guardarlo en dim1/fuentes/SDP-Dane/ (sin borrar el anterior).
 #
@@ -40,8 +40,11 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SDP_DIR = os.path.join(SCRIPT_DIR, 'fuentes', 'SDP-Dane')
 FUENTE_SALIDA = os.path.join(SCRIPT_DIR, 'fuentes', 'fuente_dim1_poblacion.xlsx')
 
-URL_SDP = ('https://sdp.gov.co/gestion-estudios-estrategicos/'
-           'informacion-estadisticas/censo-2018-post-covid-19/proyecciones-de-poblacion')
+# Página del corte vigente (actualización agosto/2025, contrato 500 de 2025
+# DANE-SDP-RMBC). Ojo: la SDP crea una página nueva por cada corte — si este
+# enlace queda viejo, entrar por el menú "Cifras población" del sitio de la SDP.
+URL_SDP = ('https://www.sdp.gov.co/gestion-estudios-estrategicos/'
+           'informacion-estadisticas/censo-2018-act-agosto2025/proyecciones-de-poblacion')
 
 # Áreas que trae el archivo de la SDP. Si un archivo nuevo trae otras etiquetas,
 # el script se detiene para que se revise (evita sumar mal los totales).
@@ -267,11 +270,11 @@ def escribir_fuente(registros, archivo_origen, ruta_salida):
         ('', ''),
         ('Contenido', 'Proyecciones y retroproyecciones de población por localidad, '
                       'área y edad simple por sexo. Bogotá D.C.'),
-        ('Fuente original', 'DANE - SDP, convenio de desagregación de las proyecciones '
-                            'de población post-COVID (base CNPV 2018)'),
-        ('Página de descarga', URL_SDP),
-        ('Archivo descargado en la SDP', 'Proyecciones y retroproyecciones de población '
-                                         '2005 a 2035 (Localidad)'),
+        ('Fuente original', 'DANE - SDP, proyecciones y retroproyecciones de población con '
+                            'base censo 2018, contrato interadministrativo DANE-SDP-RMBC'),
+        ('Página de descarga', URL_SDP + ' (la SDP crea una página nueva por corte: '
+                               'si el enlace quedó viejo, buscar "Cifras población" en sdp.gov.co)'),
+        ('Archivo descargado en la SDP', 'Población a nivel de Localidad entre 2005 y 2035'),
         ('Archivo del que se generó', archivo_origen),
         ('Fecha de generación', date.today().isoformat()),
         ('Generado con', 'dim1/generar_fuente.py'),

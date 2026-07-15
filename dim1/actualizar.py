@@ -41,6 +41,11 @@ EDAD_MAX = 28
 ANIO_MIN = 2018
 ANIO_MAX = 2035
 
+# Edades de la pirámide poblacional general: 0 a 100 por edad simple
+# (100 agrupa "100 y más"). Se usa edad simple y no quinquenios para poder
+# resaltar exacto el rango de juventud 14-28 (los quinquenios lo parten).
+EDADES_PIRAMIDE = [str(e) for e in range(101)]
+
 # Nombre de la hoja de datos en la fuente estándar
 HOJA_PRINCIPAL = 'Localidades'
 
@@ -91,6 +96,9 @@ def extraer_datos(ws, headers):
                 edad_str = h[len(prefix):]
                 if edad_str.isdigit():
                     destino[int(edad_str)] = i
+                elif edad_str == '100 y más':
+                    # se guarda como edad 100 para la pirámide general
+                    destino[100] = i
 
     # Índices de totales generales
     idx_total_h = None
@@ -125,6 +133,14 @@ def extraer_datos(ws, headers):
             if edad in col_total:
                 jovenes_t[edad] = int(row[col_total[edad]] or 0)
 
+        # Pirámide general: toda la población por edad simple y sexo
+        piramide_h = {g: 0 for g in EDADES_PIRAMIDE}
+        piramide_m = {g: 0 for g in EDADES_PIRAMIDE}
+        for edad, col in col_hombres.items():
+            piramide_h[str(min(edad, 100))] += int(row[col] or 0)
+        for edad, col in col_mujeres.items():
+            piramide_m[str(min(edad, 100))] += int(row[col] or 0)
+
         total_jovenes_h = sum(jovenes_h.values())
         total_jovenes_m = sum(jovenes_m.values())
         total_jovenes = sum(jovenes_t.values())
@@ -145,6 +161,8 @@ def extraer_datos(ws, headers):
             'poblacion_mujeres': total_pob_m,
             'por_edad_hombres': jovenes_h,
             'por_edad_mujeres': jovenes_m,
+            'piramide_hombres': piramide_h,
+            'piramide_mujeres': piramide_m,
         })
 
     return registros
@@ -166,12 +184,18 @@ def generar_jsons(registros):
                 'jovenes_hombres': 0, 'jovenes_mujeres': 0, 'jovenes_total': 0,
                 'poblacion_total': 0,
                 'por_edad_hombres': {}, 'por_edad_mujeres': {},
+                'piramide_hombres': {g: 0 for g in EDADES_PIRAMIDE},
+                'piramide_mujeres': {g: 0 for g in EDADES_PIRAMIDE},
                 'zona_cabecera': 0, 'zona_rural': 0,
             }
         resumen[anio]['jovenes_hombres'] += r['jovenes_hombres']
         resumen[anio]['jovenes_mujeres'] += r['jovenes_mujeres']
         resumen[anio]['jovenes_total'] += r['jovenes_total']
         resumen[anio]['poblacion_total'] += r['poblacion_total']
+        # Acumular la pirámide general por edad simple
+        for g in EDADES_PIRAMIDE:
+            resumen[anio]['piramide_hombres'][g] += r['piramide_hombres'][g]
+            resumen[anio]['piramide_mujeres'][g] += r['piramide_mujeres'][g]
         # Acumular por edad
         for edad in range(EDAD_MIN, EDAD_MAX + 1):
             e_str = str(edad)
