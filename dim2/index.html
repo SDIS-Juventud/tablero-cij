@@ -327,7 +327,7 @@
     </div>
 
     <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Histórico de matrículas totales — Bogotá</div>
+      <div class="card-title">Histórico de matrículas totales — Bogotá y Colombia</div>
       <div class="chart-container">
         <canvas id="chart-matriculas-bc"></canvas>
       </div>
@@ -1355,6 +1355,13 @@ function actualizarChartMatriculasBC() {
           data: datos.map(d => d.total_bogota),
           borderColor: '#1eaf76', backgroundColor: '#1eaf76',
           borderWidth: 2.5, pointRadius: 3, tension: 0.3,
+        },
+        {
+          // comparación con Colombia (comentario de David, 2026-07)
+          label: 'Colombia',
+          data: datos.map(d => d.total_colombia),
+          borderColor: '#2f2b28', backgroundColor: '#2f2b28',
+          borderWidth: 2.5, pointRadius: 3, tension: 0.3,
         }
       ]
     },
@@ -1363,8 +1370,8 @@ function actualizarChartMatriculasBC() {
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => fmtNum(ctx.parsed.y) + ' matrículas' } }
+        legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', font: { size: 10 } } },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtNum(ctx.parsed.y) + ' matrículas' } }
       },
       scales: {
         y: { ticks: { callback: v => fmtNum(v), font: { size: 10 } }, grid: { color: '#ecf0f1' } },

@@ -259,12 +259,13 @@
     <p class="page-subtitle" style="margin-top:2.5rem;">
       <span>4.3 Tasa específica de fecundidad en jóvenes (15-29 años) — Bogotá D.C.</span><br>
       Fuente: SaludData – Observatorio de Salud de Bogotá · Población: DANE, proyecciones CNPV 2018<br>
-      <span id="lbl-fec-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span><br>
-      <span style="font-size:0.8em; font-weight:400; color:#888;">¿Cómo leer esta tasa? Indica cuántas mujeres de ese grupo de edad tuvieron un nacido vivo, por cada 1.000 mujeres de esa misma edad. El símbolo ‰ significa "por mil" (no "por cien" como el %) — no es un porcentaje ni el promedio de hijos por mujer.</span>
+      <span id="lbl-fec-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
 
 
-    <div class="stat-strip">
+    <!-- La nota de lectura va dentro de la franja teal para que se lea junto
+         a las tasas (comentario de David, 2026-07) -->
+    <div class="stat-strip" style="flex-wrap:wrap;">
       <div class="stat-tile">
         <span class="stat-pill">15 a 19 años · <span id="lbl-fec-anio-1519"></span></span>
         <div class="stat-numero" id="kpi-fec-tasa1519">–</div>
@@ -279,6 +280,9 @@
         <span class="stat-pill">25 a 29 años · <span id="lbl-fec-anio-2529"></span></span>
         <div class="stat-numero" id="kpi-fec-tasa2529">–</div>
         <div class="stat-meta">Tasa de fecundidad ‰</div>
+      </div>
+      <div style="flex-basis:100%; margin:0 24px 18px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.25); font-size:0.78rem; line-height:1.5; color:var(--crema); opacity:0.9;">
+        <strong>¿Cómo leer esta tasa?</strong> Indica cuántas mujeres de ese grupo de edad tuvieron un nacido vivo, por cada 1.000 mujeres de esa misma edad. El símbolo ‰ significa "por mil" (no "por cien" como el %) — no es un porcentaje ni el promedio de hijos por mujer.
       </div>
     </div>
 

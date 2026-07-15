@@ -405,24 +405,12 @@
         </div>
       </div>
 
+      <!-- Solo filtro de año: la distribución por sexo y por localidad ya está
+           en las gráficas fijas (comentario de David, 2026-07) -->
       <div class="filtros" style="margin-bottom:0; flex:1;">
         <div class="filtro-grupo">
           <label>Año</label>
           <select class="filtro-select" id="filtro-anio"></select>
-        </div>
-        <div class="filtro-grupo">
-          <label>Localidad</label>
-          <select class="filtro-select" id="filtro-loc">
-            <option value="Todas">Todas</option>
-          </select>
-        </div>
-        <div class="filtro-grupo">
-          <label>Sexo</label>
-          <select class="filtro-select" id="filtro-sexo">
-            <option value="Todos">Todos</option>
-            <option value="Hombres">Hombres</option>
-            <option value="Mujeres">Mujeres</option>
-          </select>
         </div>
       </div>
     </div>
@@ -8303,25 +8291,16 @@ function initFiltros() {
     selAnio.appendChild(opt);
   });
 
-  // Localidades
-  const selLoc = document.getElementById('filtro-loc');
-  const locs = [...new Set(LOCALIDADES.map(d => d.localidad))].sort();
-  locs.forEach(l => {
-    const opt = document.createElement('option');
-    opt.value = l; opt.textContent = l;
-    selLoc.appendChild(opt);
-  });
-
   selAnio.onchange = actualizarTodo;
-  selLoc.onchange = actualizarTodo;
-  document.getElementById('filtro-sexo').onchange = actualizarTodo;
 }
 
 function getFiltros() {
+  // Solo se filtra por año: los filtros de localidad y sexo se quitaron porque
+  // las gráficas fijas ya muestran esas distribuciones (comentario de David, 2026-07)
   return {
     anio: parseInt(document.getElementById('filtro-anio').value),
-    loc: document.getElementById('filtro-loc').value,
-    sexo: document.getElementById('filtro-sexo').value,
+    loc: 'Todas',
+    sexo: 'Todos',
   };
 }
 
