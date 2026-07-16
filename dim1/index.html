@@ -442,22 +442,12 @@
       </div>
     </div>
 
-    <!-- Fila 2: Zona + Localidades -->
-    <div class="grid-2col">
-      <!-- Jóvenes por zona -->
-      <div class="card">
-        <div class="card-title">Cantidad de jóvenes por zona</div>
-        <div class="chart-container" style="height:260px;">
-          <canvas id="chart-zona"></canvas>
-        </div>
-      </div>
-
-      <!-- Top localidades -->
-      <div class="card">
-        <div class="card-title">Top 10 localidades con más jóvenes</div>
-        <div class="chart-container" style="height:340px;">
-          <canvas id="chart-top-loc"></canvas>
-        </div>
+    <!-- Fila 2: Zona (barras horizontales; el top de localidades se quitó
+         porque el mapa y la tabla ya muestran esa distribución) -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Cantidad de jóvenes por zona</div>
+      <div class="chart-container" style="height:180px;">
+        <canvas id="chart-zona"></canvas>
       </div>
     </div>
 
@@ -503,7 +493,6 @@
         </div>
       </div>
       <div class="footer-notas">
-        <p><strong>Sobre el rango de edad:</strong> esta dimensión usa el rango de 14 a 28 años definido por la Ley 1622 de 2013. La dimensión 3 (Inclusión productiva) usa 15 a 28 años porque el DANE mide la Población en Edad de Trabajar (PET) desde los 15 años, siguiendo el estándar de la OIT.</p>
         <p><strong>Proyecciones:</strong> proyecciones y retroproyecciones de población por localidad con base en el Censo Nacional de Población y Vivienda 2018, que incorporan el cambio en los techos poblacionales realizado por el DANE en agosto de 2025. Fueron construidas en el marco del contrato interadministrativo 500 de 2025 entre el DANE, la Secretaría Distrital de Planeación y la Región Metropolitana Bogotá-Cundinamarca, para el desarrollo de la Encuesta Multipropósito Bogotá-Cundinamarca 2025. Se actualizan cuando la SDP publica un corte nuevo.</p>
       </div>
     </div>
@@ -531,7 +520,6 @@ let LOCALIDADES = [];
 let GEOJSON = null;
 let chartZona = null;
 let chartProy = null;
-let chartTopLoc = null;
 let mapa = null;
 let capaGeo = null;
 let infoPanel = null;
@@ -8313,7 +8301,6 @@ function actualizarTodo() {
   actualizarPiramide(f);
   actualizarMapa(f);
   actualizarTablaLocalidades2(f);
-  actualizarTopLocalidades(f);
   actualizarProyeccion(f);
 }
 
@@ -8359,7 +8346,7 @@ function actualizarZona(f) {
   chartZona = new Chart(document.getElementById('chart-zona'), {
     type: 'bar',
     data: {
-      labels: ['Cabecera\nMunicipal', 'Centros Poblados y\nRural Disperso'],
+      labels: ['Cabecera municipal', 'Centro poblado y rural disperso'],
       datasets: [{
         data: [r.zona_cabecera, r.zona_rural],
         backgroundColor: ['#f4676e', '#83766c'],
@@ -8367,27 +8354,28 @@ function actualizarZona(f) {
       }]
     },
     options: {
+      indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
         tooltip: {
-          callbacks: { label: ctx => fmtMiles(ctx.parsed.y) }
+          callbacks: { label: ctx => fmtMiles(ctx.parsed.x) + ' jóvenes' }
         }
       },
       scales: {
-        y: {
+        x: {
           ticks: {
             callback: v => {
               if (v >= 1000000) return fmtDec(v/1000000) + ' mill.';
               if (v >= 1000) return fmtMiles(v/1000) + ' mil';
               return fmtMiles(v);
             },
-            font: { size: 11 }
+            font: { size: 10 }
           },
           grid: { color: '#f4f2ee' }
         },
-        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+        y: { ticks: { font: { size: 11 } }, grid: { display: false } }
       }
     }
   });
@@ -8647,52 +8635,6 @@ function actualizarTablaLocalidades2(f) {
 }
 
 // ========== Top 10 localidades (gráfico de barras) ==========
-
-function actualizarTopLocalidades(f) {
-  const datos = LOCALIDADES.filter(d => d.anio === f.anio)
-    .map(d => ({
-      localidad: d.localidad,
-      jovenes: f.sexo === 'Hombres' ? d.jovenes_hombres :
-               f.sexo === 'Mujeres' ? d.jovenes_mujeres : d.jovenes_total,
-    }))
-    .sort((a, b) => b.jovenes - a.jovenes)
-    .slice(0, 10);
-
-  if (chartTopLoc) chartTopLoc.destroy();
-  chartTopLoc = new Chart(document.getElementById('chart-top-loc'), {
-    type: 'bar',
-    data: {
-      labels: datos.map(d => d.localidad),
-      datasets: [{
-        data: datos.map(d => d.jovenes),
-        backgroundColor: '#f4676e',
-        borderRadius: 3,
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => fmtMiles(ctx.parsed.x) + ' jóvenes' } }
-      },
-      scales: {
-        x: {
-          ticks: {
-            callback: v => v >= 1000 ? fmtMiles(Math.round(v/1000)) + ' mil' : fmtMiles(v),
-            font: { size: 10 }
-          },
-          grid: { color: '#f4f2ee' }
-        },
-        y: {
-          ticks: { font: { size: 10 } },
-          grid: { display: false }
-        }
-      }
-    }
-  });
-}
 
 function actualizarProyeccion(f) {
   // Proyección desde 2024 en adelante
