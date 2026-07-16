@@ -405,12 +405,18 @@
         </div>
       </div>
 
-      <!-- Solo filtro de año: la distribución por sexo y por localidad ya está
-           en las gráficas fijas (comentario de David, 2026-07) -->
+      <!-- Filtros de año y localidad (Bogotá por defecto). El de sexo se quitó
+           porque las gráficas fijas ya muestran esa distribución -->
       <div class="filtros" style="margin-bottom:0; flex:1;">
         <div class="filtro-grupo">
           <label>Año</label>
           <select class="filtro-select" id="filtro-anio"></select>
+        </div>
+        <div class="filtro-grupo">
+          <label>Localidad</label>
+          <select class="filtro-select" id="filtro-loc">
+            <option value="Todas">Bogotá</option>
+          </select>
         </div>
       </div>
     </div>
@@ -432,7 +438,7 @@
 
       <!-- Zoom al grupo de juventud -->
       <div class="card">
-        <div class="card-title">Zoom al grupo de juventud: jóvenes por edad y sexo</div>
+        <div class="card-title">Zoom al grupo de juventud: jóvenes por edad y sexo — Bogotá</div>
         <div class="leyenda-sexo">
           <span><span class="leyenda-dot" style="background:var(--acento-oscuro)"></span> Hombres</span>
           <span><span class="leyenda-dot" style="background:#1e9da3"></span> Mujeres</span>
@@ -445,7 +451,7 @@
     <!-- Fila 2: Zona (barras horizontales; el top de localidades se quitó
          porque el mapa y la tabla ya muestran esa distribución) -->
     <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Cantidad de jóvenes por zona</div>
+      <div class="card-title">Cantidad de jóvenes por zona — Bogotá</div>
       <div class="chart-container" style="height:180px;">
         <canvas id="chart-zona"></canvas>
       </div>
@@ -475,7 +481,7 @@
 
     <!-- Fila 3: Proyección en el tiempo -->
     <div class="card" style="margin-bottom:1.5rem;">
-      <div class="card-title">Proyección de jóvenes en el tiempo (2024 – 2035)</div>
+      <div class="card-title">Jóvenes en el tiempo (2019 – 2030, vigencia de la política pública de juventud)</div>
       <div class="chart-container" style="height:280px;">
         <canvas id="chart-proyeccion"></canvas>
       </div>
@@ -8279,15 +8285,31 @@ function initFiltros() {
     selAnio.appendChild(opt);
   });
 
+  // Localidades (la opción por defecto es Bogotá, valor interno 'Todas')
+  const selLoc = document.getElementById('filtro-loc');
+  const locs = [...new Set(LOCALIDADES.map(d => d.localidad))].sort();
+  locs.forEach(l => {
+    const opt = document.createElement('option');
+    opt.value = l; opt.textContent = l;
+    selLoc.appendChild(opt);
+  });
+
+  // Permite abrir la página con filtros en la URL, ej: dim1/?anio=2028&loc=Suba
+  const params = new URLSearchParams(location.search);
+  const pAnio = parseInt(params.get('anio'));
+  if (anios.includes(pAnio)) selAnio.value = pAnio;
+  const pLoc = params.get('loc');
+  if (pLoc && locs.includes(pLoc)) selLoc.value = pLoc;
+
   selAnio.onchange = actualizarTodo;
+  selLoc.onchange = actualizarTodo;
 }
 
 function getFiltros() {
-  // Solo se filtra por año: los filtros de localidad y sexo se quitaron porque
-  // las gráficas fijas ya muestran esas distribuciones (comentario de David, 2026-07)
+  // El filtro de sexo se quitó: las gráficas fijas ya muestran esa distribución
   return {
     anio: parseInt(document.getElementById('filtro-anio').value),
-    loc: 'Todas',
+    loc: document.getElementById('filtro-loc').value,
     sexo: 'Todos',
   };
 }
@@ -8382,14 +8404,25 @@ function actualizarZona(f) {
 }
 
 function actualizarFrase(f) {
-  // La historia en una línea: cuánta gente tiene Bogotá y cuántos son jóvenes
+  // La historia en una línea: cuánta gente tiene Bogotá (o la localidad
+  // filtrada) y cuántos son jóvenes
   const el = document.getElementById('frase-poblacion');
-  const r = RESUMEN.find(d => d.anio === f.anio);
-  if (!r || !r.poblacion_total) { el.textContent = ''; return; }
-  const pct = (r.jovenes_total / r.poblacion_total * 100).toFixed(1).replace('.', ',');
-  el.innerHTML = `En ${f.anio}, Bogotá tiene <strong>${fmtMiles(r.poblacion_total)}</strong> personas. ` +
-    `<strong>${fmtMiles(r.jovenes_total)}</strong> son jóvenes de 14 a 28 años: ` +
-    `el <strong>${pct}%</strong> de la ciudad.`;
+  let nombre, poblacion, jovenes, ambito;
+  if (f.loc === 'Todas') {
+    const r = RESUMEN.find(d => d.anio === f.anio);
+    if (!r || !r.poblacion_total) { el.textContent = ''; return; }
+    nombre = 'Bogotá'; poblacion = r.poblacion_total; jovenes = r.jovenes_total;
+    ambito = 'la ciudad';
+  } else {
+    const ld = LOCALIDADES.find(d => d.anio === f.anio && d.localidad === f.loc);
+    if (!ld || !ld.poblacion_total) { el.textContent = ''; return; }
+    nombre = f.loc; poblacion = ld.poblacion_total; jovenes = ld.jovenes_total;
+    ambito = 'la localidad';
+  }
+  const pct = (jovenes / poblacion * 100).toFixed(1).replace('.', ',');
+  el.innerHTML = `En ${f.anio}, ${nombre} tiene <strong>${fmtMiles(poblacion)}</strong> personas. ` +
+    `<strong>${fmtMiles(jovenes)}</strong> son jóvenes de 14 a 28 años: ` +
+    `el <strong>${pct}%</strong> de ${ambito}.`;
 }
 
 function actualizarPiramideGeneral(f) {
@@ -8545,11 +8578,13 @@ function actualizarMapa(f) {
       const cod = feature.properties.cod_loc;
       const dato = datosLoc[cod];
       const val = dato ? dato.jovenes : 0;
+      // Con una localidad filtrada, solo esa se colorea; el resto queda neutro
+      const apagada = f.loc !== 'Todas' && (!dato || dato.localidad !== f.loc);
       return {
-        fillColor: getColorMapa(val, maxVal),
+        fillColor: apagada ? '#eceae5' : getColorMapa(val, maxVal),
         weight: 1.5,
         color: '#888',
-        fillOpacity: 0.8
+        fillOpacity: apagada ? 0.6 : 0.8
       };
     },
     onEachFeature: function(feature, layer) {
@@ -8618,16 +8653,24 @@ function actualizarTablaLocalidades2(f) {
   const totalJov = datos.reduce((s, d) => s + d.jovenes, 0);
   const maxJov = datos.length > 0 ? datos[0].jovenes : 1;
 
+  // Con una localidad filtrada, solo esa fila conserva el color; el resto se atenúa
+  const hayFiltro = f.loc !== 'Todas';
   datos.forEach(d => {
     const pctBar = (d.jovenes / maxJov * 100);
     const pctTotal = totalJov > 0 ? (d.jovenes / totalJov * 100) : 0;
+    const esFiltrada = d.localidad === f.loc;
     const tr = document.createElement('tr');
+    if (hayFiltro && esFiltrada) {
+      tr.style.background = '#fdf1f1';
+      tr.style.fontWeight = '600';
+    }
+    const colorBarra = (!hayFiltro || esFiltrada) ? '' : 'background:#d9d4cc;';
     tr.innerHTML = `
       <td>${d.localidad}</td>
       <td class="num">${fmtMiles(d.jovenes)}</td>
       <td class="num">${fmtDec(pctTotal, 1)} %</td>
       <td class="bar-cell">
-        <div class="bar-bg"><div class="bar-fill" style="width:${pctBar}%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:${pctBar}%; ${colorBarra}"></div></div>
       </td>
     `;
     tbody.appendChild(tr);
@@ -8637,14 +8680,19 @@ function actualizarTablaLocalidades2(f) {
 // ========== Top 10 localidades (gráfico de barras) ==========
 
 function actualizarProyeccion(f) {
-  // Proyección desde 2024 en adelante
-  const datos = RESUMEN.filter(d => d.anio >= 2024).sort((a, b) => a.anio - b.anio);
+  // Serie 2019-2030: vigencia de la Política Pública Distrital de Juventud.
+  // Con una localidad filtrada, la serie es de esa localidad.
+  let datos;
+  if (f.loc === 'Todas') {
+    datos = RESUMEN.filter(d => d.anio >= 2019 && d.anio <= 2030);
+  } else {
+    datos = LOCALIDADES.filter(d => d.localidad === f.loc && d.anio >= 2019 && d.anio <= 2030);
+  }
+  datos = datos.sort((a, b) => a.anio - b.anio);
+  const valores = datos.map(d => d.jovenes_total);
 
-  const valores = datos.map(d => {
-    if (f.sexo === 'Hombres') return d.jovenes_hombres;
-    if (f.sexo === 'Mujeres') return d.jovenes_mujeres;
-    return d.jovenes_total;
-  });
+  // El punto del año seleccionado se resalta y muestra su valor
+  const idxActual = datos.findIndex(d => d.anio === f.anio);
 
   if (chartProy) chartProy.destroy();
   chartProy = new Chart(document.getElementById('chart-proyeccion'), {
@@ -8657,8 +8705,10 @@ function actualizarProyeccion(f) {
         borderColor: '#f4676e',
         backgroundColor: 'rgba(244, 103, 110, 0.1)',
         borderWidth: 3,
-        pointRadius: 5,
-        pointBackgroundColor: '#f4676e',
+        pointRadius: valores.map((v, i) => i === idxActual ? 7 : 4),
+        pointBackgroundColor: valores.map((v, i) => i === idxActual ? '#c35258' : '#f4676e'),
+        pointBorderColor: valores.map((v, i) => i === idxActual ? '#fff' : '#f4676e'),
+        pointBorderWidth: valores.map((v, i) => i === idxActual ? 2 : 1),
         tension: 0.3,
         fill: true,
       }]
@@ -8666,6 +8716,7 @@ function actualizarProyeccion(f) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      layout: { padding: { top: 24 } },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -8678,7 +8729,8 @@ function actualizarProyeccion(f) {
         y: {
           ticks: {
             callback: v => {
-              if (v >= 1000000) return fmtDec(v/1000) + ' mil';
+              if (v >= 1000000) return fmtDec(v/1000000, 2) + ' mill.';
+              if (v >= 1000) return fmtMiles(Math.round(v/1000)) + ' mil';
               return fmtMiles(v);
             },
             font: { size: 11 }
@@ -8687,7 +8739,24 @@ function actualizarProyeccion(f) {
         },
         x: { ticks: { font: { size: 11 } }, grid: { display: false } }
       }
-    }
+    },
+    plugins: [{
+      // Escribe el valor sobre el punto del año seleccionado
+      afterDatasetsDraw(chart) {
+        if (idxActual < 0) return;
+        const meta = chart.getDatasetMeta(0);
+        const pt = meta.data[idxActual];
+        if (!pt) return;
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = '#c35258';
+        ctx.font = 'bold 13px Figtree, Segoe UI, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(fmtMiles(valores[idxActual]), pt.x, pt.y - 10);
+        ctx.restore();
+      }
+    }]
   });
 }
 </script>
