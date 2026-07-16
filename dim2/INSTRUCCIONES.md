@@ -39,38 +39,37 @@
 
 ## 2.2 Educación superior
 
-**Dataset:** [MEN_ESTADISTICAS-MATRICULA-POR-MUNICIPIOS_ES](https://www.datos.gov.co/Educaci-n/MEN_ESTADISTICAS-MATRICULA-POR-MUNICIPIOS_ES/y9ga-zwzy/about_data)
+**Fuentes oficiales (MEN):**
 
-**Nota:** Este dataset tiene ~19.600 filas (todos los municipios de Colombia). El script filtra por Bogotá (código municipio 11001) y calcula totales nacionales. Datos disponibles: 2005 a 2021.
+- [SNIES – Resumen de indicadores de educación superior](https://snies.mineducacion.gov.co/portal/Informes-e-indicadores/Resumen-indicadores-Educacion-Superior/) — tasas de cobertura y de tránsito inmediato, Bogotá y Colombia.
+- [HECAA – Tablero de matrícula](https://hecaa.mineducacion.gov.co/consultaspublicas/tableros/matricula) — matrículas por nivel de formación.
 
-**Importante:** No usar la API de datos.gov.co para descargar (tiene límite de 1.000 filas). Usar el botón **"Descargar archivo"** → **CSV**.
+**Cómo funciona desde julio de 2026:** los datos se mantienen a mano en la
+hoja `educacion_superior` de `dim2/datos_dim2.xlsx` (Carolina los toma de
+las dos fuentes de arriba). Ya **no** se usa el CSV de datos.gov.co
+(MEN_ESTADISTICAS-MATRICULA-POR-MUNICIPIOS, llegaba solo hasta 2021); el
+script viejo `actualizar_educ_superior.py` queda solo como referencia.
 
-### Indicadores que se extraen
+### Indicadores
 
 - **Matrículas por nivel:** técnica profesional, tecnológica, universitaria, especialización, maestría, doctorado
 - **Total Bogotá vs. total Colombia** (con porcentaje de participación)
+- **Tasas de cobertura y de tránsito inmediato**, Bogotá y Colombia
 - **IES con oferta** en Bogotá
 
 ### Cómo actualizar
 
-1. Ir al dataset → **Descargar archivo** → **CSV** (no usar "Exportar" ni la API)
-2. Pegar el archivo en `dim2/fuentes/Educ superior/` (no borrar el anterior)
-3. Ejecutar:
+1. Consultar las dos fuentes del MEN y completar la hoja `educacion_superior` de `dim2/datos_dim2.xlsx` (los años sin dato se marcan "PENDIENTE")
+2. Ejecutar:
    ```bash
-   python dim2/actualizar_educ_superior.py
+   python dim2/actualizar_educ_superior_excel.py
    ```
-4. Subir a GitHub:
+3. Subir a GitHub:
    ```bash
-   git add dim2/fuentes/ dim2/data/
+   git add dim2/datos_dim2.xlsx dim2/data/
    git commit -m "Actualizar datos de educación superior"
    git push
    ```
-
-### Notas sobre el CSV
-
-- Los números usan formato colombiano (puntos como miles: "63.098" = 63.098 matrículas)
-- El nombre de Bogotá varía entre años ("BOGOTÁ D.C.", "BOGOTA D.C.", "Bogotá, D.C."). El script los detecta todos.
-- Hay filas duplicadas por variantes del nombre. El script deduplica por código de municipio.
 
 ---
 

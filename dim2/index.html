@@ -206,7 +206,19 @@
     .footer-top {
       display: flex; justify-content: space-between;
       align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 0.8rem;
     }
+    .footer-notas {
+      background: #f8f9fa;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      font-size: 0.72rem;
+      line-height: 1.6;
+      color: #666;
+    }
+    .footer-notas p { margin-bottom: 0.3rem; }
+    .footer-notas p:last-child { margin-bottom: 0; }
+    .footer-notas a { color: #666; }
   </style>
 </head>
 <body>
@@ -226,7 +238,7 @@
     <!-- ============================================================ -->
     <p class="page-subtitle">
       <span>2.1 Indicadores de educación media</span><br>
-      Fuente: Ministerio de Educación Nacional – MEN / Datos abiertos
+      Fuente: MEN – Estadísticas en educación en preescolar, básica y media (datos.gov.co)
     </p>
 
     <div class="filtros">
@@ -309,7 +321,7 @@
     <!-- ============================================================ -->
     <p class="page-subtitle" style="margin-top:2.5rem;">
       <span>2.2 Matrículas en educación superior</span><br>
-      Fuente: MEN – Estadísticas de matrícula por municipio (datos.gov.co)
+      Fuente: MEN – SNIES, resumen de indicadores de educación superior, y HECAA, tablero de matrícula
     </p>
 
     <div class="filtros">
@@ -365,14 +377,19 @@
     <div class="footer">
       <div class="footer-top">
         <div>
-          Fuente: Ministerio de Educación Nacional – MEN / Datos abiertos<br>
-          2.1: Indicadores de educación media por departamento · 2.2: Matrículas en educación superior por municipio<br>
-          Datos filtrados para Bogotá D.C.
+          Fuente: Ministerio de Educación Nacional – MEN · Datos filtrados para Bogotá D.C.
         </div>
         <div style="text-align:right;">
           Secretaría de Integración Social<br>
           Subdirección para la Juventud – Centro de Información de Juventud
         </div>
+      </div>
+      <div class="footer-notas">
+        <p><strong>Fuentes MEN:</strong>
+          2.1 Educación media: <a href="https://www.datos.gov.co/Educaci-n/MEN_ESTADISTICAS_EN_EDUCACION_EN_PREESCOLAR-B-SICA/ji8i-4anb/about_data" target="_blank" rel="noopener">Estadísticas en educación en preescolar, básica y media (datos.gov.co)</a> ·
+          2.2 Educación superior: <a href="https://snies.mineducacion.gov.co/portal/Informes-e-indicadores/Resumen-indicadores-Educacion-Superior/" target="_blank" rel="noopener">SNIES – Resumen de indicadores de educación superior</a> y
+          <a href="https://hecaa.mineducacion.gov.co/consultaspublicas/tableros/matricula" target="_blank" rel="noopener">HECAA – Tablero de matrícula</a>.</p>
+        <p><strong>Cobertura bruta y neta:</strong> la tasa de cobertura bruta compara todos los matriculados en un nivel educativo, sin importar su edad, contra la población en la edad teórica para ese nivel — por eso puede superar el 100% cuando hay estudiantes en extraedad. La tasa de cobertura neta solo cuenta los matriculados que tienen la edad teórica del nivel, así que siempre es menor o igual que la bruta. En educación media la edad teórica es 15 y 16 años.</p>
       </div>
     </div>
   </div>
