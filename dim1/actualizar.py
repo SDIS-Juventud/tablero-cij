@@ -224,11 +224,21 @@ def generar_jsons(registros):
         json.dump(resumen_list, f, ensure_ascii=False, indent=2)
     print(f'  resumen_bogota.json: {len(resumen_list)} años')
 
-    # 2. Datos por localidad (area=Total, solo totales de jóvenes)
+    # 2. Datos por localidad (area=Total), con edades 14-28 por sexo y zona
+    # para que el zoom de juventud y la gráfica de zona respondan al filtro
+    zonas = {}
+    for r in registros:
+        clave = (r['cod_loc'], r['anio'])
+        if r['area'] == 'Cabecera Municipal':
+            zonas.setdefault(clave, [0, 0])[0] += r['jovenes_total']
+        elif r['area'] == 'Centro Poblado y Rural Disperso':
+            zonas.setdefault(clave, [0, 0])[1] += r['jovenes_total']
+
     localidades = []
     for r in registros:
         if r['area'] != 'Total':
             continue
+        zona = zonas.get((r['cod_loc'], r['anio']), [0, 0])
         localidades.append({
             'cod_loc': r['cod_loc'],
             'localidad': r['localidad'],
@@ -237,11 +247,16 @@ def generar_jsons(registros):
             'jovenes_mujeres': r['jovenes_mujeres'],
             'jovenes_total': r['jovenes_total'],
             'poblacion_total': r['poblacion_total'],
+            'por_edad_hombres': r['por_edad_hombres'],
+            'por_edad_mujeres': r['por_edad_mujeres'],
+            'zona_cabecera': zona[0],
+            'zona_rural': zona[1],
         })
 
     ruta_loc = os.path.join(DATA_DIR, 'localidades.json')
+    # compacto (sin indentación): el archivo creció con las edades por localidad
     with open(ruta_loc, 'w', encoding='utf-8') as f:
-        json.dump(localidades, f, ensure_ascii=False, indent=2)
+        json.dump(localidades, f, ensure_ascii=False, separators=(',', ':'))
     locs_unicas = len(set(r['localidad'] for r in localidades))
     print(f'  localidades.json: {len(localidades)} registros ({locs_unicas} localidades)')
 
@@ -262,8 +277,9 @@ def actualizar_fallback_html(ruta_resumen, ruta_loc):
     for nombre, ruta_json in bloques:
         with open(ruta_json, 'r', encoding='utf-8') as f:
             datos = json.load(f)
-        nuevo = f'const {nombre} = ' + json.dumps(datos, ensure_ascii=False, indent=2) + ';'
-        patron = re.compile(r'const ' + nombre + r' = \[.*?\n\];', re.DOTALL)
+        # compacto: los datos embebidos no necesitan ser legibles y así pesa menos
+        nuevo = f'const {nombre} = ' + json.dumps(datos, ensure_ascii=False, separators=(',', ':')) + ';'
+        patron = re.compile(r'const ' + nombre + r' = \[.*?\];', re.DOTALL)
         if not patron.search(html):
             print(f'  AVISO: no se encontró el bloque {nombre} en index.html — no se actualizó.')
             continue
