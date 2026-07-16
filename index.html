@@ -290,26 +290,7 @@
   <script>
     // Resumen liviano de dim1/data/resumen_bogota.json (misma fuente, para no duplicar el dato).
     // Fallback embebido por si fetch() falla (ej. al abrir el archivo con file:// en vez de servidor).
-    const RESUMEN_FALLBACK = [
-      {"anio":2018,"jovenes_total":1949005,"poblacion_total":7412566},
-      {"anio":2019,"jovenes_total":1966609,"poblacion_total":7592871},
-      {"anio":2020,"jovenes_total":1967532,"poblacion_total":7743955},
-      {"anio":2021,"jovenes_total":1943906,"poblacion_total":7834167},
-      {"anio":2022,"jovenes_total":1908158,"poblacion_total":7901653},
-      {"anio":2023,"jovenes_total":1869470,"poblacion_total":7968095},
-      {"anio":2024,"jovenes_total":1823809,"poblacion_total":8034649},
-      {"anio":2025,"jovenes_total":1780772,"poblacion_total":8101412},
-      {"anio":2026,"jovenes_total":1739506,"poblacion_total":8168421},
-      {"anio":2027,"jovenes_total":1701849,"poblacion_total":8235512},
-      {"anio":2028,"jovenes_total":1668211,"poblacion_total":8302442},
-      {"anio":2029,"jovenes_total":1639468,"poblacion_total":8368915},
-      {"anio":2030,"jovenes_total":1615384,"poblacion_total":8434700},
-      {"anio":2031,"jovenes_total":1595239,"poblacion_total":8498716},
-      {"anio":2032,"jovenes_total":1578490,"poblacion_total":8559942},
-      {"anio":2033,"jovenes_total":1563685,"poblacion_total":8618319},
-      {"anio":2034,"jovenes_total":1550719,"poblacion_total":8673804},
-      {"anio":2035,"jovenes_total":1540889,"poblacion_total":8726402}
-    ];
+    const RESUMEN_FALLBACK = [{"anio":2018,"jovenes_total":1939132,"poblacion_total":7391056},{"anio":2019,"jovenes_total":1971941,"poblacion_total":7533202},{"anio":2020,"jovenes_total":2012953,"poblacion_total":7717564},{"anio":2021,"jovenes_total":2010638,"poblacion_total":7804920},{"anio":2022,"jovenes_total":1985395,"poblacion_total":7849206},{"anio":2023,"jovenes_total":1951385,"poblacion_total":7883928},{"anio":2024,"jovenes_total":1914928,"poblacion_total":7918660},{"anio":2025,"jovenes_total":1874583,"poblacion_total":7942867},{"anio":2026,"jovenes_total":1827708,"poblacion_total":7945996},{"anio":2027,"jovenes_total":1783125,"poblacion_total":7943941},{"anio":2028,"jovenes_total":1742160,"poblacion_total":7937939},{"anio":2029,"jovenes_total":1705004,"poblacion_total":7928632},{"anio":2030,"jovenes_total":1671365,"poblacion_total":7916525},{"anio":2031,"jovenes_total":1640795,"poblacion_total":7901596},{"anio":2032,"jovenes_total":1610926,"poblacion_total":7883923},{"anio":2033,"jovenes_total":1579569,"poblacion_total":7863483},{"anio":2034,"jovenes_total":1548384,"poblacion_total":7840309},{"anio":2035,"jovenes_total":1515847,"poblacion_total":7814324}];
 
     fetch('dim1/data/resumen_bogota.json')
       .then(r => r.ok ? r.json() : Promise.reject())

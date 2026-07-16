@@ -290,6 +290,34 @@ def actualizar_fallback_html(ruta_resumen, ruta_loc):
         f.write(html)
 
 
+def actualizar_fallback_index_raiz(ruta_resumen):
+    """Regenera los datos embebidos del index.html de la RAÍZ del tablero.
+    El index raíz muestra los KPI de jóvenes leyendo dim1/data/resumen_bogota.json,
+    pero al abrirlo local sin servidor usa su propio RESUMEN_FALLBACK embebido
+    (solo año, jóvenes y población). Se reescribe aquí para que el index y la
+    dimensión 1 nunca muestren cifras distintas."""
+    ruta_html = os.path.join(os.path.dirname(SCRIPT_DIR), 'index.html')
+    if not os.path.exists(ruta_html):
+        print('  AVISO: no se encontró el index.html raíz — no se actualizó.')
+        return
+    with open(ruta_resumen, 'r', encoding='utf-8') as f:
+        resumen = json.load(f)
+    reducido = [{'anio': r['anio'], 'jovenes_total': r['jovenes_total'],
+                 'poblacion_total': r['poblacion_total']} for r in resumen]
+
+    with open(ruta_html, 'r', encoding='utf-8') as f:
+        html = f.read()
+    nuevo = 'const RESUMEN_FALLBACK = ' + json.dumps(reducido, ensure_ascii=False, separators=(',', ':')) + ';'
+    patron = re.compile(r'const RESUMEN_FALLBACK = \[.*?\];', re.DOTALL)
+    if not patron.search(html):
+        print('  AVISO: no se encontró RESUMEN_FALLBACK en el index raíz — no se actualizó.')
+        return
+    html = patron.sub(lambda m: nuevo, html, count=1)
+    with open(ruta_html, 'w', encoding='utf-8') as f:
+        f.write(html)
+    print('  RESUMEN_FALLBACK actualizado en el index raíz')
+
+
 def main():
     print('=' * 60)
     print('Actualización de datos — Dimensión 1: Ser joven')
@@ -315,6 +343,7 @@ def main():
 
     print('\nActualizando datos embebidos en index.html...')
     actualizar_fallback_html(ruta_resumen, ruta_loc)
+    actualizar_fallback_index_raiz(ruta_resumen)
 
     # Verificación rápida
     with open(ruta_resumen, 'r', encoding='utf-8') as f:

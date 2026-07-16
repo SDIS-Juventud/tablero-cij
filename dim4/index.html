@@ -153,7 +153,19 @@
     .footer-top {
       display: flex; justify-content: space-between;
       align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 0.8rem;
     }
+    .footer-notas {
+      background: #f8f9fa;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      font-size: 0.72rem;
+      line-height: 1.6;
+      color: #666;
+    }
+    .footer-notas a { color: #666; }
+    .footer-notas p { margin-bottom: 0.3rem; }
+    .footer-notas p:last-child { margin-bottom: 0; }
     /* Toggles de grupos */
     .toggle-grupo {
       display: inline-flex; align-items: center; gap: 6px;
@@ -257,7 +269,7 @@
     <!-- 4.3 Fecundidad adolescente -->
     <!-- ============================================================ -->
     <p class="page-subtitle" style="margin-top:2.5rem;">
-      <span>4.3 Tasa específica de fecundidad en jóvenes (15-29 años) — Bogotá D.C.</span><br>
+      <span>4.3 Tasa específica de fecundidad (10-29 años) — Bogotá D.C.</span><br>
       Fuente: SaludData – Observatorio de Salud de Bogotá · Población: DANE, proyecciones CNPV 2018<br>
       <span id="lbl-fec-corte" style="font-size:0.8em; font-weight:400; color:#888;"></span>
     </p>
@@ -266,6 +278,11 @@
     <!-- La nota de lectura va dentro de la franja teal para que se lea junto
          a las tasas (comentario de David, 2026-07) -->
     <div class="stat-strip" style="flex-wrap:wrap;">
+      <div class="stat-tile">
+        <span class="stat-pill">10 a 14 años · <span id="lbl-fec-anio-1014"></span></span>
+        <div class="stat-numero" id="kpi-fec-tasa1014">–</div>
+        <div class="stat-meta">Tasa de fecundidad ‰</div>
+      </div>
       <div class="stat-tile">
         <span class="stat-pill">15 a 19 años · <span id="lbl-fec-anio-1519"></span></span>
         <div class="stat-numero" id="kpi-fec-tasa1519">–</div>
@@ -363,13 +380,21 @@
       <div class="footer-top">
         <div>
           Fuente: SaludData – Observatorio de Salud de Bogotá · DANE, Proyecciones CNPV 2018<br>
-          4.2: Discapacidad certificada · 4.3: Fecundidad en jóvenes (15-29 años) · 4.4: Mortalidad (15-29 años)<br>
+          4.2: Discapacidad certificada · 4.3: Fecundidad (10-29 años) · 4.4: Mortalidad (15-29 años)<br>
           Juventud según Ley 1622/2013 y Ley 1885/2018: 14 a 28 años.
         </div>
         <div style="text-align:right;">
           Secretaría de Integración Social<br>
           Subdirección para la Juventud – Centro de Información de Juventud
         </div>
+      </div>
+      <div class="footer-notas">
+        <p><strong>Nota:</strong> las fuentes son —
+          4.1 Afiliación al SGSSS: <a href="https://www.minsalud.gov.co/Proteccion-Social/Paginas/cifras-aseguramiento-salud.aspx" target="_blank" rel="noopener">MinSalud, cifras de aseguramiento en salud (PISIS/BDUA)</a> ·
+          4.2 Discapacidad: <a href="https://saludata.saludcapital.gov.co/osb/indicadores/personas-certificadas-con-discapacidad/" target="_blank" rel="noopener">SaludData, personas certificadas con discapacidad</a> ·
+          4.3 Fecundidad: <a href="https://saludata.saludcapital.gov.co/osb/indicadores/fecundidad-de-10-a-14-y-15-a-19/" target="_blank" rel="noopener">SaludData, fecundidad de 10 a 14 y 15 a 19</a> ·
+          4.4 Mortalidad: <a href="https://saludata.saludcapital.gov.co/osb/indicadores/mortalidad-general/" target="_blank" rel="noopener">SaludData, mortalidad general</a> —
+          con las proyecciones de población del DANE como denominador de las tasas.</p>
       </div>
     </div>
   </div>
@@ -1160,6 +1185,8 @@ function renderDisc() {
 let FEC = null, chartFecHist = null, chartFecLoc = null;
 
 const FEC_SERIES = [
+  // 10-14 se quitó un tiempo y se restauró el 2026-07-16 a pedido del equipo
+  { key: 'tasa_10_14', label: '10 a 14 años', color: '#93c4e4' },
   { key: 'tasa_15_19', label: '15 a 19 años', color: '#1e9da3' },
   { key: 'tasa_20_24', label: '20 a 24 años', color: '#1eaf76' },
   { key: 'tasa_25_29', label: '25 a 29 años', color: '#1e7895' },
@@ -1172,7 +1199,7 @@ fetch('data/fecundidad_adolescente.json')
 
 function renderFec() {
   const ultimo = FEC.ultimo_anio;
-  ['lbl-fec-anio-1519', 'lbl-fec-anio-2024', 'lbl-fec-anio-2529', 'lbl-fec-loc-anio'].forEach(id => {
+  ['lbl-fec-anio-1014', 'lbl-fec-anio-1519', 'lbl-fec-anio-2024', 'lbl-fec-anio-2529', 'lbl-fec-loc-anio'].forEach(id => {
     document.getElementById(id).textContent = ultimo;
   });
   const primerAnio = FEC.por_anio[0].anio;
@@ -1181,6 +1208,7 @@ function renderFec() {
     'Período: ' + primerAnio + ' – ' + ultimo + corteStr + ', jóvenes por grupos de edades quinquenales';
 
   const ult = FEC.por_anio[FEC.por_anio.length - 1];
+  document.getElementById('kpi-fec-tasa1014').textContent = ult.tasa_10_14 != null ? fmtDec(ult.tasa_10_14, 2) + ' ‰' : '–';
   document.getElementById('kpi-fec-tasa1519').textContent = ult.tasa_15_19 != null ? fmtDec(ult.tasa_15_19, 2) + ' ‰' : '–';
   document.getElementById('kpi-fec-tasa2024').textContent = ult.tasa_20_24 != null ? fmtDec(ult.tasa_20_24, 2) + ' ‰' : '–';
   document.getElementById('kpi-fec-tasa2529').textContent = ult.tasa_25_29 != null ? fmtDec(ult.tasa_25_29, 2) + ' ‰' : '–';
@@ -1275,7 +1303,7 @@ function renderFecHistorico() {
 
 function renderFecLocalidad() {
   const locs = FEC.por_localidad;
-  const nvKeys = ['nv_15_19', 'nv_20_24', 'nv_25_29'];
+  const nvKeys = ['nv_10_14', 'nv_15_19', 'nv_20_24', 'nv_25_29'];
 
   if (chartFecLoc) chartFecLoc.destroy();
   chartFecLoc = new Chart(document.getElementById('chart-fec-localidad'), {
@@ -1287,7 +1315,7 @@ function renderFecLocalidad() {
         data: locs.map(l => l[s.key]),
         backgroundColor: s.color,
         borderRadius: 2,
-        hidden: si !== 0,  // solo 15-19 visible por defecto
+        hidden: s.key !== 'tasa_15_19',  // solo 15-19 visible por defecto
       }))
     },
     options: {
@@ -1314,7 +1342,7 @@ function renderFecLocalidad() {
   cont.innerHTML = '';
   FEC_SERIES.forEach((s, si) => {
     const btn = document.createElement('button');
-    btn.className = 'toggle-grupo' + (si === 0 ? ' activo' : '');
+    btn.className = 'toggle-grupo' + (s.key === 'tasa_15_19' ? ' activo' : '');
     btn.style.borderColor = s.color;
     btn.style.color = s.color;
     btn.innerHTML = '<span class="toggle-dot" style="background:' + s.color + '"></span>' + s.label;
