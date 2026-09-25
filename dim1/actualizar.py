@@ -249,6 +249,9 @@ def generar_jsons(registros):
             'poblacion_total': r['poblacion_total'],
             'por_edad_hombres': r['por_edad_hombres'],
             'por_edad_mujeres': r['por_edad_mujeres'],
+            # Pirámide completa (0 a 100+) para que también responda al filtro de localidad
+            'piramide_hombres': r['piramide_hombres'],
+            'piramide_mujeres': r['piramide_mujeres'],
             'zona_cabecera': zona[0],
             'zona_rural': zona[1],
         })
