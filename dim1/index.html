@@ -312,7 +312,7 @@
     .chart-container { position: relative; height: 300px; }
 
     /* Mapa */
-    #mapa-localidades { height: 480px; border-radius: 8px; }
+    #mapa-localidades { height: 480px; border-radius: 8px; background: #faf9f7; }
     .mapa-leyenda {
       background: rgba(255,255,255,0.92);
       padding: 8px 12px;
@@ -819,10 +819,8 @@ function initMapa() {
     attributionControl: false
   }).setView([4.65, -74.1], 11);
 
-  // Fondo gris sutil (sin tiles de mapa)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-    maxZoom: 16
-  }).addTo(mapa);
+  // Sin mapa base: las localidades se dibujan sobre el fondo del contenedor.
+  // Se retiró CARTO porque desde 2026 exige clave y mostraba marcas de agua.
 
   // Panel de información al pasar el mouse
   infoPanel = L.control({ position: 'topright' });
